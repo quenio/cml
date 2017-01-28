@@ -4,25 +4,58 @@ interface Livir
 
 }
 
+singleton bookStore: BookStore;
+
 concept BookStore
 {
     books: Book+;
+    books[isbn]: Book?;
+    books[genre]: Book*;
+
     customers: Customer*;
     orders: Order*;
 
-    /goldCustomers: Customer* = [ customers | select totalSales > 1000 ];
+    /goldCustomers: Customer* = customers | select totalSales > 1000;
+
+    /orderedBooks: Book* = orders.items.book;
+}
+
+association StoreBooks
+{
+    BookStore.books: Book+;
+    BookStore.books[isbn]: Book?;
+    BookStore.books[genre]: Book*;
 }
 
 concept Customer
 {
+    addresses: ordered Address+;
     orders: Order*;
 
-    /totalSales: Number = [ orders | collect += total ];
+    /totalSales: Number = orders | collect result += total;
 }
+
+concept Address;
 
 concept Book
 {
+    isbn: String;
+    title: String;
+    price: Decimal;
+    quantity: Integer = 0;
+
+    genre: Genre;
     items: Item*;
+}
+
+concept Genre
+{
+    name: String;
+}
+
+invariants of Book
+{
+    price > 0;
 }
 
 concept Order
@@ -30,19 +63,33 @@ concept Order
     customer: Customer;
     items: Item*;
     payment: Payment?;
+    delivery: Delivery?;
 
-    /total: Number = [ items | collect += item.amount ];
+    /total: Number = items | collect result += item.amount;
+}
+
+concept Delivery
+{
+    weekDay: WeekDay;
+    address: Address;
+}
+
+enum WeekDay { Sunday; Monday; Tuesday; Wednesday; Thursday; Friday; Saturday; }
+
+invariants of Order
+{
+    customer.addresses | includes delivery.address;
 }
 
 concept Item
 {
-    quantity: Number
+    quantity: Integer;
 
     order: Order;
     book: Book;
 
-    /unitPrice: Number = book.price;
-    /amount: Number = quantity * unitPrice;
+    /unitPrice: Decimal = book.price;
+    /amount: Decimal = quantity * unitPrice;
 }
 
 concept Payment
