@@ -1,0 +1,57 @@
+// Empty concept:
+concept EmptyBook;
+
+// Attribute without a type:
+concept TitledBook
+{
+    title;
+}
+
+// Attribute with the String type:
+concept StringTitledBook
+{
+    title: String;
+}
+
+// Attribute with the Integer type:
+concept QuantifiableBook
+{
+    quantity: Integer;
+}
+
+// Attribute with the Decimal type:
+concept PricedBook
+{
+    price: Decimal;
+}
+
+// One-to-one unidirecional association:
+concept Address;
+concept Customer
+{
+    address: Address;
+}
+
+// One-to-many unidirecional association:
+concept MultiAddressCustomer
+{
+    address: Address*;
+}
+
+// Unidirectional association of one or more:
+concept CustomerWithAtLeastOneAddress
+{
+    address: Address+;
+}
+
+// Ordered-set association:
+concept CustomerHavingOrderedAddresses
+{
+    address: ordered Address*;
+}
+
+// Explicit set specification (same as above):
+concept CustomerWithOrderedSetOfAddresses
+{
+    address: ordered set of Address*;
+}
