@@ -1,0 +1,75 @@
+
+interface Livir
+{
+
+}
+
+concept BookStore
+{
+    books: Book+;
+    customers: Customer*;
+    orders: Order*;
+
+    /goldCustomers: Customer* = [ customers | select totalSales > 1000 ];
+}
+
+concept Customer
+{
+    orders: Order*;
+
+    /totalSales: Number = [ orders | collect += total ];
+}
+
+concept Book
+{
+    items: Item*;
+}
+
+concept Order
+{
+    customer: Customer;
+    items: Item*;
+    payment: Payment?;
+
+    /total: Number = [ items | collect += item.amount ];
+}
+
+concept Item
+{
+    quantity: Number
+
+    order: Order;
+    book: Book;
+
+    /unitPrice: Number = book.price;
+    /amount: Number = quantity * unitPrice;
+}
+
+concept Payment
+{
+    order: Order;
+}
+
+association CustomerOrder
+{
+    Order.customer: Customer;
+    Customer.orders: Order*;
+}
+
+association OrderItem
+{
+    Item.order: Order;
+    Order.items: Item*;
+}
+
+association BookItem
+{
+    Item.book: Book;
+    Book.items: Item*;
+}
+
+association OrderPayment
+{
+    Payment.order: Order;
+    Order.payment: Payment?;
+}
