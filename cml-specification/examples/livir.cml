@@ -5,11 +5,13 @@ interface Livir
 
     command createOrder(): Order;
     command addToOrder(order: Order, book: Book, quantity: Integer);
+    command removeFromOrder(order: Order, book: Book);
+    command completeOrder(order: Order, customer: Customer, address: Address);
 
     query getOrderItems(order: Order): Item*;
-
-    command completeOrder(order: Order, customer: Customer, address: Address);
 }
+
+singleton bookStore: BookStore;
 
 contract of query searchBooks(keywords: String): Book*
 {
@@ -32,14 +34,27 @@ contract of command addToOrder(order: Order, book: Book, quantity: Integer)
     }
 }
 
+contract of command removeFromOrder(order: Order, book: Book)
+{
+    require
+    {
+        bookStore.orders | includes order;
+        order.items.book | includes book;
+    }
+
+    ensure
+    {
+        items = for item in order.items | select item.book = book;
+        order.items | excludes items;
+    }
+}
+
 contract of query getOrderItems(order: Order): Item*
 {
     require bookStore.orders | includes order;
 
     return order.items;
 }
-
-singleton bookStore: BookStore;
 
 concept BookStore
 {
