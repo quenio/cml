@@ -23,14 +23,25 @@ contract of query searchBooks(keywords: String): Book*
 
 contract of command addToOrder(order: Order, book: Book, quantity: Integer)
 {
-    require bookStore.orders | includes order;
+    require
+    {
+        bookStore.orders | includes order;
+        bookStore.books | includes book;
+    }
 
-    ensure
+    given order.items.book | excludes book ensure
     {
         item = new Item;
         item.book = book;
         item.quantity = quantity;
         order.items | includes item;
+    }
+
+    given order.items.book | includes book ensure
+    {
+        existingItem = for item in order.items | select first item.book = book;
+        newQuantity = existingItem.quantity + quantity;
+        item.quantity = newQuantity;
     }
 }
 
