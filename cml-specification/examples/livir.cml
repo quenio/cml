@@ -9,6 +9,8 @@ interface Livir
     command completeOrder(order: Order, customer: Customer, address: Address);
 
     query getOrderItems(order: Order): Item*;
+
+    command raiseBookPrice(percentage: Decimal);
 }
 
 singleton bookStore: BookStore;
@@ -65,6 +67,15 @@ contract of query getOrderItems(order: Order): Item*
     require bookStore.orders | includes order;
 
     return order.items;
+}
+
+contract of command raiseBookPrice(percentage: Decimal)
+{
+    for book in bookStore.books ensure
+    {
+        newPrice = book.price * percentage;
+        book.price = newPrice;
+    }
 }
 
 concept BookStore
