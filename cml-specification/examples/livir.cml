@@ -1,7 +1,42 @@
 
 interface Livir
 {
+    query searchBooks(keywords: String): Book*;
 
+    command createOrder(): Order;
+    command addToOrder(order: Order, book: Book, quantity: Integer);
+
+    query getOrderItems(order: Order): Item*;
+
+    command completeOrder(order: Order, customer: Customer, address: Address);
+}
+
+contract of query searchBooks(keywords: String): Book*
+{
+    require /(\s*(?<words>\w+)\s*)+/ = keywords;
+
+    return for book in bookStore.books, word in words
+        | select book.title = /.*(^<word>).*/ | yield unique book;
+}
+
+contract of command addToOrder(order: Order, book: Book, quantity: Integer)
+{
+    require bookStore.orders | includes order;
+
+    ensure
+    {
+        item = new Item;
+        item.book = book;
+        item.quantity = quantity;
+        order.items | includes item;
+    }
+}
+
+contract of query getOrderItems(order: Order): Item*
+{
+    require bookStore.orders | includes order;
+
+    return order.items;
 }
 
 singleton bookStore: BookStore;
