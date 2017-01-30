@@ -13,6 +13,7 @@
     <modules>
         <module>cml-acceptance</module>
         <module>cml-frontend</module>
+        <module>cml-parser</module>
     </modules>
 
     <build>
