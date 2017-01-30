@@ -15,7 +15,7 @@ interface Livir
 
 singleton bookStore: BookStore;
 
-contract of query searchBooks(keywords: String): Book*
+contract of query Livir.searchBooks(keywords: String): Book*
 {
     require /(\s*(?<words>\w+)\s*)+/ = keywords;
 
@@ -23,7 +23,7 @@ contract of query searchBooks(keywords: String): Book*
         | select book.title = /.*(^<word>).*/ | yield unique book;
 }
 
-contract of command addToOrder(order: Order, book: Book, quantity: Integer)
+contract of command Livir.addToOrder(order: Order, book: Book, quantity: Integer)
 {
     require
     {
@@ -47,7 +47,7 @@ contract of command addToOrder(order: Order, book: Book, quantity: Integer)
     }
 }
 
-contract of command removeFromOrder(order: Order, book: Book)
+contract of command Livir.removeFromOrder(order: Order, book: Book)
 {
     require
     {
@@ -62,14 +62,14 @@ contract of command removeFromOrder(order: Order, book: Book)
     }
 }
 
-contract of query getOrderItems(order: Order): Item*
+contract of query Livir.getOrderItems(order: Order): Item*
 {
     require bookStore.orders | includes order;
 
     return order.items;
 }
 
-contract of command raiseBookPrice(percentage: Decimal)
+contract of command Livir.raiseBookPrice(percentage: Decimal)
 {
     for book in bookStore.books ensure
     {
