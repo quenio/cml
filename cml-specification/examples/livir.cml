@@ -132,8 +132,8 @@ invariants of Book
 
 concept Order
 {
-    customer: Customer;
     items: Item*;
+    customer: Customer?;
     payment: Payment?;
     delivery: Delivery?;
 
