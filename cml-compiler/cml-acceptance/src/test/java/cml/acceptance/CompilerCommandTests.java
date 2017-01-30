@@ -26,8 +26,8 @@ public class CompilerCommandTests
     
     private static final String EXPECTED_OUTPUT =
         "---\n" +
-        "source dir = source\n" +
-        "target dir = target\n" +
+        "source dir = src/test/cml\n" +
+        "target dir = target/poj\n" +
         "target type = type\n";
 
     @Before
@@ -42,7 +42,7 @@ public class CompilerCommandTests
     @Test
     public void verifyArguments() throws Exception
     {
-        final String actualOutput = compile(asList("source", "target", "type"));
+        final String actualOutput = compile(asList("src/test/cml", "target/poj", "type"));
 
         assertThat("compiler's output", actualOutput, is(EXPECTED_OUTPUT));
     }
