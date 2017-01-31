@@ -19,8 +19,9 @@ import static org.hamcrest.core.Is.is;
 public class CompilerCommandTests
 {
     private static final Charset OUTPUT_FILE_ENCODING = Charset.forName("UTF-8");
-    
-    private static final String FRONTEND_DIR = "../cml-frontend";
+
+    private static final String BASE_DIR = "..";
+    private static final String FRONTEND_DIR = BASE_DIR + "/cml-frontend";
     private static final String TARGET_DIR = FRONTEND_DIR + "/target";
     private static final String JAR_NAME = "cml-compiler-jar-with-dependencies.jar";
     
@@ -28,21 +29,18 @@ public class CompilerCommandTests
         "---\n" +
         "source dir = src/test/cml\n" +
         "target dir = target/poj\n" +
-        "target type = type\n";
+        "target type = poj\n";
 
     @Before
     public void setUp() throws Exception
     {
-        final File frontendDir = new File(FRONTEND_DIR);
-        assertThat("Frontend dir must exist: " + frontendDir, frontendDir.exists(), is(true));
-
-        buildModule(frontendDir, "package");
+        buildModule(new File(BASE_DIR), "clean package");
     }
 
     @Test
     public void verifyArguments() throws Exception
     {
-        final String actualOutput = compile(asList("src/test/cml", "target/poj", "type"));
+        final String actualOutput = compile(asList("src/test/cml", "target/poj", "poj"));
 
         assertThat("compiler's output", actualOutput, is(EXPECTED_OUTPUT));
     }
@@ -82,6 +80,9 @@ public class CompilerCommandTests
 
     private int executeJar(List<String> args, OutputStream outputStream) throws CommandLineException
     {
+        final File frontendDir = new File(FRONTEND_DIR);
+        assertThat("Frontend dir must exist: " + frontendDir, frontendDir.exists(), is(true));
+
         final File targetDir = new File(TARGET_DIR);
         assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
 

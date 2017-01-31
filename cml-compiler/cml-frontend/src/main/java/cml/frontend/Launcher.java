@@ -1,17 +1,21 @@
 package cml.frontend;
 
-import java.io.File;
+import cml.generator.Target;
+import cml.io.Directory;
 
 public class Launcher
 {
     public static void main(String[] args)
     {
-        final File sourceDir = new File(args[0]);
-        final File targetDir = new File(args[1]);
-        final String targetType = args[2];
+        final Compiler compiler = new Compiler(System.out);
 
-        System.out.println("source dir = " + sourceDir);
-        System.out.println("target dir = " + targetDir);
-        System.out.println("target type = " + targetType);
+        final Directory sourceDir = new Directory(args[0]);
+        final Directory targetDir = new Directory(args[1]);
+        final String targetType = args[2];
+        final Target target = new Target(targetDir, targetType);
+
+        final int exitCode = compiler.compile(sourceDir, target);
+
+        System.exit(exitCode);
     }
 }

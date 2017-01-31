@@ -14,6 +14,8 @@
         <module>cml-acceptance</module>
         <module>cml-frontend</module>
         <module>cml-parser</module>
+        <module>cml-generator</module>
+        <module>cml-io</module>
     </modules>
 
     <build>
