@@ -29,7 +29,8 @@ public class CompilerCommandTests
         "---\n" +
         "source dir = src/test/cml\n" +
         "target dir = target/poj\n" +
-        "target type = poj\n";
+        "target type = poj\n" +
+        "Parsed content: conceptBookStore;conceptBook;\n";
 
     @Before
     public void setUp() throws Exception
@@ -45,7 +46,7 @@ public class CompilerCommandTests
         assertThat("compiler's output", actualOutput, is(EXPECTED_OUTPUT));
     }
 
-    private String compile(List<String> args) throws CommandLineException, IOException
+    private String compile(final List<String> args) throws CommandLineException, IOException
     {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -63,7 +64,7 @@ public class CompilerCommandTests
         return new String(outputStream.toByteArray(), OUTPUT_FILE_ENCODING);
     }
 
-    private static void buildModule(File baseDir, String... goals) throws MavenInvocationException
+    private static void buildModule(final File baseDir, final String... goals) throws MavenInvocationException
     {
         System.setProperty("maven.home", System.getenv("M2_HOME"));
 
@@ -78,7 +79,7 @@ public class CompilerCommandTests
         if (result.getExitCode() != 0) throw new MavenInvocationException("Exit code: " + result.getExitCode());
     }
 
-    private int executeJar(List<String> args, OutputStream outputStream) throws CommandLineException
+    private int executeJar(final List<String> args, final OutputStream outputStream) throws CommandLineException
     {
         final File frontendDir = new File(FRONTEND_DIR);
         assertThat("Frontend dir must exist: " + frontendDir, frontendDir.exists(), is(true));
@@ -119,7 +120,7 @@ public class CompilerCommandTests
     }
 
     @SuppressWarnings("SameParameterValue")
-    private void println(Writer writer, String line)
+    private void println(final Writer writer, final String line)
     {
         new PrintWriter(writer).println(line);
     }

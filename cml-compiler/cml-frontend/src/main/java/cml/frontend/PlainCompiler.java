@@ -5,6 +5,8 @@ import cml.generator.Target;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
+import cml.model.Model;
+import cml.parser.Parser;
 
 import java.util.Optional;
 
@@ -13,20 +15,23 @@ class PlainCompiler implements Compiler
     private static final int SUCCESS = 0;
     private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
     private static final int FAILURE__UNKNOWN_TARGET_TYPE = 2;
+    private static final int FAILURE__PARSING_FAILED = 2;
 
     private final Console console;
     private final FileSystem fileSystem;
+    private final Parser parser;
     private final Generator generator;
 
-    PlainCompiler(Console console, FileSystem fileSystem, Generator generator)
+    PlainCompiler(final Console console, final FileSystem fileSystem, final Parser parser, final Generator generator)
     {
         this.console = console;
         this.fileSystem = fileSystem;
+        this.parser = parser;
         this.generator = generator;
     }
 
     @Override
-    public int compile(String sourceDirPath, String targetDirPath, String targetType)
+    public int compile(final String sourceDirPath, final String targetDirPath, final String targetType)
     {
         final Optional<Directory> sourceDir = fileSystem.findDirectory(sourceDirPath);
         if (!sourceDir.isPresent())
@@ -45,6 +50,17 @@ class PlainCompiler implements Compiler
         console.println("source dir = %s", sourceDirPath);
         console.println("target dir = %s", targetDirPath);
         console.println("target type = %s", targetType);
+
+        final Optional<Model> model = parser.parse(sourceDir.get());
+        if (model.isPresent())
+        {
+            console.println("Parsed content: %s", model.get().getContent());
+        }
+        else
+        {
+            console.println("Unable to parse source files.");
+            return FAILURE__PARSING_FAILED;
+        }
 
         return SUCCESS;
     }

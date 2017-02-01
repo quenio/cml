@@ -8,4 +8,9 @@ public class SourceFile
     {
         this.path = path;
     }
+
+    public String getPath()
+    {
+        return path;
+    }
 }

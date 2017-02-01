@@ -1,9 +1,11 @@
 package cml.parser;
 
-import cml.io.SourceFile;
+import cml.io.Directory;
 import cml.model.Model;
+
+import java.util.Optional;
 
 public interface Parser
 {
-    Model parse(SourceFile sourceFile);
+    Optional<Model> parse(Directory sourceDir);
 }

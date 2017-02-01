@@ -9,7 +9,7 @@ public class Directory
         this.path = path;
     }
 
-    String getPath()
+    public String getPath()
     {
         return path;
     }
