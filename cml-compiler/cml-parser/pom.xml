@@ -24,6 +24,12 @@
         </dependency>
         <dependency>
             <groupId>cml</groupId>
+            <artifactId>cml-model</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cml</groupId>
             <artifactId>cml-io</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

@@ -4,8 +4,13 @@ public class Directory
 {
     private final String path;
 
-    Directory(String path)
+    Directory(final String path)
     {
         this.path = path;
+    }
+
+    String getPath()
+    {
+        return path;
     }
 }
