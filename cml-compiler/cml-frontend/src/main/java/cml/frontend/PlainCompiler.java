@@ -15,7 +15,7 @@ class PlainCompiler implements Compiler
     private static final int SUCCESS = 0;
     private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
     private static final int FAILURE__UNKNOWN_TARGET_TYPE = 2;
-    private static final int FAILURE__PARSING_FAILED = 2;
+    private static final int FAILURE__PARSING_FAILED = 3;
 
     private final Console console;
     private final FileSystem fileSystem;
