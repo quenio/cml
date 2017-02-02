@@ -1,6 +1,6 @@
 package cml.generator;
 
-public class TargetFile
+class TargetFile
 {
     private final String groupName;
     private final String path;
