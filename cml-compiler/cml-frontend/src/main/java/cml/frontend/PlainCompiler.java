@@ -5,6 +5,7 @@ import cml.generator.Target;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
+import cml.model.Concept;
 import cml.model.Model;
 import cml.parser.Parser;
 
@@ -47,14 +48,18 @@ class PlainCompiler implements Compiler
             return FAILURE__UNKNOWN_TARGET_TYPE;
         }
 
-        console.println("source dir = %s", sourceDirPath);
-        console.println("target dir = %s", targetDirPath);
-        console.println("target type = %s", targetType);
+        console.println("source dir: %s", sourceDirPath);
+        console.println("target dir: %s", targetDirPath);
+        console.println("target type: %s", targetType);
 
         final Optional<Model> model = parser.parse(sourceDir.get());
         if (model.isPresent())
         {
-            console.println("Parsed content: %s", model.get().getContent());
+            console.println("concepts:");
+            for (final Concept concept : model.get().getConcepts())
+            {
+                console.println("- %s", concept.getName());
+            }
         }
         else
         {

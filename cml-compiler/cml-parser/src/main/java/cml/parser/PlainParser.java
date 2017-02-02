@@ -10,6 +10,7 @@ import cml.model.Model;
 import cml.model.ModelBuilder;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -53,8 +54,12 @@ public class PlainParser implements Parser
             final CommonTokenStream tokens = new CommonTokenStream(lexer);
             final CMLParser parser = new CMLParser(tokens);
             final CMLParser.StartContext startContext = parser.start();
+            final ParseTreeWalker walker = new ParseTreeWalker();
+            final ModelSynthesiser synthesiser = new ModelSynthesiser(modelBuilder);
 
-            return Optional.of(modelBuilder.createModel(startContext.getText()));
+            walker.walk(synthesiser, startContext);
+
+            return Optional.of(modelBuilder.buildModel());
         }
         catch (final IOException exception)
         {

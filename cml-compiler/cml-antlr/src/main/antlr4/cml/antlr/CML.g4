@@ -1,9 +1,9 @@
 grammar CML;
 
 start: concept*;
-concept: 'concept' IDENTIFIER ';';
+concept: 'concept' NAME ';';
 
-IDENTIFIER: 'A'..'Z' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )*;
+NAME: 'A'..'Z' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )*;
 
 // Ignoring whitespace:
 WS: ( ' ' | '\t' | '\f' | '\n' | '\r' )+ -> skip;

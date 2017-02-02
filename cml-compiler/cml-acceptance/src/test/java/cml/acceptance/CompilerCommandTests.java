@@ -27,10 +27,12 @@ public class CompilerCommandTests
     
     private static final String EXPECTED_OUTPUT =
         "---\n" +
-        "source dir = src/test/cml\n" +
-        "target dir = target/poj\n" +
-        "target type = poj\n" +
-        "Parsed content: conceptBookStore;conceptBook;\n";
+        "source dir: src/test/cml\n" +
+        "target dir: target/poj\n" +
+        "target type: poj\n" +
+        "concepts:\n" +
+        "- BookStore\n" +
+        "- Book\n";
 
     @Before
     public void setUp() throws Exception

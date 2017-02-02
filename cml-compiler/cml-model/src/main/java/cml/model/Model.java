@@ -1,16 +1,20 @@
 package cml.model;
 
+import java.util.List;
+
+import static java.util.Collections.unmodifiableList;
+
 public class Model
 {
-    private final String content;
+    private final List<Concept> concepts;
 
-    Model(final String content)
+    Model(final List<Concept> concepts)
     {
-        this.content = content;
+        this.concepts = unmodifiableList(concepts);
     }
 
-    public String getContent()
+    public List<Concept> getConcepts()
     {
-        return content;
+        return concepts;
     }
 }
