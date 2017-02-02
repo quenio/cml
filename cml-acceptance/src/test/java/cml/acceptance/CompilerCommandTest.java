@@ -34,7 +34,7 @@ public class CompilerCommandTest
     @Before
     public void setUp() throws Exception
     {
-        buildModule(new File(BASE_DIR), "clean", "install");
+        buildModule(BASE_DIR, "clean", "install");
     }
 
     @Test
@@ -63,12 +63,12 @@ public class CompilerCommandTest
         return new String(outputStream.toByteArray(), OUTPUT_FILE_ENCODING);
     }
 
-    private static void buildModule(final File baseDir, final String... goals) throws MavenInvocationException
+    private static void buildModule(final String baseDir, final String... goals) throws MavenInvocationException
     {
         System.setProperty("maven.home", System.getenv("M2_HOME"));
 
         final InvocationRequest request = new DefaultInvocationRequest();
-        request.setBaseDirectory(baseDir);
+        request.setBaseDirectory(new File(baseDir));
         request.setGoals(asList(goals));
         request.setInteractive(false);
 
