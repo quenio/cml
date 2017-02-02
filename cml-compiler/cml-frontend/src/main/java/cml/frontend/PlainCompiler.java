@@ -55,11 +55,7 @@ class PlainCompiler implements Compiler
         final Optional<Model> model = parser.parse(sourceDir.get());
         if (model.isPresent())
         {
-            console.println("concepts:");
-            for (final Concept concept : model.get().getConcepts())
-            {
-                console.println("- %s", concept.getName());
-            }
+            generator.generate(model.get(), target.get());
         }
         else
         {
