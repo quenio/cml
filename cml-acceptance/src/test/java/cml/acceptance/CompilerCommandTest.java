@@ -38,7 +38,7 @@ public class CompilerCommandTest
     }
 
     @Test
-    public void verifyArguments() throws Exception
+    public void target_poj_generated() throws Exception
     {
         final String actualOutput = compile(asList("src/test/cml", "target/poj", "poj"));
 
