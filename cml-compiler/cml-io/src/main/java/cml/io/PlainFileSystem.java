@@ -3,7 +3,7 @@ package cml.io;
 import java.io.File;
 import java.util.Optional;
 
-public class PlainFileSystem implements FileSystem
+class PlainFileSystem implements FileSystem
 {
     @Override
     public Optional<Directory> findDirectory(final String path)

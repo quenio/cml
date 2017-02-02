@@ -5,7 +5,6 @@ import cml.generator.Target;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
-import cml.model.Concept;
 import cml.model.Model;
 import cml.parser.Parser;
 

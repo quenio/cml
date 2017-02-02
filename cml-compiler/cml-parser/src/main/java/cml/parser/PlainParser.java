@@ -18,7 +18,7 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public class PlainParser implements Parser
+class PlainParser implements Parser
 {
     private static final String MAIN_SOURCE = "main.cml";
 
@@ -26,7 +26,7 @@ public class PlainParser implements Parser
     private final FileSystem fileSystem;
     private final ModelBuilder modelBuilder;
 
-    public PlainParser(final Console console, final FileSystem fileSystem, final ModelBuilder modelBuilder)
+    PlainParser(final Console console, final FileSystem fileSystem, final ModelBuilder modelBuilder)
     {
         this.console = console;
         this.fileSystem = fileSystem;

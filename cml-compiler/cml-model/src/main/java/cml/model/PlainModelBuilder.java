@@ -5,7 +5,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class PlainModelBuilder implements ModelBuilder
+class PlainModelBuilder implements ModelBuilder
 {
     private final List<String> conceptNames = new ArrayList<>();
 
