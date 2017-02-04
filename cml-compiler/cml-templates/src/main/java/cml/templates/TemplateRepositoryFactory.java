@@ -4,6 +4,6 @@ public class TemplateRepositoryFactory
 {
     public static TemplateRepository createTemplateRepository()
     {
-        return new PlainTemplateRepository();
+        return new TemplateResourceDirectory();
     }
 }
