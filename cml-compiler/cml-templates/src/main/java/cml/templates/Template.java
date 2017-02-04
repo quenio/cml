@@ -1,4 +1,4 @@
-package cml.generator;
+package cml.templates;
 
 class Template
 {

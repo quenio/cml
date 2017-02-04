@@ -1,4 +1,4 @@
-package cml.generator;
+package cml.templates;
 
 import java.io.InputStream;
 

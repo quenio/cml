@@ -1,6 +1,6 @@
-package cml.generator;
+package cml.templates;
 
-interface TemplateRepository
+public interface TemplateRepository
 {
     boolean includesTemplateGroup(String targetType, String groupName);
 }

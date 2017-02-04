@@ -1,6 +1,7 @@
 package cml.generator;
 
 import cml.model.Model;
+import cml.templates.TemplateRepository;
 
 import java.util.Optional;
 

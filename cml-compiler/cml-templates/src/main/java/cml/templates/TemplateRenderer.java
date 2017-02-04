@@ -1,6 +1,6 @@
-package cml.generator;
+package cml.templates;
 
-interface TemplateRenderer
+public interface TemplateRenderer
 {
     void loadTemplateGroup(String groupName);
 
