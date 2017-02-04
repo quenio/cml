@@ -1,6 +1,8 @@
 package cml.templates;
 
+import java.util.Optional;
+
 public interface TemplateRepository
 {
-    boolean includesTemplateGroup(String targetType, String groupName);
+    Optional<Template> findTemplate(String targetType, String templateName);
 }

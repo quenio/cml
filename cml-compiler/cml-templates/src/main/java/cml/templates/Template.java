@@ -1,10 +1,10 @@
 package cml.templates;
 
-class Template
+public class Template
 {
     private final String templateName;
 
-    public Template(final String templateName, final String path)
+    Template(final String templateName)
     {
         this.templateName = templateName;
     }

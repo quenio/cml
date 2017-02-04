@@ -1,6 +1,7 @@
 package cml.generator;
 
 import cml.model.Model;
+import cml.templates.Template;
 import cml.templates.TemplateRepository;
 
 import java.util.Optional;
@@ -19,8 +20,8 @@ class PlainGenerator implements Generator
     @Override
     public Optional<Target> findTarget(final String targetType, final String targetDirPath)
     {
-        final boolean templatesFound = templateRepository.includesTemplateGroup(targetType, GROUP_FILES);
-        final Target target = templatesFound ? new Target(targetType, targetDirPath) : null;
+        final Optional<Template> filesTemplate = templateRepository.findTemplate(targetType, GROUP_FILES);
+        final Target target = filesTemplate.isPresent() ? new Target(targetType, targetDirPath) : null;
         return Optional.ofNullable(target);
     }
 
