@@ -2,7 +2,7 @@ package cml.templates;
 
 import java.io.InputStream;
 
-class PlainTemplateRepository implements TemplateRepository
+class TemplateResourceDirectory implements TemplateRepository
 {
     private static final String GROUP_EXT = ".stg";
 
