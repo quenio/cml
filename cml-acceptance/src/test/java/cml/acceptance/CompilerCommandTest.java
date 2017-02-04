@@ -78,7 +78,7 @@ public class CompilerCommandTest
         if (result.getExitCode() != 0) throw new MavenInvocationException("Exit code: " + result.getExitCode());
     }
 
-    private int executeJar(final List<String> args, final OutputStream outputStream) throws CommandLineException
+    private int executeJar(final List<String> args, final ByteArrayOutputStream outputStream) throws CommandLineException
     {
         final File frontendDir = new File(FRONTEND_DIR);
         assertThat("Frontend dir must exist: " + frontendDir, frontendDir.exists(), is(true));
@@ -114,6 +114,8 @@ public class CompilerCommandTest
         final int exitCode = executeCommandLine(commandLine, systemOut, systemErr, 10);
 
         System.out.println("Jar's exit code: " + exitCode);
+
+        System.out.println("Output: \n" + new String(outputStream.toByteArray(), OUTPUT_FILE_ENCODING));
 
         return exitCode;
     }

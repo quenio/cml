@@ -2,7 +2,10 @@ package cml.model;
 
 public interface ModelBuilder
 {
-    void addConcept(String name);
+    void newModel();
+    Model getModel();
 
-    Model buildModel();
+    void addConcept(String name);
+    void addTarget(String targetType);
+    void addProperty(String propertyName, String propertyValue);
 }

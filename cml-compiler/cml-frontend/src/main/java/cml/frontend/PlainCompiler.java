@@ -1,8 +1,6 @@
 package cml.frontend;
 
 import cml.generator.Generator;
-import cml.generator.Target;
-import cml.generator.TargetRepository;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
@@ -15,26 +13,22 @@ class PlainCompiler implements Compiler
 {
     private static final int SUCCESS = 0;
     private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
-    private static final int FAILURE__UNKNOWN_TARGET_TYPE = 2;
-    private static final int FAILURE__PARSING_FAILED = 3;
+    private static final int FAILURE__PARSING_FAILED = 1;
 
     private final Console console;
     private final FileSystem fileSystem;
     private final Parser parser;
-    private final TargetRepository targetRepository;
     private final Generator generator;
 
     PlainCompiler(
         final Console console,
         final FileSystem fileSystem,
         final Parser parser,
-        final TargetRepository targetRepository,
         final Generator generator)
     {
         this.console = console;
         this.fileSystem = fileSystem;
         this.parser = parser;
-        this.targetRepository = targetRepository;
         this.generator = generator;
     }
 
@@ -48,13 +42,6 @@ class PlainCompiler implements Compiler
             return FAILURE__SOURCE_DIR_NOT_FOUND;
         }
 
-        final Optional<Target> target = targetRepository.createTarget(targetType, targetDirPath);
-        if (!target.isPresent())
-        {
-            console.println("Unknown target type: %s", targetType);
-            return FAILURE__UNKNOWN_TARGET_TYPE;
-        }
-
         console.println("source dir: %s", sourceDirPath);
         console.println("target dir: %s", targetDirPath);
         console.println("target type: %s", targetType);
@@ -62,7 +49,7 @@ class PlainCompiler implements Compiler
         final Optional<Model> model = parser.parse(sourceDir.get());
         if (model.isPresent())
         {
-            generator.generate(model.get(), target.get());
+            generator.generate(model.get(), targetType, targetDirPath);
         }
         else
         {

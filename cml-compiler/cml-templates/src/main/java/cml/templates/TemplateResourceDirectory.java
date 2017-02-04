@@ -5,14 +5,12 @@ import java.util.Optional;
 
 class TemplateResourceDirectory implements TemplateRepository
 {
-    private static final String GROUP_EXT = ".stg";
-
     @Override
-    public Optional<Template> findTemplate(final String targetType, final String templateName)
+    public Optional<TemplateFile> findTemplate(final String targetType, final String templateName)
     {
-        final String resourcePath = "/" + targetType + "/" + templateName + GROUP_EXT;
-        final InputStream stream = getClass().getResourceAsStream(resourcePath);
-        return stream == null ? Optional.empty() : Optional.of(new Template(templateName));
+        final String path = "/" + targetType + "/" + templateName;
+        final InputStream stream = getClass().getResourceAsStream(path);
+        return stream == null ? Optional.empty() : Optional.of(new TemplateFile(path));
     }
 
 }

@@ -1,20 +1,36 @@
 package cml.model;
 
-import java.util.List;
+import java.util.*;
 
-import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 
 public class Model
 {
-    private final List<Concept> concepts;
+    // Associations:
 
-    Model(final List<Concept> concepts)
+    private final Set<Concept> concepts = new HashSet<>();
+
+    Set<Concept> getConcepts()
     {
-        this.concepts = unmodifiableList(concepts);
+        return unmodifiableSet(concepts);
     }
 
-    public List<Concept> getConcepts()
+    void addConcept(final Concept concept)
     {
-        return concepts;
+        concepts.add(concept);
+    }
+
+    //---
+
+    private final Map<String, Target> targets = new HashMap<>();
+
+    Optional<Target> getTarget(final String targetType)
+    {
+        return Optional.ofNullable(targets.get(targetType));
+    }
+
+    void addTarget(final Target target)
+    {
+        targets.put(target.getTargetType(), target);
     }
 }

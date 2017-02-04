@@ -1,23 +1,38 @@
 package cml.generator;
 
-public class TargetFile
+import cml.templates.TemplateFile;
+
+import java.util.Optional;
+
+class TargetFile
 {
-    private final String templateName;
-    private final String filePath;
+    // Attributes:
+    private final String path;
 
-    public TargetFile(final String templateName, final String filePath)
+    // Associations:
+    private TemplateFile templateFile;
+
+    TargetFile(final String path)
     {
-        this.templateName = templateName;
-        this.filePath = filePath;
+        this.path = path;
     }
 
-    public String getTemplateName()
+    // Attributes:
+
+    public String getPath()
     {
-        return templateName;
+        return path;
     }
 
-    public String getFilePath()
+    // Associations:
+
+    Optional<TemplateFile> getTemplateFile()
     {
-        return filePath;
+        return Optional.of(templateFile);
+    }
+
+    void setTemplateFile(TemplateFile templateFile)
+    {
+        this.templateFile = templateFile;
     }
 }

@@ -59,7 +59,7 @@ class PlainParser implements Parser
 
             walker.walk(synthesiser, startContext);
 
-            return Optional.of(modelBuilder.buildModel());
+            return Optional.of(modelBuilder.getModel());
         }
         catch (final IOException exception)
         {

@@ -4,5 +4,5 @@ import java.util.Optional;
 
 public interface TemplateRepository
 {
-    Optional<Template> findTemplate(String targetType, String templateName);
+    Optional<TemplateFile> findTemplate(String targetType, String templateName);
 }

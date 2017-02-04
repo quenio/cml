@@ -4,5 +4,5 @@ import cml.model.Model;
 
 public interface Generator
 {
-    void generate(Model model, Target target);
+    int generate(Model model, final String targetType, final String targetDirPath);
 }

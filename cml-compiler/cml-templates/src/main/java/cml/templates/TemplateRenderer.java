@@ -1,6 +1,8 @@
 package cml.templates;
 
+import java.util.Map;
+
 public interface TemplateRenderer
 {
-    void renderTemplate(Template template);
+    String renderTemplate(TemplateFile templateFile, String templateName, Map<String, Object> args);
 }
