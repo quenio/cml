@@ -2,6 +2,7 @@ package cml.frontend;
 
 import cml.generator.Generator;
 import cml.generator.Target;
+import cml.generator.TargetRepository;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
@@ -20,13 +21,20 @@ class PlainCompiler implements Compiler
     private final Console console;
     private final FileSystem fileSystem;
     private final Parser parser;
+    private final TargetRepository targetRepository;
     private final Generator generator;
 
-    PlainCompiler(final Console console, final FileSystem fileSystem, final Parser parser, final Generator generator)
+    PlainCompiler(
+        final Console console,
+        final FileSystem fileSystem,
+        final Parser parser,
+        final TargetRepository targetRepository,
+        final Generator generator)
     {
         this.console = console;
         this.fileSystem = fileSystem;
         this.parser = parser;
+        this.targetRepository = targetRepository;
         this.generator = generator;
     }
 
@@ -40,7 +48,7 @@ class PlainCompiler implements Compiler
             return FAILURE__SOURCE_DIR_NOT_FOUND;
         }
 
-        final Optional<Target> target = generator.findTarget(targetType, targetDirPath);
+        final Optional<Target> target = targetRepository.createTarget(targetType, targetDirPath);
         if (!target.isPresent())
         {
             console.println("Unknown target type: %s", targetType);
