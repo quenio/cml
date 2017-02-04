@@ -1,11 +1,11 @@
 package cml.generator;
 
-class TargetFile
+class TemplateFile
 {
     private final String groupName;
     private final String path;
 
-    public TargetFile(final String groupName, final String path)
+    public TemplateFile(final String groupName, final String path)
     {
         this.groupName = groupName;
         this.path = path;
