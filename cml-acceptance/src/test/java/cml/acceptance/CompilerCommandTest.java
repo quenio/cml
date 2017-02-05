@@ -22,14 +22,18 @@ public class CompilerCommandTest
 
     private static final String BASE_DIR = "../cml-compiler";
     private static final String FRONTEND_DIR = BASE_DIR + "/cml-frontend";
-    private static final String TARGET_DIR = FRONTEND_DIR + "/target";
+    private static final String FRONTEND_TARGET_DIR = FRONTEND_DIR + "/target";
     private static final String JAR_NAME = "cml-compiler-jar-with-dependencies.jar";
-    
+
+    private static final String SOURCE_DIR = "src/test/cml";
+    private static final String TARGET_DIR = "target/poj";
+    private static final String TARGET_TYPE = "poj";
+
     private static final String EXPECTED_OUTPUT =
         "---\n" +
-        "source dir: src/test/cml\n" +
-        "target dir: target/poj\n" +
-        "target type: poj\n" +
+        "source dir: " + SOURCE_DIR + "\n" +
+        "target dir: " + TARGET_DIR + "\n" +
+        "target type: " + TARGET_TYPE + "\n" +
         "\n" +
         "module files:\n" +
         "- pom.xml\n" +
@@ -49,9 +53,11 @@ public class CompilerCommandTest
     @Test
     public void target_poj_generated() throws Exception
     {
-        final String actualOutput = compile(asList("src/test/cml", "target/poj", "poj"));
+        final String actualOutput = compile(asList(SOURCE_DIR, TARGET_DIR, TARGET_TYPE));
 
         assertThat("compiler's output", actualOutput, is(EXPECTED_OUTPUT));
+
+        buildModule(TARGET_DIR, "clean", "install");
     }
 
     private String compile(final List<String> args) throws CommandLineException, IOException
@@ -92,7 +98,7 @@ public class CompilerCommandTest
         final File frontendDir = new File(FRONTEND_DIR);
         assertThat("Frontend dir must exist: " + frontendDir, frontendDir.exists(), is(true));
 
-        final File targetDir = new File(TARGET_DIR);
+        final File targetDir = new File(FRONTEND_TARGET_DIR);
         assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
 
         final File jarFile = new File(targetDir, JAR_NAME);
