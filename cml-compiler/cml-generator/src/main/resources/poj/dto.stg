@@ -1,5 +1,5 @@
 dto(poj, concept) ::= <<
-package <poj.packagePath>;
+package <poj.packageName>;
 
 <class(concept)>
 >>

@@ -16,4 +16,10 @@ class PlainModelRepository implements ModelRepository
     {
         return target.getProperties();
     }
+
+    @Override
+    public Set<Concept> getConcepts(final Model model)
+    {
+        return model.getConcepts();
+    }
 }

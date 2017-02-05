@@ -31,15 +31,15 @@ class PlainTargetFileRepository implements TargetFileRepository
     }
 
     @Override
-    public Set<TargetFile> findTargetFiles(final Target target, final String fileType)
+    public Set<TargetFile> findTargetFiles(
+        final Target target,
+        final String fileType,
+        final Map<String, Object> args)
     {
         final Optional<TemplateFile> fileTemplates = templateRepository.findTemplate(target.getTargetType(), GROUP_FILES);
 
         if (fileTemplates.isPresent())
         {
-            final Map<String, Object> args = new HashMap<>();
-            args.put(target.getTargetType(), target);
-
             final String templateName = fileType + FILES_SUFFIX;
             final String files = templateRenderer.renderTemplate(fileTemplates.get(), templateName, args);
             return stream(files.split("\n"))

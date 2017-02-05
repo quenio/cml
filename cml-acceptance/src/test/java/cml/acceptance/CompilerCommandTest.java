@@ -32,7 +32,13 @@ public class CompilerCommandTest
         "target type: poj\n" +
         "\n" +
         "module files:\n" +
-        "- pom.xml\n";
+        "- pom.xml\n" +
+        "\n" +
+        "BookStore files:\n" +
+        "- src/main/java/livir/books/BookStore.java\n" +
+        "\n" +
+        "Book files:\n" +
+        "- src/main/java/livir/books/Book.java\n";
 
     @Before
     public void setUp() throws Exception

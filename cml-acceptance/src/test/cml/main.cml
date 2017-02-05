@@ -6,5 +6,7 @@ target poj
     groupId = "livir";
     artifactId = "livir-books";
     version = "1.0";
+    packageName = "livir.books";
+    packagePath = "livir/books";
 }
 

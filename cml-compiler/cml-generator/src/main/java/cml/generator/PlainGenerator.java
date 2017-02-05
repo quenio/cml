@@ -2,6 +2,7 @@ package cml.generator;
 
 import cml.io.Console;
 import cml.io.FileSystem;
+import cml.model.Concept;
 import cml.model.Model;
 import cml.model.ModelRepository;
 import cml.model.Target;
@@ -19,6 +20,7 @@ class PlainGenerator implements Generator
     private static final int FAILURE__TARGET_TYPE_UNKNOWN = 202;
 
     private static final String MODULE = "module";
+    private static final String CONCEPT = "concept";
 
     private final Console console;
     private final ModelRepository modelRepository;
@@ -49,7 +51,10 @@ class PlainGenerator implements Generator
             return FAILURE__TARGET_TYPE_UNDECLARED;
         }
 
-        final Set<TargetFile> moduleFiles = targetFileRepository.findTargetFiles(target.get(), MODULE);
+        final Map<String, Object> templateArgs = new HashMap<>();
+        templateArgs.put(targetType, getTargetProperties(target.get()));
+
+        final Set<TargetFile> moduleFiles = findModuleFiles(target.get(), templateArgs);
 
         if (moduleFiles.isEmpty())
         {
@@ -58,17 +63,39 @@ class PlainGenerator implements Generator
         }
 
         console.println("\nmodule files:");
-        moduleFiles.forEach(targetFile -> renderTargetFile(target.get(), targetFile, targetDirPath));
+        moduleFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
+
+        final Set<Concept> concepts = modelRepository.getConcepts(model);
+        concepts.forEach(
+            concept ->
+            {
+                templateArgs.put(CONCEPT, concept);
+
+                final Set<TargetFile> conceptFiles = findConceptFiles(target.get(), templateArgs);
+
+                console.println("\n%s files:", concept.getName());
+                conceptFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
+            });
 
         return SUCCESS;
     }
 
-    private void renderTargetFile(final Target target, final TargetFile targetFile, final String targetDirPath)
+    private Set<TargetFile> findModuleFiles(final Target target, final Map<String, Object> templateArgs)
+    {
+        return targetFileRepository.findTargetFiles(target, MODULE, templateArgs);
+    }
+
+    private Set<TargetFile> findConceptFiles(final Target target, final Map<String, Object> templateArgs)
+    {
+        return targetFileRepository.findTargetFiles(target, CONCEPT, templateArgs);
+    }
+
+    private void renderTargetFile(
+        final TargetFile targetFile,
+        final String targetDirPath,
+        final Map<String, Object> args)
     {
         console.println("- %s", targetFile.getPath());
-
-        final Map<String, Object> args = new HashMap<>();
-        args.put(target.getTargetType(), getTargetProperties(target));
 
         if (targetFile.getTemplateFile().isPresent())
         {
