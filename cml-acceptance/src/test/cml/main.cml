@@ -3,7 +3,8 @@ concept Book;
 
 target poj
 {
-    mavenGroupId = "livir"
-    mavenArtifactId = "livir-books"
+    groupId = "livir";
+    artifactId = "livir-books";
+    version = "1.0";
 }
 

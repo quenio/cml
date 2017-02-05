@@ -1,9 +1,9 @@
 package cml.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 
 public class Target
 {
@@ -23,11 +23,11 @@ public class Target
 
     // Associations:
 
-    private final List<Property> properties = new ArrayList<>();
+    private final Set<Property> properties = new HashSet<>();
 
-    List<Property> getProperties()
+    Set<Property> getProperties()
     {
-        return unmodifiableList(properties);
+        return unmodifiableSet(properties);
     }
 
     void addProperty(final Property property)

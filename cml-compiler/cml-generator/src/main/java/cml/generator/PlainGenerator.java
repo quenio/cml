@@ -68,7 +68,7 @@ class PlainGenerator implements Generator
         console.println("- %s", targetFile.getPath());
 
         final Map<String, Object> args = new HashMap<>();
-        args.put(target.getTargetType(), target);
+        args.put(target.getTargetType(), getTargetProperties(target));
 
         if (targetFile.getTemplateFile().isPresent())
         {
@@ -80,5 +80,15 @@ class PlainGenerator implements Generator
 
             fileSystem.createFile(path, contents);
         }
+    }
+
+    private Map<String, Object> getTargetProperties(final Target target)
+    {
+        final Map<String, Object> properties = new HashMap<>();
+
+        modelRepository.getProperties(target)
+                       .forEach(property -> properties.put(property.getName(), property.getValue()));
+
+        return properties;
     }
 }

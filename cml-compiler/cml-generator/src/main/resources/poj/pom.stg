@@ -40,9 +40,9 @@ project_end() ::= <<
 >>
 
 module_def(poj) ::= <<
-\<groupId><poj.mavenGroupId>\</groupId>
-\<artifactId><poj.mavenArtifactId>\</artifactId>
-\<version>0.0.1\</version>
+\<groupId><poj.groupId>\</groupId>
+\<artifactId><poj.artifactId>\</artifactId>
+\<version><poj.version>\</version>
 \<packaging>jar\</packaging>
 >>
 
