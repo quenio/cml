@@ -2,7 +2,7 @@ package cml.model;
 
 import java.util.Optional;
 
-public interface ModelQueries
+public interface ModelRepository
 {
     Optional<Target> getTarget(Model model, String targetType);
 }

@@ -29,7 +29,10 @@ public class CompilerCommandTest
         "---\n" +
         "source dir: src/test/cml\n" +
         "target dir: target/poj\n" +
-        "target type: poj\n";
+        "target type: poj\n" +
+        "\n" +
+        "module files:\n" +
+        "- pom.xml\n";
 
     @Before
     public void setUp() throws Exception

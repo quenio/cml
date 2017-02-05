@@ -9,14 +9,6 @@ pom(poj) ::= <<
         \<project.build.sourceEncoding>UTF-8\</project.build.sourceEncoding>
     \</properties>
 
-    \<dependencies>
-        \<dependency>
-            \<groupId>cml\</groupId>
-            \<artifactId>cml-runtime\</artifactId>
-            \<version>0.0.1\</version>
-        \</dependency>
-    \</dependencies>
-
     \<build>
         <plugins()>
     \</build>

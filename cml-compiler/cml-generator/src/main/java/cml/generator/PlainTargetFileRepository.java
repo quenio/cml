@@ -5,7 +5,10 @@ import cml.templates.TemplateFile;
 import cml.templates.TemplateRenderer;
 import cml.templates.TemplateRepository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptySet;
@@ -13,7 +16,8 @@ import static java.util.stream.Collectors.toSet;
 
 class PlainTargetFileRepository implements TargetFileRepository
 {
-    private static final String GROUP_FILES = "files.stg";
+    private static final String STG_EXT = ".stg";
+    private static final String GROUP_FILES = "files" + STG_EXT;
     private static final String FILES_SUFFIX = "Files";
 
     // Collaborators:
@@ -51,8 +55,8 @@ class PlainTargetFileRepository implements TargetFileRepository
 
     private TargetFile createTargetFile(final String path, final String targetType, final String templateName)
     {
-        final TargetFile targetFile = new TargetFile(path);
-        final Optional<TemplateFile> templateFile = templateRepository.findTemplate(targetType, templateName);
+        final TargetFile targetFile = new TargetFile(path, templateName);
+        final Optional<TemplateFile> templateFile = templateRepository.findTemplate(targetType, templateName + STG_EXT);
 
         templateFile.ifPresent(targetFile::setTemplateFile);
 

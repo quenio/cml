@@ -6,32 +6,40 @@ import java.util.Optional;
 
 class TargetFile
 {
-    // Attributes:
-    private final String path;
-
-    // Associations:
-    private TemplateFile templateFile;
-
-    TargetFile(final String path)
+    TargetFile(final String path, final String templateName)
     {
         this.path = path;
+        this.templateName = templateName;
     }
 
     // Attributes:
 
-    public String getPath()
+    private final String path;
+
+    String getPath()
     {
         return path;
     }
 
+    //---
+
+    private final String templateName;
+
+    public String getTemplateName()
+    {
+        return templateName;
+    }
+
     // Associations:
+
+    private TemplateFile templateFile;
 
     Optional<TemplateFile> getTemplateFile()
     {
-        return Optional.of(templateFile);
+        return Optional.ofNullable(templateFile);
     }
 
-    void setTemplateFile(TemplateFile templateFile)
+    void setTemplateFile(final TemplateFile templateFile)
     {
         this.templateFile = templateFile;
     }

@@ -20,7 +20,7 @@ class CompilerFactory
         final FileSystem fileSystem = createFileSystem();
         final ModelBuilder modelBuilder = createModelBuilder();
         final Parser parser = createParser(console, fileSystem, modelBuilder);
-        final Generator generator = createGenerator(console);
+        final Generator generator = createGenerator(console, fileSystem);
         return new PlainCompiler(console, fileSystem, parser, generator);
     }
 }
