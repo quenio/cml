@@ -25,7 +25,7 @@ public class CompilerCommandTest
     private static final String FRONTEND_TARGET_DIR = FRONTEND_DIR + "/target";
     private static final String JAR_NAME = "cml-compiler-jar-with-dependencies.jar";
 
-    private static final String SOURCE_DIR = "src/test/cml";
+    private static final String SOURCE_DIR = "src/test/cml/livir-books";
     private static final String TARGET_DIR = "target/poj";
     private static final String TARGET_TYPE = "poj";
 
