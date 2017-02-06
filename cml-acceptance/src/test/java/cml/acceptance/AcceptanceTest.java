@@ -19,6 +19,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.codehaus.plexus.util.FileUtils.cleanDirectory;
+import static org.codehaus.plexus.util.FileUtils.forceMkdir;
 import static org.codehaus.plexus.util.cli.CommandLineUtils.executeCommandLine;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -56,14 +57,14 @@ public class AcceptanceTest
 
         final File targetDir = new File(FRONTEND_TARGET_DIR);
         assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
+
+        forceMkdir(new File(TARGET_DIR));
+        cleanDirectory(TARGET_DIR);
     }
 
     @Theory
     public void poj(@FromDataPoints("cases") String caseName) throws Exception
     {
-        cleanDirectory(TARGET_DIR);
-        assertThat("Target dir must not exist: " + TARGET_DIR, new File(TARGET_DIR).exists(), is(true));
-
         final String sourceDir = CASES_DIR + "/" + caseName;
         final String actualCompilerOutput = executeJar(COMPILER_JAR, asList(sourceDir, TARGET_DIR, TARGET_TYPE));
         assertThatOutputMatches(
