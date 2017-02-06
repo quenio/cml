@@ -8,7 +8,7 @@ public class Model
 {
     // Associations:
 
-    private final Set<Concept> concepts = new HashSet<>();
+    private final Set<Concept> concepts = new LinkedHashSet<>();
 
     Set<Concept> getConcepts()
     {

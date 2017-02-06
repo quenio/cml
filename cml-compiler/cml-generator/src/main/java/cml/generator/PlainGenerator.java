@@ -62,7 +62,7 @@ class PlainGenerator implements Generator
             return FAILURE__TARGET_TYPE_UNKNOWN;
         }
 
-        console.println("\nmodule files:");
+        console.println("module files:");
         moduleFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
 
         final Set<Concept> concepts = modelRepository.getConcepts(model);

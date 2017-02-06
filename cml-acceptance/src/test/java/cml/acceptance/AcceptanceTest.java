@@ -1,5 +1,6 @@
 package cml.acceptance;
 
+import com.google.common.io.Files;
 import org.apache.maven.shared.invoker.*;
 import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
@@ -17,7 +18,7 @@ import static org.codehaus.plexus.util.cli.CommandLineUtils.executeCommandLine;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class CompilerCommandTest
+public class AcceptanceTest
 {
     private static final Charset OUTPUT_FILE_ENCODING = Charset.forName("UTF-8");
 
@@ -32,30 +33,15 @@ public class CompilerCommandTest
     private static final String CLIENT_TARGET_DIR = CLIENT_DIR + "/target";
     private static final String CLIENT_JAR = CLIENT_TARGET_DIR + "/livir-console-jar-with-dependencies.jar";
 
-    private static final String SOURCE_DIR = "src/test/cml/livir-books";
+    private static final String CASES_DIR = "cases";
+    private static final String POJ_DIR = CASES_DIR + "/poj";
+    private static final String COMPILER_OUTPUT_FILENAME = "/compiler-output.txt";
+    private static final String CLIENT_OUTPUT_FILENAME = "/client-output.txt";
+
+    private static final String SOURCE_DIR = POJ_DIR + "/livir-books";
     private static final String TARGET_DIR = "target/poj";
     private static final String TARGET_TYPE = "poj";
 
-    private static final String EXPECTED_COMPILER_OUTPUT =
-        "source dir: " + SOURCE_DIR + "\n" +
-        "target dir: " + TARGET_DIR + "\n" +
-        "target type: " + TARGET_TYPE + "\n" +
-        "\n" +
-        "module files:\n" +
-        "- pom.xml\n" +
-        "\n" +
-        "BookStore files:\n" +
-        "- src/main/java/livir/books/BookStore.java\n" +
-        "\n" +
-        "Book files:\n" +
-        "- src/main/java/livir/books/Book.java\n";
-
-    private static final String EXPECTED_CLIENT_OUTPUT =
-        "Livir Console\n" +
-        "\n" +
-        "Classes:\n" +
-        "- livir.books.BookStore\n" +
-        "- livir.books.Book\n";
 
     @Before
     public void setUp() throws Exception
@@ -67,10 +53,13 @@ public class CompilerCommandTest
     }
 
     @Test
-    public void target_poj_generated() throws Exception
+    public void poj() throws Exception
     {
         final String actualCompilerOutput = executeJar(COMPILER_JAR, asList(SOURCE_DIR, TARGET_DIR, TARGET_TYPE));
-        assertThat("compiler's output", actualCompilerOutput, is(EXPECTED_COMPILER_OUTPUT));
+        assertThatOutputMatches(
+            "compiler's output",
+            SOURCE_DIR + COMPILER_OUTPUT_FILENAME,
+            actualCompilerOutput);
 
         buildModule(TARGET_DIR, "clean", "install");
         buildModule(CLIENT_DIR, "clean", "install");
@@ -79,7 +68,19 @@ public class CompilerCommandTest
         assertThat("Client dir must exist: " + clientDir, clientDir.exists(), is(true));
 
         final String actualClientOutput = executeJar(CLIENT_JAR, emptyList());
-        assertThat("client's output", actualClientOutput, is(EXPECTED_CLIENT_OUTPUT));
+        assertThatOutputMatches(
+            "client's output",
+            SOURCE_DIR + CLIENT_OUTPUT_FILENAME,
+            actualClientOutput);
+    }
+
+    private void assertThatOutputMatches(
+        final String reason,
+        final String expectedOutputPath,
+        final String actualOutput) throws IOException
+    {
+        final String expectedOutput = Files.toString(new File(expectedOutputPath), OUTPUT_FILE_ENCODING);
+        assertThat(reason, actualOutput, is(expectedOutput));
     }
 
     private static void buildModule(final String baseDir, final String... goals) throws MavenInvocationException

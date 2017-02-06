@@ -42,10 +42,6 @@ class PlainCompiler implements Compiler
             return FAILURE__SOURCE_DIR_NOT_FOUND;
         }
 
-        console.println("source dir: %s", sourceDirPath);
-        console.println("target dir: %s", targetDirPath);
-        console.println("target type: %s", targetType);
-
         final Optional<Model> model = parser.parse(sourceDir.get());
         if (model.isPresent())
         {
