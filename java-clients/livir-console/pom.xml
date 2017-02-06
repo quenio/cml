@@ -4,21 +4,27 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>cml</groupId>
+        <groupId>cml-clients</groupId>
         <artifactId>java-clients</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>livir</groupId>
     <artifactId>livir-console</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
-        <cml.jar.name>cml-compiler</cml.jar.name>
+        <jar.name>livir-console</jar.name>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>livir</groupId>
+            <artifactId>livir-books</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -40,7 +46,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>${cml.jar.name}</finalName>
+                    <finalName>${jar.name}</finalName>
                 </configuration>
                 <executions>
                     <execution>
