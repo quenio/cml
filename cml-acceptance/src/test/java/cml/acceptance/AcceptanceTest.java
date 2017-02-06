@@ -52,7 +52,7 @@ public class AcceptanceTest
     @Before
     public void setUp() throws Exception
     {
-        buildModule(COMPILER_DIR, "clean", "install");
+        buildModule(COMPILER_DIR);
 
         final File targetDir = new File(FRONTEND_TARGET_DIR);
         assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
@@ -71,8 +71,8 @@ public class AcceptanceTest
             sourceDir + COMPILER_OUTPUT_FILENAME,
             actualCompilerOutput);
 
-        buildModule(TARGET_DIR, "clean", "install");
-        buildModule(CLIENT_DIR, "clean", "install");
+        buildModule(TARGET_DIR);
+        buildModule(CLIENT_DIR);
 
         final File clientDir = new File(CLIENT_TARGET_DIR);
         assertThat("Client dir must exist: " + clientDir, clientDir.exists(), is(true));
@@ -93,13 +93,15 @@ public class AcceptanceTest
         assertThat(reason, actualOutput, is(expectedOutput));
     }
 
-    private static void buildModule(final String baseDir, final String... goals) throws MavenInvocationException
+    private static void buildModule(final String baseDir) throws MavenInvocationException
     {
+        System.out.println("Building: " + baseDir);
+
         System.setProperty("maven.home", System.getenv("M2_HOME"));
 
         final InvocationRequest request = new DefaultInvocationRequest();
         request.setBaseDirectory(new File(baseDir));
-        request.setGoals(asList(goals));
+        request.setGoals(asList("-q", "clean", "install"));
         request.setInteractive(false);
 
         final Invoker invoker = new DefaultInvoker();
@@ -157,8 +159,7 @@ public class AcceptanceTest
         final int exitCode = executeCommandLine(commandLine, systemOut, systemErr, 10);
 
         System.out.println("Jar's exit code: " + exitCode);
-        System.out
-            .println("Output: \n\n---\n" + new String(outputStream.toByteArray(), OUTPUT_FILE_ENCODING) + "---\n");
+        System.out.println("Output: \n---\n" + new String(outputStream.toByteArray(), OUTPUT_FILE_ENCODING) + "---\n");
 
         return exitCode;
     }
