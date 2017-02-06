@@ -6,7 +6,11 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.WriterStreamConsumer;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.FromDataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -14,10 +18,12 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static org.codehaus.plexus.util.FileUtils.cleanDirectory;
 import static org.codehaus.plexus.util.cli.CommandLineUtils.executeCommandLine;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+@RunWith(Theories.class)
 public class AcceptanceTest
 {
     private static final Charset OUTPUT_FILE_ENCODING = Charset.forName("UTF-8");
@@ -34,14 +40,14 @@ public class AcceptanceTest
     private static final String CLIENT_JAR = CLIENT_TARGET_DIR + "/livir-console-jar-with-dependencies.jar";
 
     private static final String CASES_DIR = "cases";
-    private static final String POJ_DIR = CASES_DIR + "/poj";
     private static final String COMPILER_OUTPUT_FILENAME = "/compiler-output.txt";
     private static final String CLIENT_OUTPUT_FILENAME = "/client-output.txt";
 
-    private static final String SOURCE_DIR = POJ_DIR + "/livir-books";
     private static final String TARGET_DIR = "target/poj";
     private static final String TARGET_TYPE = "poj";
 
+    @DataPoints("cases")
+    public static String[] cases = { "livir-books" };
 
     @Before
     public void setUp() throws Exception
@@ -52,13 +58,17 @@ public class AcceptanceTest
         assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
     }
 
-    @Test
-    public void poj() throws Exception
+    @Theory
+    public void poj(@FromDataPoints("cases") String caseName) throws Exception
     {
-        final String actualCompilerOutput = executeJar(COMPILER_JAR, asList(SOURCE_DIR, TARGET_DIR, TARGET_TYPE));
+        cleanDirectory(TARGET_DIR);
+        assertThat("Target dir must not exist: " + TARGET_DIR, new File(TARGET_DIR).exists(), is(true));
+
+        final String sourceDir = CASES_DIR + "/" + caseName;
+        final String actualCompilerOutput = executeJar(COMPILER_JAR, asList(sourceDir, TARGET_DIR, TARGET_TYPE));
         assertThatOutputMatches(
             "compiler's output",
-            SOURCE_DIR + COMPILER_OUTPUT_FILENAME,
+            sourceDir + COMPILER_OUTPUT_FILENAME,
             actualCompilerOutput);
 
         buildModule(TARGET_DIR, "clean", "install");
@@ -70,7 +80,7 @@ public class AcceptanceTest
         final String actualClientOutput = executeJar(CLIENT_JAR, emptyList());
         assertThatOutputMatches(
             "client's output",
-            SOURCE_DIR + CLIENT_OUTPUT_FILENAME,
+            sourceDir + CLIENT_OUTPUT_FILENAME,
             actualClientOutput);
     }
 
