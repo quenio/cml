@@ -6,7 +6,7 @@ target: 'target' NAME '{' propertyList '}';
 propertyList: (property ';')*;
 property: NAME '=' STRING;
 
-NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' )*;
+NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
 STRING: '"' .*? '"';
 
 // Ignoring whitespace:

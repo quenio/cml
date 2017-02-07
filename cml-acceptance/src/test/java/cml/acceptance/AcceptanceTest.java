@@ -51,6 +51,8 @@ public class AcceptanceTest
     private static final int SUCCESS = 0;
     private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
     private static final int FAILURE__PARSING_FAILED = 2;
+    private static final int FAILURE__TARGET_TYPE_UNKNOWN = 101;
+    private static final int FAILURE__TARGET_TYPE_UNDECLARED = 102;
 
     @DataPoints("success-cases")
     public static String[] successCases = {"livir-books"};
@@ -116,11 +118,36 @@ public class AcceptanceTest
         compileAndVerifyOutput(CASES_DIR + "/missing-source", FAILURE__PARSING_FAILED);
     }
 
+    @Test
+    public void target__type_unknown() throws Exception
+    {
+        compileWithTargetTypeAndVerifyOutput(
+            CASES_DIR + "/target-type-unknown",
+            "unknown_target",
+            FAILURE__TARGET_TYPE_UNKNOWN);
+    }
+
+    @Test
+    public void target_type_undeclared() throws Exception
+    {
+        compileAndVerifyOutput(
+            CASES_DIR + "/target-type-undeclared",
+            FAILURE__TARGET_TYPE_UNDECLARED);
+    }
+
     private void compileAndVerifyOutput(
         final String sourceDir,
         final int expectedExitCode) throws CommandLineException, IOException
     {
-        compileAndVerifyOutput(sourceDir, sourceDir, expectedExitCode);
+        compileWithTargetTypeAndVerifyOutput(sourceDir, TARGET_TYPE, expectedExitCode);
+    }
+
+    private void compileWithTargetTypeAndVerifyOutput(
+        final String sourceDir,
+        final String targetType,
+        final int expectedExitCode) throws CommandLineException, IOException
+    {
+        compileAndVerifyOutput(sourceDir, targetType, sourceDir, expectedExitCode);
     }
 
     private void compileAndVerifyOutput(
@@ -128,8 +155,17 @@ public class AcceptanceTest
         final String expectedOutputDir,
         final int expectedExitCode) throws CommandLineException, IOException
     {
+        compileAndVerifyOutput(sourceDir, TARGET_TYPE, expectedOutputDir, expectedExitCode);
+    }
+
+    private void compileAndVerifyOutput(
+        final String sourceDir,
+        final String targetType,
+        final String expectedOutputDir,
+        final int expectedExitCode) throws CommandLineException, IOException
+    {
         final String actualCompilerOutput = executeJar(
-            COMPILER_JAR, asList(sourceDir, TARGET_DIR, TARGET_TYPE), expectedExitCode);
+            COMPILER_JAR, asList(sourceDir, TARGET_DIR, targetType), expectedExitCode);
 
         assertThatOutputMatches(
             "compiler's output",

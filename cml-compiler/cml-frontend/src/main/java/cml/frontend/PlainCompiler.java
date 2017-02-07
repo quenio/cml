@@ -11,7 +11,6 @@ import java.util.Optional;
 
 class PlainCompiler implements Compiler
 {
-    private static final int SUCCESS = 0;
     private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
     private static final int FAILURE__PARSING_FAILED = 2;
 
@@ -45,14 +44,12 @@ class PlainCompiler implements Compiler
         final Optional<Model> model = parser.parse(sourceDir.get());
         if (model.isPresent())
         {
-            generator.generate(model.get(), targetType, targetDirPath);
+            return generator.generate(model.get(), targetType, targetDirPath);
         }
         else
         {
             console.println("Unable to parse source files.");
             return FAILURE__PARSING_FAILED;
         }
-
-        return SUCCESS;
     }
 }

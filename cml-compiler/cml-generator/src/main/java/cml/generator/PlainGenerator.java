@@ -16,8 +16,8 @@ import java.util.Set;
 class PlainGenerator implements Generator
 {
     private static final int SUCCESS = 0;
-    private static final int FAILURE__TARGET_TYPE_UNDECLARED = 201;
-    private static final int FAILURE__TARGET_TYPE_UNKNOWN = 202;
+    private static final int FAILURE__TARGET_TYPE_UNKNOWN = 101;
+    private static final int FAILURE__TARGET_TYPE_UNDECLARED = 102;
 
     private static final String MODULE = "module";
     private static final String CONCEPT = "concept";
