@@ -6,6 +6,8 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.WriterStreamConsumer;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.FromDataPoints;
 import org.junit.experimental.theories.Theories;
@@ -36,9 +38,8 @@ public class AcceptanceTest
     private static final String FRONTEND_TARGET_DIR = FRONTEND_DIR + "/target";
     private static final String COMPILER_JAR = FRONTEND_TARGET_DIR + "/cml-compiler-jar-with-dependencies.jar";
 
-    private static final String CLIENT_DIR = BASE_DIR + "/java-clients/livir-console";
-    private static final String CLIENT_TARGET_DIR = CLIENT_DIR + "/target";
-    private static final String CLIENT_JAR = CLIENT_TARGET_DIR + "/livir-console-jar-with-dependencies.jar";
+    private static final String CLIENT_BASE_DIR = BASE_DIR + "/java-clients";
+    private static final String CLIENT_JAR_SUFFIX = "-jar-with-dependencies.jar";
 
     private static final String CASES_DIR = "cases";
     private static final String COMPILER_OUTPUT_FILENAME = "/compiler-output.txt";
@@ -47,42 +48,93 @@ public class AcceptanceTest
     private static final String TARGET_DIR = "target/poj";
     private static final String TARGET_TYPE = "poj";
 
-    @DataPoints("cases")
-    public static String[] cases = { "livir-books" };
+    private static final int SUCCESS = 0;
+    private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
+    private static final int FAILURE__PARSING_FAILED = 2;
 
-    @Before
-    public void setUp() throws Exception
+    @DataPoints("success-cases")
+    public static String[] successCases = {"livir-books"};
+
+    @DataPoints("java-clients")
+    public static String[] javaClients = {"livir-console"};
+
+    @BeforeClass
+    public static void buildCompiler() throws MavenInvocationException
     {
         buildModule(COMPILER_DIR);
 
         final File targetDir = new File(FRONTEND_TARGET_DIR);
         assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
+    }
+
+    @Before
+    public void cleanTargetDir() throws IOException
+    {
+        System.out.println("\n--------------------------");
+        System.out.println("Cleaning target dir: " + TARGET_DIR);
 
         forceMkdir(new File(TARGET_DIR));
         cleanDirectory(TARGET_DIR);
     }
 
     @Theory
-    public void poj(@FromDataPoints("cases") String caseName) throws Exception
+    public void poj(
+        @FromDataPoints("success-cases") final String caseName,
+        @FromDataPoints("java-clients") final String javaClient) throws Exception
     {
         final String sourceDir = CASES_DIR + "/" + caseName;
-        final String actualCompilerOutput = executeJar(COMPILER_JAR, asList(sourceDir, TARGET_DIR, TARGET_TYPE));
-        assertThatOutputMatches(
-            "compiler's output",
-            sourceDir + COMPILER_OUTPUT_FILENAME,
-            actualCompilerOutput);
 
+        compileAndVerifyOutput(sourceDir, SUCCESS);
         buildModule(TARGET_DIR);
-        buildModule(CLIENT_DIR);
 
-        final File clientDir = new File(CLIENT_TARGET_DIR);
-        assertThat("Client dir must exist: " + clientDir, clientDir.exists(), is(true));
+        final String clientModuleDir = CLIENT_BASE_DIR + "/" + javaClient;
+        buildModule(clientModuleDir);
 
-        final String actualClientOutput = executeJar(CLIENT_JAR, emptyList());
+        final File clientTargetDir = new File(clientModuleDir, "target");
+        assertThat("Client target dir must exist: " + clientTargetDir, clientTargetDir.exists(), is(true));
+
+        final String clientJarPath = clientTargetDir.getPath() + "/" + javaClient + CLIENT_JAR_SUFFIX;
+        final String actualClientOutput = executeJar(clientJarPath, emptyList(), SUCCESS);
         assertThatOutputMatches(
             "client's output",
             sourceDir + CLIENT_OUTPUT_FILENAME,
             actualClientOutput);
+    }
+
+    @Test
+    public void missing_source_dir() throws Exception
+    {
+        compileAndVerifyOutput(
+            CASES_DIR + "/unknown-dir",
+            CASES_DIR + "/missing-source-dir",
+            FAILURE__SOURCE_DIR_NOT_FOUND);
+    }
+
+    @Test
+    public void missing_source_file() throws Exception
+    {
+        compileAndVerifyOutput(CASES_DIR + "/missing-source", FAILURE__PARSING_FAILED);
+    }
+
+    private void compileAndVerifyOutput(
+        final String sourceDir,
+        final int expectedExitCode) throws CommandLineException, IOException
+    {
+        compileAndVerifyOutput(sourceDir, sourceDir, expectedExitCode);
+    }
+
+    private void compileAndVerifyOutput(
+        final String sourceDir,
+        final String expectedOutputDir,
+        final int expectedExitCode) throws CommandLineException, IOException
+    {
+        final String actualCompilerOutput = executeJar(
+            COMPILER_JAR, asList(sourceDir, TARGET_DIR, TARGET_TYPE), expectedExitCode);
+
+        assertThatOutputMatches(
+            "compiler's output",
+            expectedOutputDir + COMPILER_OUTPUT_FILENAME,
+            actualCompilerOutput);
     }
 
     private void assertThatOutputMatches(
@@ -111,15 +163,18 @@ public class AcceptanceTest
         if (result.getExitCode() != 0) throw new MavenInvocationException("Exit code: " + result.getExitCode());
     }
 
-    private String executeJar(final String jarPath, final List<String> args) throws CommandLineException, IOException
+    private String executeJar(
+        final String jarPath,
+        final List<String> args,
+        final int expectedExitCode) throws CommandLineException, IOException
     {
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         try
         {
-            final int exitCode = executeJar(jarPath, args, outputStream);
+            final int actualExitCode = executeJar(jarPath, args, outputStream);
 
-            assertThat("exit code", exitCode, is(0));
+            assertThat("exit code", actualExitCode, is(expectedExitCode));
         }
         finally
         {
@@ -149,7 +204,7 @@ public class AcceptanceTest
         commandLine.createArg().setValue("-jar");
         commandLine.createArg().setValue(jarFile.getAbsolutePath());
 
-        for (final String arg: args) commandLine.createArg().setValue(arg);
+        for (final String arg : args) commandLine.createArg().setValue(arg);
 
         final Writer writer = new OutputStreamWriter(outputStream);
         final WriterStreamConsumer systemOut = new WriterStreamConsumer(writer);
@@ -163,12 +218,6 @@ public class AcceptanceTest
         System.out.println("Output: \n---\n" + new String(outputStream.toByteArray(), OUTPUT_FILE_ENCODING) + "---\n");
 
         return exitCode;
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private void println(final Writer writer, final String line)
-    {
-        new PrintWriter(writer).println(line);
     }
 
 }

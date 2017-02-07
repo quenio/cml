@@ -1,0 +1,1 @@
+This directory does not contain the main.cml source file. It is used by one of the acceptance tests.
