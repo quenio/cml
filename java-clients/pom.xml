@@ -5,19 +5,13 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cml</groupId>
-    <artifactId>cml-compiler</artifactId>
+    <groupId>cml-clients</groupId>
+    <artifactId>java-clients</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>cml-frontend</module>
-        <module>cml-parser</module>
-        <module>cml-generator</module>
-        <module>cml-model</module>
-        <module>cml-templates</module>
-        <module>cml-io</module>
-        <module>cml-antlr</module>
+        <module>livir-console</module>
     </modules>
 
     <build>

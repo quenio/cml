@@ -1,0 +1,7 @@
+moduleFiles(poj) ::= <<
+pom|pom.xml
+>>
+
+conceptFiles(poj, concept) ::= <<
+dto|src/main/java/<poj.packagePath>/<concept.name>.java
+>>

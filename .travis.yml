@@ -1,0 +1,16 @@
+sudo: required
+
+dist: trusty
+
+language: java
+
+cache:
+  directories:
+  - $HOME/.m2
+
+jdk:
+  - oraclejdk8
+
+script:
+  - cd cml-acceptance
+  - mvn clean install

@@ -1,0 +1,11 @@
+dto(poj, concept) ::= <<
+package <poj.packageName>;
+
+<class(concept)>
+>>
+
+class(concept) ::= <<
+public class <concept.name>
+{
+}
+>>

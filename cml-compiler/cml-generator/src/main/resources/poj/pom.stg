@@ -1,0 +1,74 @@
+pom(poj) ::= <<
+<project_start()>
+
+    \<modelVersion>4.0.0\</modelVersion>
+
+    <module_def(poj)>
+
+    \<properties>
+        \<project.build.sourceEncoding>UTF-8\</project.build.sourceEncoding>
+    \</properties>
+
+    \<build>
+        <plugins()>
+    \</build>
+
+<project_end()>
+>>
+
+project_start() ::= <<
+\<project
+    <pom_ns()>
+    <xsi()>
+    <ns_loc()>
+>>
+
+pom_ns() ::= <<
+xmlns="http://maven.apache.org/POM/4.0.0"
+>>
+
+xsi() ::= <<
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>>
+
+ns_loc() ::= <<
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+>>
+
+project_end() ::= <<
+\</project>
+>>
+
+module_def(poj) ::= <<
+\<groupId><poj.groupId>\</groupId>
+\<artifactId><poj.artifactId>\</artifactId>
+\<version><poj.version>\</version>
+\<packaging>jar\</packaging>
+>>
+
+plugins() ::= <<
+\<plugins>
+    \<plugin>
+        \<groupId>org.apache.maven.plugins\</groupId>
+        \<artifactId>maven-compiler-plugin\</artifactId>
+        \<version>3.1\</version>
+        \<configuration>
+            \<source>1.8\</source>
+            \<target>1.8\</target>
+        \</configuration>
+    \</plugin>
+    \<plugin>
+      \<groupId>org.apache.maven.plugins\</groupId>
+      \<artifactId>maven-source-plugin\</artifactId>
+      \<version>2.4\</version>
+      \<executions>
+        \<execution>
+          \<id>attach-sources\</id>
+          \<goals>
+            \<goal>jar\</goal>
+          \</goals>
+        \</execution>
+      \</executions>
+    \</plugin>
+\</plugins>
+>>

@@ -1,0 +1,12 @@
+concept BookStore;
+concept Book;
+
+target poj
+{
+    groupId = "livir";
+    artifactId = "livir-books";
+    version = "1.0.1-SNAPSHOT";
+    packageName = "livir.books";
+    packagePath = "livir/books";
+}
+
