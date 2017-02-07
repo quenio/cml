@@ -1,6 +1,7 @@
 package cml.generator;
 
 import cml.io.Console;
+import cml.io.Directory;
 import cml.io.FileSystem;
 import cml.model.Concept;
 import cml.model.Model;
@@ -60,6 +61,12 @@ class PlainGenerator implements Generator
         {
             console.println("No templates found for target type: %s", targetType);
             return FAILURE__TARGET_TYPE_UNKNOWN;
+        }
+
+        final Optional<Directory> targetDir = fileSystem.findDirectory(targetDirPath);
+        if (targetDir.isPresent())
+        {
+            fileSystem.cleanDirectory(targetDir.get());
         }
 
         console.println("module files:");

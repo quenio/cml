@@ -8,4 +8,5 @@ public interface FileSystem
     Optional<SourceFile> findSourceFile(Directory directory, String name);
 
     void createFile(String path, String content);
+    void cleanDirectory(Directory directory);
 }

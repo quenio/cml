@@ -21,6 +21,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static org.codehaus.plexus.util.FileUtils.cleanDirectory;
+import static org.codehaus.plexus.util.FileUtils.forceDelete;
 import static org.codehaus.plexus.util.FileUtils.forceMkdir;
 import static org.codehaus.plexus.util.cli.CommandLineUtils.executeCommandLine;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -119,7 +120,7 @@ public class AcceptanceTest
     }
 
     @Test
-    public void target__type_unknown() throws Exception
+    public void target_type_unknown() throws Exception
     {
         compileWithTargetTypeAndVerifyOutput(
             CASES_DIR + "/target-type-unknown",
@@ -133,6 +134,35 @@ public class AcceptanceTest
         compileAndVerifyOutput(
             CASES_DIR + "/target-type-undeclared",
             FAILURE__TARGET_TYPE_UNDECLARED);
+    }
+
+    @Test
+    public void target_dir_created() throws Exception
+    {
+        final File targetDir = new File(TARGET_DIR);
+
+        forceDelete(targetDir);
+        assertThat("Target dir must NOT exist: " + targetDir, targetDir.exists(), is(false));
+
+        compileAndVerifyOutput(CASES_DIR + "/target-dir-created", SUCCESS);
+        assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
+    }
+
+    @Test
+    public void target_dir_cleaned() throws Exception
+    {
+        final File bookFile = new File(TARGET_DIR, "src/main/java/books/Book.java");
+        final File bookStoreFile = new File(TARGET_DIR, "src/main/java/books/BookStore.java");
+
+        // Ensures there is already content in the target dir:
+        compileAndVerifyOutput(CASES_DIR + "/target-dir-created", SUCCESS);
+        assertThat("Book must exist: " + bookFile, bookFile.exists(), is(true));
+        assertThat("BookStore must NOT exist: " + bookFile, bookStoreFile.exists(), is(false));
+
+        // Verifies that the previously generated target has been cleaned before generating the new one:
+        compileAndVerifyOutput(CASES_DIR + "/target-dir-cleaned", SUCCESS);
+        assertThat("Book must NOT exist: " + bookFile, bookFile.exists(), is(false));
+        assertThat("BookStore must exist: " + bookFile, bookStoreFile.exists(), is(true));
     }
 
     private void compileAndVerifyOutput(

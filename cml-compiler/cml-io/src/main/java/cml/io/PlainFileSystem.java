@@ -1,5 +1,7 @@
 package cml.io;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,7 +11,8 @@ import static org.apache.commons.io.FileUtils.forceMkdir;
 
 class PlainFileSystem implements FileSystem
 {
-    private static final String EXCEPTION_MESSAGE = "Unexpected exception. File should have been created: ";
+    private static final String EXCEPTION_FILE_CREATION_FAILED = "Unexpected exception. File should have been created: ";
+    private static final String EXCEPTION_DIRECTORY_DELETION_FAILED = "Unexpected exception. Dir should have been deleted: ";
 
     @Override
     public Optional<Directory> findDirectory(final String path)
@@ -46,7 +49,20 @@ class PlainFileSystem implements FileSystem
         }
         catch (final IOException exception)
         {
-            throw new RuntimeException(EXCEPTION_MESSAGE + path, exception);
+            throw new RuntimeException(EXCEPTION_FILE_CREATION_FAILED + path, exception);
+        }
+    }
+
+    @Override
+    public void cleanDirectory(final Directory directory)
+    {
+        try
+        {
+            FileUtils.cleanDirectory(new File(directory.getPath()));
+        }
+        catch (final IOException exception)
+        {
+            throw new RuntimeException(EXCEPTION_DIRECTORY_DELETION_FAILED + directory.getPath(), exception);
         }
     }
 }
