@@ -6,4 +6,4 @@ The first version of CML should provide the smallest, simplest set of constructs
 
 Master
 
-[![Build Status](https://travis-ci.org/quenio/INE5420.svg?branch=master)](https://travis-ci.org/quenio/cml)
+[![Build Status](https://travis-ci.org/quenio/cml.svg?branch=master)](https://travis-ci.org/quenio/cml)
