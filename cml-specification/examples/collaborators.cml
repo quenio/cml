@@ -12,7 +12,7 @@ interface CoffeeMaker
     command makeCoffee();
 }
 
-contract for command makeCoffee()
+contract for command CoffeeMaker.makeCoffee()
 {
     require header.checkTemperature(50);
 }
