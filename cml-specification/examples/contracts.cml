@@ -5,6 +5,7 @@ concept Item;
 interface Stack
 {
     query isEmpty(): Boolean;
+    query isFull(): Boolean;
     query getTopItem(): Item;
 
     command putOnTop(item: Item);
@@ -13,7 +14,7 @@ interface Stack
 
 concept ItemStore
 {
-    items: sequence of Item*;
+    items: sequence of Item[0..10];
 }
 
 singleton store: ItemStore;
@@ -23,6 +24,11 @@ singleton store: ItemStore;
 contract of query Stack.isEmpty(): Boolean
 {
     return (store.items | count) = 0;
+}
+
+contract of query Stack.isFull(): Boolean
+{
+    return (store.items | count) = (store.items | max count)
 }
 
 contract of query Stack.getTopItem(): Item
@@ -36,6 +42,8 @@ contract of query Stack.getTopItem(): Item
 
 contract of command Stack.putOnTop(item: Item)
 {
+    require not isFull();
+
     ensure (store.items | first) = item;
 }
 
