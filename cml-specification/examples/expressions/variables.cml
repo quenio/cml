@@ -18,17 +18,6 @@ contract of command ItemCatalog.addItem(item: Item)
     ensure itemStore | includes item;
 }
 
-// Accessing collaborators in contracts:
-
-collaborator stock: Stock;
-
-contract of command ItemCatalog.addItem(item: Item)
-{
-    require not stock.contains(item);
-
-    ensure stock.add(item);
-}
-
 // Accessing other attributes in initialized/calculated attributes:
 
 concept SomeConcept

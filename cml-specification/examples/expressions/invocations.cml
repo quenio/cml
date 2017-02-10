@@ -1,0 +1,63 @@
+// Invoking own operations in contracts:
+
+singleton store: Store;
+
+contract of command ItemCatalog.add(item: Item)
+{
+    require not contains(item); // contains() defined in ItemCatalog
+
+    ensure store.items | includes item;
+}
+
+// Invoking operations of collaborators in contracts:
+
+collaborator stock: Stock; // Stock interface has operations contains() and add()
+
+contract of command ItemCatalog.addItem(item: Item)
+{
+    require not stock.contains(item);
+
+    ensure stock.add(item); // return value if any is not relevant.
+}
+
+// Invoking operations that return values:
+
+contract of command ItemCatalog.addItems(items: Item*): Boolean
+{
+    require not stock.contains(items);
+
+    return stock.add(item) = (items | count);
+}
+
+// Invalid invocations in post-conditions:
+
+contract of command ItemCatalog.addItems(items: Item*)
+{
+    require not stock.contains(items);
+
+    // The following invocation is invalid
+    // because return value of add() cannot be guaranteed by this contract:
+    ensure stock.add(item) = (items | count);
+}
+
+contract of command ItemCatalog.addItems(items: Item*)
+{
+    require not stock.contains(items);
+
+    // Also invalid for the same reason as above:
+    given result = stock.add(item)
+    {
+        ensure result = (items | count);
+    }
+}
+
+contract of command ItemCatalog.addItems(items: Item*): Boolean
+{
+    require not stock.contains(items);
+
+    // Valid because result is not being used in precondition:
+    given result = stock.add(item)
+    {
+        return result = (items | count);
+    }
+}
