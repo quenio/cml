@@ -1,0 +1,46 @@
+// Accessing operation parameters in contracts:
+
+contract of query ItemCatalog.searchForItem(name: String; defaultItem: Item): Item?
+{
+    require name != "";
+
+    return defaultItem;
+}
+
+// Accessing singletons in contracts:
+
+singleton itemStore: Store;
+
+contract of command ItemCatalog.addItem(item: Item)
+{
+    require itemStore | excludes item;
+
+    ensure itemStore | includes item;
+}
+
+// Accessing collaborators in contracts:
+
+collaborator stock: Stock;
+
+contract of command ItemCatalog.addItem(item: Item)
+{
+    require not stock.contains(item);
+
+    ensure stock.add(item);
+}
+
+// Accessing other attributes in initialized/calculated attributes:
+
+concept SomeConcept
+{
+    someAttribute: String = "someValue";
+    initializedAttribute: String = someAttribute;
+    /calculatedAttribute: String = initializedAttribute;
+}
+
+// Accessing attributes in invariant
+
+invariant of SomeConcept
+{
+    someAttribute != "";
+}
