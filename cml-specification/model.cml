@@ -1,0 +1,22 @@
+concept Model
+{
+    concepts: Concept*;
+    targets: Target*;
+}
+
+concept Concept
+{
+    name: String;
+}
+
+concept Target
+{
+    name: String;
+    properties: Property*;
+}
+
+concept Property
+{
+    name: String;
+    value: String;
+}

@@ -1,0 +1,72 @@
+// The ModelSynthesiser will synthesise the attributes of the syntax tree
+// based on the node's terminals and the node's children.
+
+// To generate the ModelSynthesiser interface and the contracts scaffolding,
+// for each production rule containing attributes,
+// define a command "synthesise" containing the node type of the production rule
+// as an argument.
+
+interface ModelSynthesiser
+{
+    command synthesiseModel(modelNode: ModelNode);
+    command synthesiseConcept(conceptNode: ConceptNode);
+    command synthesiseTarget(targetNode: TargetNode);
+    command synthesiseProperty(propertyNode: PropertyNode);
+}
+
+// The contracts need to be defined by the language designer.
+
+contract of command synthesiseModel(modelNode: ModelNode)
+{
+    for modelNode.modelElementNodes
+    {
+        given conceptNode invoke synthesiseConcept(conceptNode);
+        given targetNode invoke synthesiseTarget(targetNode);
+    }
+
+    let model = new Model;
+
+    ensure
+    {
+        model.concepts = modelNode.modelElementNodes.conceptNode.concept;
+        model.targets = modelNode.modelElementNodes.targetNode.target;
+    }
+}
+
+contract of command ModelSynthesiser.synthesiseConcept(conceptNode: ConceptNode)
+{
+    let concept = new Concept;
+
+    ensure
+    {
+        concept.name = conceptNode.name;
+        conceptNode.concept = concept;
+    }
+}
+
+contract of command ModelSynthesiser.synthesiseTarget(targetNode: TargetNode)
+{
+    for propertyNode in targetNode.propertyListNode.propertyNodes
+        invoke synthesise(propertyNode);
+
+    let target = new Target;
+
+    ensure
+    {
+        target.name = targetNode.name;
+        target.properties = targetNode.propertyListNode.propertyNodes.property;
+        targetNode.target = target;
+    }
+}
+
+contract of command ModelSynthesiser.synthesiseProperty(propertyNode: PropertyNode)
+{
+    let property = new Property;
+
+    ensure
+    {
+        property.name = propertyNode.name;
+        property.value = propertyNode.string;
+        propertyNode.property = property;
+    }
+}
