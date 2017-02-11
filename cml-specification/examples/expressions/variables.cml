@@ -7,6 +7,17 @@ contract of query ItemCatalog.searchForItem(name: String; defaultItem: Item): It
     return defaultItem;
 }
 
+// Accessing local variables in contracts:
+
+contract of query ItemCatalog.searchForItem(name: String; defaultItem: Item): Item?
+{
+    require name != "";
+
+    let returnedItem = defaultItem;
+
+    return returnedItem;
+}
+
 // Accessing singletons in contracts:
 
 singleton itemStore: Store;
