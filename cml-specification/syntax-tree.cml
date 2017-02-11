@@ -1,5 +1,5 @@
 // The concrete syntax tree defined below can represent a parsed CML program.
-// It will be transformed intro a CML model (an abstract syntax tree) by the ModelSynthesiser.
+// It will be transformed intro a CML model (the abstract syntax tree) by the ModelSynthesizer.
 
 // To transform the grammar into this syntax tree, for each production rule:
 // - define a concept with the same name appending the suffix "Node".

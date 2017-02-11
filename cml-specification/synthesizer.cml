@@ -1,22 +1,22 @@
-// The ModelSynthesiser will synthesise the attributes of the syntax tree
+// The ModelSynthesizer will synthesise the attributes of the syntax tree
 // based on the node's terminals and the node's children.
 
-// To generate the ModelSynthesiser interface and the contracts scaffolding,
+// To generate the ModelSynthesizer interface and the contracts scaffolding,
 // for each production rule containing attributes,
-// define a command "synthesise" containing the node type of the production rule
+// define a command "synthesize" containing the node type of the production rule
 // as an argument.
 
-interface ModelSynthesiser
+interface ModelSynthesizer
 {
-    command synthesiseModel(modelNode: ModelNode);
-    command synthesiseConcept(conceptNode: ConceptNode);
-    command synthesiseTarget(targetNode: TargetNode);
-    command synthesiseProperty(propertyNode: PropertyNode);
+    command synthesizeModel(modelNode: ModelNode);
+    command synthesizeConcept(conceptNode: ConceptNode);
+    command synthesizeTarget(targetNode: TargetNode);
+    command synthesizeProperty(propertyNode: PropertyNode);
 }
 
 // The contracts need to be defined by the language designer.
 
-contract of command synthesiseModel(modelNode: ModelNode)
+contract of command ModelSynthesizer.synthesizeModel(modelNode: ModelNode)
 {
     for modelNode.modelElementNodes
     {
@@ -33,7 +33,7 @@ contract of command synthesiseModel(modelNode: ModelNode)
     }
 }
 
-contract of command ModelSynthesiser.synthesiseConcept(conceptNode: ConceptNode)
+contract of command ModelSynthesizer.synthesizeConcept(conceptNode: ConceptNode)
 {
     let concept = new Concept;
 
@@ -44,7 +44,7 @@ contract of command ModelSynthesiser.synthesiseConcept(conceptNode: ConceptNode)
     }
 }
 
-contract of command ModelSynthesiser.synthesiseTarget(targetNode: TargetNode)
+contract of command ModelSynthesizer.synthesizeTarget(targetNode: TargetNode)
 {
     for propertyNode in targetNode.propertyListNode.propertyNodes
         invoke synthesise(propertyNode);
@@ -59,7 +59,7 @@ contract of command ModelSynthesiser.synthesiseTarget(targetNode: TargetNode)
     }
 }
 
-contract of command ModelSynthesiser.synthesiseProperty(propertyNode: PropertyNode)
+contract of command ModelSynthesizer.synthesizeProperty(propertyNode: PropertyNode)
 {
     let property = new Property;
 
