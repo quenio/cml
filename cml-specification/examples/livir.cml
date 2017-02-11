@@ -17,10 +17,12 @@ singleton bookStore: BookStore;
 
 contract of query Livir.searchBooks(keywords: String): Book*
 {
-    require /(\s*(?<words>\w+)\s*)+/ = keywords;
+    let /(\s*(<words>\w+)\s*)+/ = keywords;
+
+    require (words | count) > 0;
 
     return for book in bookStore.books, word in words
-        | select book.title = /.*(^<word>).*/ | yield unique book;
+        | select book.title = /.*(<word>).*/ | yield unique book;
 }
 
 contract of command Livir.addToOrder(order: Order, book: Book, quantity: Integer)
@@ -31,19 +33,31 @@ contract of command Livir.addToOrder(order: Order, book: Book, quantity: Integer
         bookStore.books | includes book;
     }
 
-    given order.items.book | excludes book ensure
+    // Observe that, if both given clauses are mutually exclusive,
+    // then their post-conditions may have contradictions.
+    // Otherwise, they will be verified together and may not contradict each other.
+
+    given order.items.book | excludes book
     {
-        item = new Item;
-        item.book = book;
-        item.quantity = quantity;
-        order.items | includes item;
+        let item = new Item;
+
+        ensure
+        {
+            item.book = book;
+            item.quantity = quantity;
+            order.items | includes item;
+        }
     }
 
-    given order.items.book | includes book ensure
+    given order.items.book | includes book
     {
-        existingItem = for item in order.items | select first item.book = book;
-        newQuantity = existingItem.quantity + quantity;
-        item.quantity = newQuantity;
+        let
+        {
+            existingItem = for item in order.items | select first item.book = book;
+            newQuantity = existingItem.quantity + quantity;
+        }
+
+        ensure existingItem.quantity = newQuantity;
     }
 }
 
@@ -55,11 +69,9 @@ contract of command Livir.removeFromOrder(order: Order, book: Book)
         order.items.book | includes book;
     }
 
-    ensure
-    {
-        items = for item in order.items | select item.book = book;
-        order.items | excludes items;
-    }
+    let items = for item in order.items | select item.book = book;
+
+    ensure order.items | excludes items;
 }
 
 contract of query Livir.getOrderItems(order: Order): Item*
@@ -71,11 +83,15 @@ contract of query Livir.getOrderItems(order: Order): Item*
 
 contract of command Livir.raiseBookPrice(percentage: Decimal)
 {
-    for book in bookStore.books ensure
+    for book in bookStore.books
     {
-        newPrice = book.price * percentage;
-        book.price = newPrice;
+        let newPrice = book.price * percentage;
+
+        ensure book.price = newPrice;
     }
+
+    // Observe that no pre-conditions or invocations may occur after this point,
+    // since there are post-conditions defined before this point.
 }
 
 concept BookStore
