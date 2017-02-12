@@ -48,7 +48,7 @@ interface PropertySynthesizer
         ensure
         {
             property.scope = parentScope;
-            property.location = property.location;
+            property.location = propertyNode.location;
             property.name = propertyNode.name;
             property.value = propertyNode.string;
 
