@@ -3,7 +3,7 @@ concept Scope
     name: String;
     node: Any;
     parent: Scope?;
-    children: ScopeElement*;
+    elements: ScopeElement*;
 }
 
 concept ScopeElement
@@ -14,12 +14,73 @@ concept ScopeElement
 
 interface Environment
 {
-    command createRootScope(name: String, node: Any);
-    command createScope(name: String, node: Any, parent: Scope);
-    command addElement(name: String, node: Any);
+    command createRootScope(name: String, node: Any): Scope;
+    command createScope(name: String, node: Any, parent: Scope): Scope;
+
+    command addElement(name: String, node: Any, scope: Scope);
 
     query findNode(name: String, scope: Scope): Any?;
     query findLocalConflicts(name: String, scope: Scope): Any*;
 }
 
 collaborator environment: Environment;
+
+contract of command Environment.createRootScope(name: String, node: Any): Scope
+{
+    let rootScope = new Scope;
+
+    ensure
+    {
+        rootScope.name = name;
+        rootScope.node = node;
+        not rootScope.parent;
+    }
+
+    return rootScope;
+}
+
+contract of command Environment.createScope(name: String, node: Any, parent: Scope): Scope
+{
+    invoke addElement(name, node, parent);
+
+    let scope = new Scope;
+
+    ensure
+    {
+        scope.name = name;
+        scope.node = node;
+        scope.parent = parent;
+    }
+
+    return scope;
+}
+
+contract of command addElement(name: String, node: Any, scope: Scope)
+{
+    let element = new ScopeElement;
+
+    ensure
+    {
+        element.name = name;
+        element.node = node;
+
+        scope.elements | includes element;
+    }
+}
+
+contract of query findNode(name: String, scope: Scope): Any?
+{
+    let node = for element in scope.elements
+        | select first element.name = name
+        | yield element.node;
+
+    given not node and scope.parent
+        return findNode(name, scope.parent);
+
+    return node;
+}
+
+contract of query findLocalConflicts(name: String, scope: Scope): Any*
+{
+    return for element in scope.elements | select element.name = name;
+}

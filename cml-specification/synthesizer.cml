@@ -76,6 +76,8 @@ contract of command ModelSynthesizer.synthesizeTarget(targetNode: TargetNode, pa
 
 contract of command ModelSynthesizer.synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
 {
+    invoke environment.addElement(propertyNode.name, propertyNode, parentScope);
+
     let property = new Property;
 
     ensure
