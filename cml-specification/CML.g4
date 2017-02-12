@@ -1,21 +1,21 @@
 grammar CML;
 
-model returns [model: Model; scope: Scope;]
+model returns [model: Model]
     : modelElement*;
 
 modelElement
     : concept | target;
 
-concept returns [concept: Concept; scope: Scope;]
+concept returns [concept: Concept]
     : 'concept' NAME ';';
 
-target returns [target: Target; scope: Scope;]
+target returns [target: Target]
     : 'target' NAME '{' propertyList '}';
 
 propertyList
     : (property ';')*;
 
-property returns [property: Property; scope: Scope;]
+property returns [property: Property]
     : NAME '=' STRING;
 
 NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;

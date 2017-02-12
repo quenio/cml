@@ -18,7 +18,8 @@ interface ModelSynthesizer
 
 contract of command ModelSynthesizer.synthesizeModel(modelNode: ModelNode)
 {
-    let scope = environment.createRootScope("model", modelNode);
+    let model = new Model;
+    let scope = environment.createRootScope(model);
 
     for modelNode.modelElementNodes
     {
@@ -26,66 +27,65 @@ contract of command ModelSynthesizer.synthesizeModel(modelNode: ModelNode)
         given targetNode invoke synthesiseTarget(targetNode, scope);
     }
 
-    let model = new Model;
-
     ensure
     {
+        model.scope = scope;
+        model.location = modelNode.location;
         model.concepts = modelNode.modelElementNodes.conceptNode.concept;
         model.targets = modelNode.modelElementNodes.targetNode.target;
 
         modelNode.model = model;
-        modelNode.scope = scope;
     }
 }
 
 contract of command ModelSynthesizer.synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
 {
-    let scope = environment.createScope(conceptNode.name, conceptNode, parentScope);
-
     let concept = new Concept;
+    let scope = environment.createScope(concept, parentScope);
 
     ensure
     {
+        concept.scope = scope;
+        concept.location = conceptNode.location;
         concept.name = conceptNode.name;
 
         conceptNode.concept = concept;
-        conceptNode.scope = scope;
     }
 }
 
 contract of command ModelSynthesizer.synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
 {
-    let scope = environment.createScope(targetNode.name, targetNode, parentScope);
+    let target = new Target;
+    let scope = environment.createScope(target, parentScope);
 
     let propertyNodes = targetNode.propertyListNode.propertyNodes;
-
     for propertyNode in propertyNodes
         invoke synthesizeProperty(propertyNode, scope);
 
-    let target = new Target;
-
     ensure
     {
+        target.scope = scope;
+        target.location = targetNode.location;
         target.name = targetNode.name;
         target.properties = propertyNodes.property;
 
         targetNode.target = target;
-        targetNode.scope = scope;
     }
 }
 
 contract of command ModelSynthesizer.synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
 {
-    invoke environment.addElement(propertyNode.name, propertyNode, parentScope);
-
     let property = new Property;
+
+    invoke environment.addElement(property, parentScope);
 
     ensure
     {
+        property.scope = parentScope;
+        property.location = property.location;
         property.name = propertyNode.name;
         property.value = propertyNode.string;
 
         propertyNode.property = property;
-        propertyNode.scope = parentScope;
     }
 }

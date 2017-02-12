@@ -14,47 +14,48 @@
 // - for production rules containing a returns clause,
 //   the corresponding attributes or association roles will be added to the node concept.
 
-concept ModelNode
+concept Node
+{
+    location: SourceLocation;
+}
+
+concept ModelNode: Node
 {
     modelElementNodes: ModelElementNode*;
 
     model: Model;
-    scope: Scope;
 }
 
-concept ModelElementNode
+concept ModelElementNode: Node
 {
     conceptNode: ConceptNode?;
     targetNode: TargetNode?;
 }
 
-concept ConceptNode
+concept ConceptNode: Node
 {
     name: String;
 
     concept: Concept;
-    scope: Scope;
 }
 
-concept TargetNode
+concept TargetNode: Node
 {
     name: String;
     propertyListNode: PropertyListNode;
 
     target: Target;
-    scope: Scope;
 }
 
-concept PropertyListNode
+concept PropertyListNode: Node
 {
     propertyNodes: PropertyNode*;
 }
 
-concept PropertyNode
+concept PropertyNode: Node
 {
     name: String;
     string: String;
 
     property: Property;
-    scope: Scope;
 }

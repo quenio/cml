@@ -1,22 +1,28 @@
-concept Model
+concept ModelElement
+{
+    location: SourceLocation;
+    scope: Scope;
+}
+
+concept NamedElement: ModelElement
+{
+    name: String;
+}
+
+concept Model: NamedElement
 {
     concepts: Concept*;
     targets: Target*;
 }
 
-concept Concept
-{
-    name: String;
-}
+concept Concept: NamedElement;
 
-concept Target
+concept Target: NamedElement
 {
-    name: String;
     properties: Property*;
 }
 
-concept Property
+concept Property: NamedElement
 {
-    name: String;
     value: String;
 }

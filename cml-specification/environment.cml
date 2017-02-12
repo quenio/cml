@@ -1,86 +1,70 @@
 concept Scope
 {
-    name: String;
-    node: Any;
     parent: Scope?;
-    elements: ScopeElement*;
-}
-
-concept ScopeElement
-{
-    name: String;
-    node: Any;
+    owner: ModelElement;
+    elements: NamedElement*;
 }
 
 interface Environment
 {
-    command createRootScope(name: String, node: Any): Scope;
-    command createScope(name: String, node: Any, parent: Scope): Scope;
+    command createRootScope(owner: ModelElement): Scope;
+    command createScope(owner: ModelElement, parent: Scope): Scope;
 
-    command addElement(name: String, node: Any, scope: Scope);
+    command addElement(element: NamedElement, scope: Scope);
 
-    query findNode(name: String, scope: Scope): Any?;
-    query findLocalConflicts(name: String, scope: Scope): Any*;
+    query findElement(name: String, scope: Scope): NamedElement?;
+    query findLocalConflicts(name: String, scope: Scope): NamedElement*;
 }
 
 collaborator environment: Environment;
 
-contract of command Environment.createRootScope(name: String, node: Any): Scope
+contract of command Environment.createRootScope(owner: ModelElement): Scope
 {
     let rootScope = new Scope;
 
     ensure
     {
-        rootScope.name = name;
-        rootScope.node = node;
-        not rootScope.parent;
+        rootScope.owner = owner;
     }
 
     return rootScope;
 }
 
-contract of command Environment.createScope(name: String, node: Any, parent: Scope): Scope
+contract of command Environment.createScope(owner: ModelElement, parent: Scope): Scope
 {
-    invoke addElement(name, node, parent);
+    given owner is NamedElement
+        invoke environment.addElement(owner, parentScope);
 
     let scope = new Scope;
 
     ensure
     {
-        scope.name = name;
-        scope.node = node;
+        scope.owner = owner;
         scope.parent = parent;
     }
 
     return scope;
 }
 
-contract of command addElement(name: String, node: Any, scope: Scope)
+contract of command Environment.addElement(element: NamedElement, scope: Scope)
 {
-    let element = new ScopeElement;
-
     ensure
     {
-        element.name = name;
-        element.node = node;
-
         scope.elements | includes element;
     }
 }
 
-contract of query findNode(name: String, scope: Scope): Any?
+contract of query Environment.findElement(name: String, scope: Scope): NamedElement?
 {
-    let node = for element in scope.elements
-        | select first element.name = name
-        | yield element.node;
+    let element = for e in scope.elements | select first e.name = name;
 
-    given not node and scope.parent
-        return findNode(name, scope.parent);
+    given not element and scope.parent
+        return findElement(name, scope.parent);
 
-    return node;
+    return element;
 }
 
-contract of query findLocalConflicts(name: String, scope: Scope): Any*
+contract of query Environment.findLocalConflicts(name: String, scope: Scope): NamedElement*
 {
     return for element in scope.elements | select element.name = name;
 }

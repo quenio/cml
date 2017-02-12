@@ -1,17 +1,17 @@
-// TBD: describe how to generate ModelValidator interface from CML model.
+// TBD: describe how to generate ModelValidator interface from the CML model.
 
 interface ModelValidator
 {
-    command validateModel(modelNode: ModelNode);
-    command validateConcept(conceptNode: ConceptNode);
-    command validateTarget(targetNode: TargetNode);
-    command validateProperty(propertyNode: PropertyNode);
+    command validateModel(model: Model);
+    command validateConcept(concept: Concept);
+    command validateTarget(target: Target);
+    command validateProperty(property: Property);
 }
 
 concept Error
 {
     code: String;
-    node: Any;
+    element: ModelElement;
 }
 
 concept ErrorReport
@@ -21,7 +21,6 @@ concept ErrorReport
 
 singleton errorReport: ErrorReport;
 
-contract of command ModelValidator.validateTarget(targetNode: TargetNode)
+contract of command ModelValidator.validateTarget(target: Target)
 {
-    let properties = targetNode.target.properties;
 }
