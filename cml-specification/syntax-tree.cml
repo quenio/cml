@@ -19,6 +19,7 @@ concept ModelNode
     modelElementNodes: ModelElementNode*;
 
     model: Model;
+    scope: Scope;
 }
 
 concept ModelElementNode
@@ -32,6 +33,7 @@ concept ConceptNode
     name: String;
 
     concept: Concept;
+    scope: Scope;
 }
 
 concept TargetNode
@@ -40,6 +42,7 @@ concept TargetNode
     propertyListNode: PropertyListNode;
 
     target: Target;
+    scope: Scope;
 }
 
 concept PropertyListNode
@@ -53,4 +56,5 @@ concept PropertyNode
     string: String;
 
     property: Property;
+    scope: Scope;
 }

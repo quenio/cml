@@ -1,0 +1,27 @@
+// TBD: describe how to generate ModelValidator interface from CML model.
+
+interface ModelValidator
+{
+    command validateModel(modelNode: ModelNode);
+    command validateConcept(conceptNode: ConceptNode);
+    command validateTarget(targetNode: TargetNode);
+    command validateProperty(propertyNode: PropertyNode);
+}
+
+concept Error
+{
+    code: String;
+    node: Any;
+}
+
+concept ErrorReport
+{
+    errors: Error*;
+}
+
+singleton errorReport: ErrorReport;
+
+contract of command ModelValidator.validateTarget(targetNode: TargetNode)
+{
+    let properties = targetNode.target.properties;
+}

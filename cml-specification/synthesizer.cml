@@ -1,4 +1,4 @@
-// The ModelSynthesizer will synthesise the attributes of the syntax tree
+// The ModelSynthesizer will synthesize the attributes of the syntax tree
 // based on the node's terminals and the node's children.
 
 // To generate the ModelSynthesizer interface and the contracts scaffolding,
@@ -9,19 +9,21 @@
 interface ModelSynthesizer
 {
     command synthesizeModel(modelNode: ModelNode);
-    command synthesizeConcept(conceptNode: ConceptNode);
-    command synthesizeTarget(targetNode: TargetNode);
-    command synthesizeProperty(propertyNode: PropertyNode);
+    command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope);
+    command synthesizeTarget(targetNode: TargetNode, parentScope: Scope);
+    command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope);
 }
 
 // The contracts need to be defined by the language designer.
 
 contract of command ModelSynthesizer.synthesizeModel(modelNode: ModelNode)
 {
+    let scope = environment.createRootScope("model", modelNode);
+
     for modelNode.modelElementNodes
     {
-        given conceptNode invoke synthesiseConcept(conceptNode);
-        given targetNode invoke synthesiseTarget(targetNode);
+        given conceptNode invoke synthesiseConcept(conceptNode, scope);
+        given targetNode invoke synthesiseTarget(targetNode, scope);
     }
 
     let model = new Model;
@@ -30,36 +32,49 @@ contract of command ModelSynthesizer.synthesizeModel(modelNode: ModelNode)
     {
         model.concepts = modelNode.modelElementNodes.conceptNode.concept;
         model.targets = modelNode.modelElementNodes.targetNode.target;
+
+        modelNode.model = model;
+        modelNode.scope = scope;
     }
 }
 
-contract of command ModelSynthesizer.synthesizeConcept(conceptNode: ConceptNode)
+contract of command ModelSynthesizer.synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
 {
+    let scope = environment.createScope(conceptNode.name, conceptNode, parentScope);
+
     let concept = new Concept;
 
     ensure
     {
         concept.name = conceptNode.name;
+
         conceptNode.concept = concept;
+        conceptNode.scope = scope;
     }
 }
 
-contract of command ModelSynthesizer.synthesizeTarget(targetNode: TargetNode)
+contract of command ModelSynthesizer.synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
 {
-    for propertyNode in targetNode.propertyListNode.propertyNodes
-        invoke synthesise(propertyNode);
+    let scope = environment.createScope(targetNode.name, targetNode, parentScope);
+
+    let propertyNodes = targetNode.propertyListNode.propertyNodes;
+
+    for propertyNode in propertyNodes
+        invoke synthesizeProperty(propertyNode, scope);
 
     let target = new Target;
 
     ensure
     {
         target.name = targetNode.name;
-        target.properties = targetNode.propertyListNode.propertyNodes.property;
+        target.properties = propertyNodes.property;
+
         targetNode.target = target;
+        targetNode.scope = scope;
     }
 }
 
-contract of command ModelSynthesizer.synthesizeProperty(propertyNode: PropertyNode)
+contract of command ModelSynthesizer.synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
 {
     let property = new Property;
 
@@ -67,6 +82,8 @@ contract of command ModelSynthesizer.synthesizeProperty(propertyNode: PropertyNo
     {
         property.name = propertyNode.name;
         property.value = propertyNode.string;
+
         propertyNode.property = property;
+        propertyNode.scope = parentScope;
     }
 }

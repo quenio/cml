@@ -1,0 +1,25 @@
+concept Scope
+{
+    name: String;
+    node: Any;
+    parent: Scope?;
+    children: ScopeElement*;
+}
+
+concept ScopeElement
+{
+    name: String;
+    node: Any;
+}
+
+interface Environment
+{
+    command createRootScope(name: String, node: Any);
+    command createScope(name: String, node: Any, parent: Scope);
+    command addElement(name: String, node: Any);
+
+    query findNode(name: String, scope: Scope): Any?;
+    query findLocalConflicts(name: String, scope: Scope): Any*;
+}
+
+collaborator environment: Environment;
