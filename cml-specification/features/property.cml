@@ -1,0 +1,60 @@
+
+// Model (Abstract Syntax)
+
+concept Property: NamedElement
+{
+    value: String;
+}
+
+// Validator (Well-Formedness Rules)
+
+interface PropertyValidator
+{
+    command validateProperty(property: Property)
+    {
+        let conflicts = environment.findLocalConflictsFor(property);
+
+        given conflits invoke errorReporter.reportNameConflict(property, conflicts);
+    }
+}
+
+collaborator propertyValidator: PropertyValidator;
+
+// Concrete Syntax
+
+concept PropertyListNode: Node
+{
+    propertyNodes: PropertyNode*;
+}
+
+concept PropertyNode: Node
+{
+    name: String;
+    string: String;
+
+    property: Property;
+}
+
+// Model Synthesis (Synthesized Attributes / Inherited Scopes)
+
+interface PropertySynthesizer
+{
+    command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
+    {
+        let property = new Property;
+
+        invoke environment.addElement(property, parentScope);
+
+        ensure
+        {
+            property.scope = parentScope;
+            property.location = property.location;
+            property.name = propertyNode.name;
+            property.value = propertyNode.string;
+
+            propertyNode.property = property;
+        }
+    }
+}
+
+collaborator propertySynthesizer: PropertySynthesizer;

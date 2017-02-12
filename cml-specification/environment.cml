@@ -13,7 +13,7 @@ interface Environment
     command addElement(element: NamedElement, scope: Scope);
 
     query findElement(name: String, scope: Scope): NamedElement?;
-    query findLocalConflicts(name: String, scope: Scope): NamedElement*;
+    query findLocalConflictsFor(element: NamedElement): NamedElement*;
 }
 
 collaborator environment: Environment;
@@ -64,7 +64,7 @@ contract of query Environment.findElement(name: String, scope: Scope): NamedElem
     return element;
 }
 
-contract of query Environment.findLocalConflicts(name: String, scope: Scope): NamedElement*
+contract of query Environment.findLocalConflictsFor(element: NamedElement): NamedElement*
 {
-    return for element in scope.elements | select element.name = name;
+    return for e in scope.elements | select e.name = element.name and e != element;
 }
