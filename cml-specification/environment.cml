@@ -7,10 +7,10 @@ concept Scope
 
 interface Environment
 {
-    command createRootScope(owner: ModelElement): Scope;
-    command createScope(owner: ModelElement, parent: Scope): Scope;
+    command createRootScope(owner: ~ModelElement): Scope;
+    command createScope(owner: ~ModelElement, parent: Scope): Scope;
 
-    command addElement(element: NamedElement, scope: Scope);
+    command addElement(element: ~NamedElement, scope: Scope);
 
     query findElement(name: String, scope: Scope): NamedElement?;
     query findLocalConflictsFor(element: NamedElement): NamedElement*;
@@ -18,7 +18,7 @@ interface Environment
 
 collaborator environment: Environment;
 
-contract of command Environment.createRootScope(owner: ModelElement): Scope
+contract of command Environment.createRootScope(owner: ~ModelElement): Scope
 {
     let rootScope = new Scope;
 
@@ -30,7 +30,7 @@ contract of command Environment.createRootScope(owner: ModelElement): Scope
     return rootScope;
 }
 
-contract of command Environment.createScope(owner: ModelElement, parent: Scope): Scope
+contract of command Environment.createScope(owner: ~ModelElement, parent: Scope): Scope
 {
     given owner is NamedElement
         invoke environment.addElement(owner, parentScope);
@@ -46,7 +46,7 @@ contract of command Environment.createScope(owner: ModelElement, parent: Scope):
     return scope;
 }
 
-contract of command Environment.addElement(element: NamedElement, scope: Scope)
+contract of command Environment.addElement(element: ~NamedElement, scope: Scope)
 {
     ensure
     {
