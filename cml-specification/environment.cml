@@ -33,7 +33,7 @@ contract of command Environment.createRootScope(owner: ~ModelElement): Scope
 contract of command Environment.createScope(owner: ~ModelElement, parent: Scope): Scope
 {
     given owner is NamedElement
-        invoke environment.addElement(owner, parentScope);
+        invoke environment.addElement(owner, parent);
 
     let scope = new Scope;
 
