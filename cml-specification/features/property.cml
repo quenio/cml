@@ -8,17 +8,15 @@ concept Property: NamedElement
 
 // Validator (Well-Formedness Rules)
 
+collaborator propertyValidator: PropertyValidator;
+
 interface PropertyValidator
 {
     command validateProperty(property: Property)
     {
-        let conflicts = environment.findLocalConflictsFor(property);
-
-        given conflits invoke errorReporter.reportNameConflict(property, conflicts);
+        invoke nameConflictValidator.validateNameConflicts(property);
     }
 }
-
-collaborator propertyValidator: PropertyValidator;
 
 // Concrete Syntax
 
@@ -36,6 +34,8 @@ concept PropertyNode: Node
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
+
+collaborator propertySynthesizer: PropertySynthesizer;
 
 interface PropertySynthesizer
 {
@@ -55,5 +55,3 @@ interface PropertySynthesizer
         }
     }
 }
-
-collaborator propertySynthesizer: PropertySynthesizer;

@@ -1,0 +1,18 @@
+
+interface ErrorReporter
+{
+    command reportNameConflict(element: NamedElement, conflictingElements: NamedElement*);
+}
+
+concept Error
+{
+    code: String;
+    element: ModelElement;
+}
+
+concept ErrorReport
+{
+    errors: Error*;
+}
+
+singleton errorReport: ErrorReport;

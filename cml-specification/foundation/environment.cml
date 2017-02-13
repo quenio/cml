@@ -1,15 +1,5 @@
-concept Scope
-{
-    parent: Scope?;
-    owner: ModelElement;
-    elements: NamedElement*;
-}
 
-association ScopeElements
-{
-    Scope.elements: NamedElement*;
-    ModelElement.scope: Scope;
-}
+collaborator environment: Environment;
 
 interface Environment
 {
@@ -22,7 +12,18 @@ interface Environment
     query findLocalConflictsFor(element: NamedElement): NamedElement*;
 }
 
-collaborator environment: Environment;
+concept Scope
+{
+    parent: Scope?;
+    owner: ModelElement;
+    elements: NamedElement*;
+}
+
+association ScopeElements
+{
+    Scope.elements: NamedElement*;
+    ModelElement.scope: Scope;
+}
 
 contract of command Environment.createRootScope(owner: ~ModelElement): Scope
 {

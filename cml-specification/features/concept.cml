@@ -5,17 +5,15 @@ concept Concept: NamedElement;
 
 // Validator (Well-Formedness Rules)
 
+collaborator conceptValidator: ConceptValidator;
+
 interface ConceptValidator
 {
     command validateConcept(concept: Concept)
     {
-        let conflicts = environment.findLocalConflictsFor(concept);
-
-        given conflits invoke errorReporter.reportNameConflict(concept, conflicts);
+        invoke nameConflictValidator.validateNameConflicts(concept);
     }
 }
-
-collaborator conceptValidator: ConceptValidator;
 
 // Concrete Syntax
 
@@ -27,6 +25,8 @@ concept ConceptNode: Node
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
+
+collaborator conceptSynthesizer: ConceptSynthesizer;
 
 interface ConceptSynthesizer
 {

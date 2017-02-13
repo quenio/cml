@@ -8,17 +8,18 @@ concept Target: NamedElement
 
 // Validator (Well-Formedness Rules)
 
+collaborator targetValidator: TargetValidator;
+
 interface TargetValidator
 {
     command validateTarget(target: Target)
     {
-        let conflicts = environment.findLocalConflictsFor(target);
+        invoke nameConflictValidator.validateNameConflicts(target);
 
-        given conflits invoke errorReporter.reportNameConflict(target, conflicts);
+        for property in properties
+            invoke propertyValidator.validateProperty(property);
     }
 }
-
-collaborator targetValidator: TargetValidator;
 
 // Concrete Syntax
 
@@ -31,6 +32,8 @@ concept TargetNode: Node
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
+
+collaborator targetSynthesizer: TargetSynthesizer;
 
 interface TargetSynthesizer
 {
