@@ -11,3 +11,53 @@ abstract concept NamedElement: ModelElement
     name: String;
     scope: Scope;
 }
+
+// Validator (Well-Formedness Rules)
+
+collaborator namedElementValidator: NamedElementValidator;
+
+interface NamedElementValidator
+{
+    command validateElement(element: NamedElement)
+    {
+        invoke nameConflictValidator.validateNameConflicts(element);
+    }
+}
+
+// Concrete Syntax
+
+concept NamedElementNode: Node
+{
+    name: String;
+}
+
+// Model Synthesis (Synthesized Attributes / Inherited Scopes)
+
+collaborator modelElementSynthesizer: modelElementSynthesizer;
+
+interface ModelElementSynthesizer
+{
+    command synthesizeElement(element: ~ModelElement, elementNode: Node)
+    {
+        ensure
+        {
+            element.location = elementNode.location;
+        }
+    }
+}
+
+collaborator namedElementSynthesizer: NamedElementSynthesizer;
+
+interface NamedElementSynthesizer
+{
+    command synthesizeElement(element: ~NamedElement, elementNode: NamedElementNode, parentScope: Scope)
+    {
+        invoke modelElementSynthesizer.synthesizeElement(element, elementNode);
+
+        ensure
+        {
+            element.name = elementNode.name;
+            element.scope = parentScope;
+        }
+    }
+}

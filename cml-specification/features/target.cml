@@ -11,7 +11,7 @@ interface TargetValidator
 {
     command validateTarget(target: Target)
     {
-        invoke nameConflictValidator.validateNameConflicts(target);
+        invoke namedElementValidator.validateElement(target);
 
         invoke propertyListValidator.validatePropertyList(target.properties);
     }
@@ -36,17 +36,13 @@ interface TargetSynthesizer
     command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
     {
         let target = new Target;
-        let scope = environment.createScope(target, parentScope);
+        invoke namedElementSynthesizer.synthesizeElement(target, targetNode, parentScope);
 
+        let scope = environment.createScope(target, parentScope);
         invoke propertyListSynthesizer.synthesizePropertyList(target, targetNode, scope);
 
         ensure
         {
-            target.scope = parentScope;
-
-            target.location = targetNode.location;
-            target.name = targetNode.name;
-
             targetNode.target = target;
         }
     }

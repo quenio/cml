@@ -47,18 +47,17 @@ interface ModelSynthesizer
     command synthesizeModel(modelNode: ModelNode)
     {
         let model = new Model;
-        let scope = environment.createRootScope(model);
+        modelElementSynthesizer.synthesizeElement(model, modelNode);
 
+        let scope = environment.createRootScope(model);
         for modelNode.modelElementNodes
         {
-            given conceptNode invoke synthesiseConcept(conceptNode, scope);
-            given targetNode invoke synthesiseTarget(targetNode, scope);
+            given conceptNode invoke conceptSyntheizer.synthesiseConcept(conceptNode, scope);
+            given targetNode invoke targetSynthesizer.synthesiseTarget(targetNode, scope);
         }
 
         ensure
         {
-            model.location = modelNode.location;
-
             model.concepts = modelNode.modelElementNodes.conceptNode.concept;
             model.targets = modelNode.modelElementNodes.targetNode.target;
 

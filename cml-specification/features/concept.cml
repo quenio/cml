@@ -11,7 +11,7 @@ interface ConceptValidator
 {
     command validateConcept(concept: Concept)
     {
-        invoke nameConflictValidator.validateNameConflicts(concept);
+        invoke namedElementValidator.validateElement(concept);
 
         invoke propertyListValidator.validatePropertyList(concept.properties);
     }
@@ -36,17 +36,13 @@ interface ConceptSynthesizer
     command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
     {
         let concept = new Concept;
-        let scope = environment.createScope(concept, parentScope);
+        invoke namedElementSynthesizer.synthesizeElement(concept, conceptNode, parentScope);
 
+        let scope = environment.createScope(concept, parentScope);
         invoke propertyListSynthesizer.synthesizePropertyList(concept, conceptNode, scope);
 
         ensure
         {
-            concept.scope = parentScope;
-
-            concept.location = conceptNode.location;
-            concept.name = conceptNode.name;
-
             conceptNode.concept = concept;
         }
     }
