@@ -1,0 +1,14 @@
+
+// Concrete Syntax Tree
+
+abstract concept Node
+{
+    location: SourceLocation;
+}
+
+concept SourceLocation
+{
+    line: Integer;
+    column: Integer;
+    sourcePath: String;
+}

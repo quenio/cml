@@ -1,0 +1,48 @@
+
+// Model (Abstract Syntax)
+
+concept Concept: NamedElement;
+
+// Validator (Well-Formedness Rules)
+
+collaborator conceptValidator: ConceptValidator;
+
+interface ConceptValidator
+{
+    command validateConcept(concept: Concept)
+    {
+        invoke nameConflictValidator.validateNameConflicts(concept);
+    }
+}
+
+// Concrete Syntax
+
+concept ConceptNode: Node
+{
+    name: String;
+
+    concept: Concept;
+}
+
+// Model Synthesis (Synthesized Attributes / Inherited Scopes)
+
+collaborator conceptSynthesizer: ConceptSynthesizer;
+
+interface ConceptSynthesizer
+{
+    command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
+    {
+        let concept = new Concept;
+        let scope = environment.createScope(concept, parentScope);
+
+        ensure
+        {
+            concept.scope = parentScope;
+
+            concept.location = conceptNode.location;
+            concept.name = conceptNode.name;
+
+            conceptNode.concept = concept;
+        }
+    }
+}

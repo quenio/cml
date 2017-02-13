@@ -1,0 +1,13 @@
+
+// Model (Abstract Syntax)
+
+abstract concept ModelElement
+{
+    location: SourceLocation;
+}
+
+abstract concept NamedElement: ModelElement
+{
+    name: String;
+    scope: Scope;
+}

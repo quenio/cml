@@ -1,0 +1,66 @@
+
+collaborator environment: Environment;
+
+interface Environment
+{
+    command createRootScope(owner: ~ModelElement): Scope;
+    command createScope(owner: ~ModelElement, parent: Scope): Scope;
+
+    command addElement(element: ~NamedElement, scope: Scope);
+
+    query findElement(name: String, scope: Scope): NamedElement?;
+    query findLocalConflictsFor(element: NamedElement): NamedElement*;
+}
+
+concept Scope
+{
+    parent: Scope?;
+    owner: ModelElement;
+    elements: NamedElement*;
+}
+
+association ScopeElements
+{
+    Scope.elements: NamedElement*;
+    ModelElement.scope: Scope;
+}
+
+contract of command Environment.createRootScope(owner: ~ModelElement): Scope
+{
+    let rootScope = new Scope;
+
+    ensure
+    {
+        rootScope.owner = owner;
+    }
+
+    return rootScope;
+}
+
+contract of command Environment.createScope(owner: ~ModelElement, parent: Scope): Scope
+{
+    let scope = new Scope;
+
+    ensure
+    {
+        scope.owner = owner;
+        scope.parent = parent;
+    }
+
+    return scope;
+}
+
+contract of query Environment.findElement(name: String, scope: Scope): NamedElement?
+{
+    let element = for e in scope.elements | select first e.name = name;
+
+    given not element and scope.parent
+        return findElement(name, scope.parent);
+
+    return element;
+}
+
+contract of query Environment.findLocalConflictsFor(element: NamedElement): NamedElement*
+{
+    return for e in scope.elements | select e.name = element.name and e != element;
+}
