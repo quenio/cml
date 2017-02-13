@@ -29,7 +29,6 @@ contract of command ModelSynthesizer.synthesizeModel(modelNode: ModelNode)
 
     ensure
     {
-        model.scope = scope;
         model.location = modelNode.location;
         model.concepts = modelNode.modelElementNodes.conceptNode.concept;
         model.targets = modelNode.modelElementNodes.targetNode.target;
@@ -45,7 +44,7 @@ contract of command ModelSynthesizer.synthesizeConcept(conceptNode: ConceptNode,
 
     ensure
     {
-        concept.scope = scope;
+        concept.scope = parentScope;
         concept.location = conceptNode.location;
         concept.name = conceptNode.name;
 
@@ -64,7 +63,7 @@ contract of command ModelSynthesizer.synthesizeTarget(targetNode: TargetNode, pa
 
     ensure
     {
-        target.scope = scope;
+        target.scope = parentScope;
         target.location = targetNode.location;
         target.name = targetNode.name;
         target.properties = propertyNodes.property;
@@ -76,8 +75,6 @@ contract of command ModelSynthesizer.synthesizeTarget(targetNode: TargetNode, pa
 contract of command ModelSynthesizer.synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
 {
     let property = new Property;
-
-    invoke environment.addElement(property, parentScope);
 
     ensure
     {

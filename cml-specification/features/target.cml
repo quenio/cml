@@ -1,0 +1,58 @@
+
+// Model (Abstract Syntax)
+
+concept Target: NamedElement
+{
+    properties: Property*;
+}
+
+// Validator (Well-Formedness Rules)
+
+interface TargetValidator
+{
+    command validateTarget(target: Target)
+    {
+        let conflicts = environment.findLocalConflictsFor(target);
+
+        given conflits invoke errorReporter.reportNameConflict(target, conflicts);
+    }
+}
+
+collaborator targetValidator: TargetValidator;
+
+// Concrete Syntax
+
+concept TargetNode: Node
+{
+    name: String;
+    propertyListNode: PropertyListNode;
+
+    target: Target;
+}
+
+// Model Synthesis (Synthesized Attributes / Inherited Scopes)
+
+interface TargetSynthesizer
+{
+    command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
+    {
+        let target = new Target;
+        let scope = environment.createScope(target, parentScope);
+
+        let propertyNodes = targetNode.propertyListNode.propertyNodes;
+        for propertyNode in propertyNodes
+            invoke synthesizeProperty(propertyNode, scope);
+
+        ensure
+        {
+            target.scope = parentScope;
+
+            target.location = targetNode.location;
+            target.name = targetNode.name;
+
+            target.properties = propertyNodes.property;
+
+            targetNode.target = target;
+        }
+    }
+}

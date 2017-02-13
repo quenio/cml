@@ -1,12 +1,12 @@
 concept ModelElement
 {
     location: SourceLocation;
-    scope: Scope;
 }
 
 concept NamedElement: ModelElement
 {
     name: String;
+    scope: Scope;
 }
 
 concept Model: NamedElement

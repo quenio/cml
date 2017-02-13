@@ -43,11 +43,10 @@ interface PropertySynthesizer
     {
         let property = new Property;
 
-        invoke environment.addElement(property, parentScope);
-
         ensure
         {
             property.scope = parentScope;
+
             property.location = propertyNode.location;
             property.name = propertyNode.name;
             property.value = propertyNode.string;

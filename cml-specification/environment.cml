@@ -5,6 +5,12 @@ concept Scope
     elements: NamedElement*;
 }
 
+association ScopeElements
+{
+    Scope.elements: NamedElement*;
+    ModelElement.scope: Scope;
+}
+
 interface Environment
 {
     command createRootScope(owner: ~ModelElement): Scope;
@@ -32,9 +38,6 @@ contract of command Environment.createRootScope(owner: ~ModelElement): Scope
 
 contract of command Environment.createScope(owner: ~ModelElement, parent: Scope): Scope
 {
-    given owner is NamedElement
-        invoke environment.addElement(owner, parent);
-
     let scope = new Scope;
 
     ensure
@@ -44,14 +47,6 @@ contract of command Environment.createScope(owner: ~ModelElement, parent: Scope)
     }
 
     return scope;
-}
-
-contract of command Environment.addElement(element: ~NamedElement, scope: Scope)
-{
-    ensure
-    {
-        scope.elements | includes element;
-    }
 }
 
 contract of query Environment.findElement(name: String, scope: Scope): NamedElement?
