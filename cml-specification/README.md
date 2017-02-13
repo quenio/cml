@@ -1,9 +1,9 @@
 
-# Specification Process
+# Language Specification Process
 
-The process to specify the language:
-- Define grammar.
-- Generate (concrete) syntax tree from grammar.
+For each language feature, the specification process follows the following steps:
+- Define production rules of the grammar.
+- Generate (concrete) syntax tree from production rules.
 - Define model (abstract syntax tree).
 - Generate ModelSynthesizer interface and contract scaffolding from grammar.
 - Define contracts of ModelSynthesizer.
@@ -36,3 +36,7 @@ To transform the grammar into this syntax tree, for each production rule:
 The ModelSynthesizer will synthesize the attributes of the syntax tree based on the node's terminals and the node's children.
 
 To generate the ModelSynthesizer interface and the contracts scaffolding, for each production rule containing attributes, define a command "synthesize" containing the node type of the production rule as an argument.
+
+## Collections
+
+List = Order Set or Sequence?

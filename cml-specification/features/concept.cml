@@ -1,7 +1,7 @@
 
 // Model (Abstract Syntax)
 
-concept Concept: NamedElement;
+concept Concept: NamedElement, PropertyList;
 
 // Validator (Well-Formedness Rules)
 
@@ -12,6 +12,8 @@ interface ConceptValidator
     command validateConcept(concept: Concept)
     {
         invoke nameConflictValidator.validateNameConflicts(concept);
+
+        invoke propertyListValidator.validatePropertyList(concept.properties);
     }
 }
 
@@ -20,6 +22,7 @@ interface ConceptValidator
 concept ConceptNode: Node
 {
     name: String;
+    propertyListNode: PropertyListNode;
 
     concept: Concept;
 }
@@ -34,6 +37,8 @@ interface ConceptSynthesizer
     {
         let concept = new Concept;
         let scope = environment.createScope(concept, parentScope);
+
+        invoke propertyListSynthesizer.synthesizePropertyList(concept, conceptNode, scope);
 
         ensure
         {

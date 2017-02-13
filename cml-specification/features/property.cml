@@ -20,11 +20,6 @@ interface PropertyValidator
 
 // Concrete Syntax
 
-concept PropertyListNode: Node
-{
-    propertyNodes: PropertyNode*;
-}
-
 concept PropertyNode: Node
 {
     name: String;

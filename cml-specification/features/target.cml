@@ -1,10 +1,7 @@
 
 // Model (Abstract Syntax)
 
-concept Target: NamedElement
-{
-    properties: Property*;
-}
+concept Target: NamedElement, PropertyList;
 
 // Validator (Well-Formedness Rules)
 
@@ -16,8 +13,7 @@ interface TargetValidator
     {
         invoke nameConflictValidator.validateNameConflicts(target);
 
-        for property in properties
-            invoke propertyValidator.validateProperty(property);
+        invoke propertyListValidator.validatePropertyList(target.properties);
     }
 }
 
@@ -42,9 +38,7 @@ interface TargetSynthesizer
         let target = new Target;
         let scope = environment.createScope(target, parentScope);
 
-        let propertyNodes = targetNode.propertyListNode.propertyNodes;
-        for propertyNode in propertyNodes
-            invoke synthesizeProperty(propertyNode, scope);
+        invoke propertyListSynthesizer.synthesizePropertyList(target, targetNode, scope);
 
         ensure
         {
@@ -52,8 +46,6 @@ interface TargetSynthesizer
 
             target.location = targetNode.location;
             target.name = targetNode.name;
-
-            target.properties = propertyNodes.property;
 
             targetNode.target = target;
         }
