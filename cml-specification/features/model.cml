@@ -15,10 +15,10 @@ interface ModelValidator
 {
     command validateModel(model: Model)
     {
-        for concept in concepts
+        for concept in model.concepts
             invoke conceptValidator.validateConcept(concept);
 
-        for target in targets
+        for target in model.targets
             invoke targetValidator.validateTarget(target);
     }
 }

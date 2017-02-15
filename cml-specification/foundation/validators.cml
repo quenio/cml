@@ -12,3 +12,21 @@ interface NameConflictValidator
         given conflits invoke errorReporter.reportNameConflict(element, conflicts);
     }
 }
+
+// Primitive Types
+
+collaborator primitiveTypeValidator: PrimitiveTypeValidator;
+
+interface PrimitiveTypeValidator
+{
+    command validatePrimitiveType(type: Type)
+    {
+        given primitiveTypes | excludes type.name
+            invoke errorReporter.reportUnknownType(type);
+    }
+}
+
+const primitiveTypes = [
+    "Boolean", "Integer", "Decimal", "String", "Regex",
+    "Byte", "Short", "Long", "Float", "Double", "Char"
+];

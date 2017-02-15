@@ -37,13 +37,10 @@ interface PropertySynthesizer
     command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
     {
         let property = new Property;
+        invoke namedElementSynthesizer.synthesizeElement(concept, conceptNode, parentScope);
 
         ensure
         {
-            property.scope = parentScope;
-
-            property.location = propertyNode.location;
-            property.name = propertyNode.name;
             property.value = propertyNode.string;
 
             propertyNode.property = property;
