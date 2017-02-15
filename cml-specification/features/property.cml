@@ -8,14 +8,9 @@ concept Property: NamedElement
 
 // Validator (Well-Formedness Rules)
 
-collaborator propertyValidator: PropertyValidator;
-
-interface PropertyValidator
+command validateProperty(property: Property)
 {
-    command validateProperty(property: Property)
-    {
-        invoke nameConflictValidator.validateNameConflicts(property);
-    }
+    invoke validateNameConflicts(property);
 }
 
 // Concrete Syntax
@@ -30,20 +25,15 @@ concept PropertyNode: Node
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
-collaborator propertySynthesizer: PropertySynthesizer;
-
-interface PropertySynthesizer
+command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
 {
-    command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
+    let property = new Property;
+    invoke synthesizeNamedElement(property, propertyNode, parentScope);
+
+    ensure
     {
-        let property = new Property;
-        invoke namedElementSynthesizer.synthesizeElement(concept, conceptNode, parentScope);
+        property.value = propertyNode.string;
 
-        ensure
-        {
-            property.value = propertyNode.string;
-
-            propertyNode.property = property;
-        }
+        propertyNode.property = property;
     }
 }

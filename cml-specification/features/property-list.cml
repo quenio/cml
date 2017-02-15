@@ -8,15 +8,10 @@ concept PropertyList
 
 // Validator (Well-Formedness Rules)
 
-collaborator propertyListValidator: PropertyListValidator;
-
-interface PropertyListValidator
+command validatePropertyList(propertyList: PropertyList)
 {
-    command validatePropertyList(propertyList: PropertyList)
-    {
-        for property in propertyList.properties
-            invoke propertyValidator.validateProperty(property);
-    }
+    for property in propertyList.properties
+        invoke validateProperty(property);
 }
 
 // Concrete Syntax
@@ -28,18 +23,13 @@ concept PropertyListNode: Node
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
-collaborator conceptSynthesizer: ConceptSynthesizer;
-
-interface PropertyListSynthesizer
+command synthesizePropertyList(propertyList: ~PropertyList, propertyListNode: PropertyListNode, parentScope: Scope)
 {
-    command synthesizePropertyList(propertyList: ~PropertyList, propertyListNode: PropertyListNode, parentScope: Scope)
-    {
-        for propertyNode in propertyListNode.propertyNodes
-            invoke synthesizeProperty(propertyNode, parentScope);
+    for propertyNode in propertyListNode.propertyNodes
+        invoke synthesizeProperty(propertyNode, parentScope);
 
-        ensure
-        {
-            propertyList.properties = propertyListNode.propertyNodes.property;
-        }
+    ensure
+    {
+        propertyList.properties = propertyListNode.propertyNodes.property;
     }
 }

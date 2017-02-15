@@ -5,14 +5,9 @@ concept Type: NamedElement;
 
 // Validator (Well-Formedness Rules)
 
-collaborator typeValidator: TypeValidator;
-
-interface TypeValidator
+command validateType(type: Type)
 {
-    command validateType(type: Type)
-    {
-        invoke primitiveTypeValidator.validatePrimitiveType(type);
-    }
+    invoke validatePrimitiveType(type);
 }
 
 // Concrete Syntax
@@ -26,18 +21,13 @@ concept TypeNode: Node
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
-collaborator typeSynthesizer: TypeSynthesizer;
-
-interface TypeSynthesizer
+command synthesizeType(typeNode: TypeNode, parentScope: Scope)
 {
-    command synthesizeType(typeNode: TypeNode, parentScope: Scope)
-    {
-        let type = new Type;
-        invoke namedElementSynthesizer.synthesizeElement(type, typeNode, parentScope);
+    let type = new Type;
+    invoke synthesizeNamedElement(type, typeNode, parentScope);
 
-        ensure
-        {
-            typeNode.type = type;
-        }
+    ensure
+    {
+        typeNode.type = type;
     }
 }

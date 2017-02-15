@@ -1,29 +1,19 @@
 
 // Name Conflicts
 
-collaborator nameConflictValidator: NameConflictValidator;
-
-interface NameConflictValidator
+command validateNameConflicts(element: NamedElement)
 {
-    command validateNameConflicts(element: NamedElement)
-    {
-        let conflicts = environment.findLocalConflictsFor(element);
+    let conflicts = findLocalConflictsFor(element);
 
-        given conflits invoke errorReporter.reportNameConflict(element, conflicts);
-    }
+    given conflits invoke reportNameConflict(element, conflicts);
 }
 
 // Primitive Types
 
-collaborator primitiveTypeValidator: PrimitiveTypeValidator;
-
-interface PrimitiveTypeValidator
+command validatePrimitiveType(type: Type)
 {
-    command validatePrimitiveType(type: Type)
-    {
-        given primitiveTypes | excludes type.name
-            invoke errorReporter.reportUnknownType(type);
-    }
+    given primitiveTypes | excludes type.name
+        invoke reportUnknownType(type);
 }
 
 const primitiveTypes = [

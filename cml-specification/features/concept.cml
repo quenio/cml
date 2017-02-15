@@ -5,16 +5,11 @@ concept Concept: NamedElement, PropertyList;
 
 // Validator (Well-Formedness Rules)
 
-collaborator conceptValidator: ConceptValidator;
-
-interface ConceptValidator
+command validateConcept(concept: Concept)
 {
-    command validateConcept(concept: Concept)
-    {
-        invoke namedElementValidator.validateElement(concept);
+    invoke validateNamedElement(concept);
 
-        invoke propertyListValidator.validatePropertyList(concept.properties);
-    }
+    invoke validatePropertyList(concept.properties);
 }
 
 // Concrete Syntax
@@ -31,19 +26,16 @@ concept ConceptNode: Node
 
 collaborator conceptSynthesizer: ConceptSynthesizer;
 
-interface ConceptSynthesizer
+command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
 {
-    command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
+    let concept = new Concept;
+    invoke synthesizeNamedElement(concept, conceptNode, parentScope);
+
+    let scope = createScope(concept, parentScope);
+    invoke synthesizePropertyList(concept, conceptNode, scope);
+
+    ensure
     {
-        let concept = new Concept;
-        invoke namedElementSynthesizer.synthesizeElement(concept, conceptNode, parentScope);
-
-        let scope = environment.createScope(concept, parentScope);
-        invoke propertyListSynthesizer.synthesizePropertyList(concept, conceptNode, scope);
-
-        ensure
-        {
-            conceptNode.concept = concept;
-        }
+        conceptNode.concept = concept;
     }
 }

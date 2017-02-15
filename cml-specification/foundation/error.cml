@@ -1,8 +1,6 @@
 
-interface ErrorReporter
-{
-    command reportNameConflict(element: NamedElement, conflictingElements: NamedElement*);
-}
+command reportNameConflict(element: NamedElement, conflictingElements: NamedElement*);
+command reportUnknownType(type: Type);
 
 concept Error
 {

@@ -5,16 +5,11 @@ concept Target: NamedElement, PropertyList;
 
 // Validator (Well-Formedness Rules)
 
-collaborator targetValidator: TargetValidator;
-
-interface TargetValidator
+command validateTarget(target: Target)
 {
-    command validateTarget(target: Target)
-    {
-        invoke namedElementValidator.validateElement(target);
+    invoke validateNamedElement(target);
 
-        invoke propertyListValidator.validatePropertyList(target.properties);
-    }
+    invoke validatePropertyList(target.properties);
 }
 
 // Concrete Syntax
@@ -29,21 +24,16 @@ concept TargetNode: Node
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
-collaborator targetSynthesizer: TargetSynthesizer;
-
-interface TargetSynthesizer
+command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
 {
-    command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
+    let target = new Target;
+    invoke synthesizeNamedElement(target, targetNode, parentScope);
+
+    let scope = createScope(target, parentScope);
+    invoke synthesizePropertyList(target, targetNode, scope);
+
+    ensure
     {
-        let target = new Target;
-        invoke namedElementSynthesizer.synthesizeElement(target, targetNode, parentScope);
-
-        let scope = environment.createScope(target, parentScope);
-        invoke propertyListSynthesizer.synthesizePropertyList(target, targetNode, scope);
-
-        ensure
-        {
-            targetNode.target = target;
-        }
+        targetNode.target = target;
     }
 }

@@ -14,14 +14,9 @@ abstract concept NamedElement: ModelElement
 
 // Validator (Well-Formedness Rules)
 
-collaborator namedElementValidator: NamedElementValidator;
-
-interface NamedElementValidator
+command validateNamedElement(element: NamedElement)
 {
-    command validateElement(element: NamedElement)
-    {
-        invoke nameConflictValidator.validateNameConflicts(element);
-    }
+    invoke validateNameConflicts(element);
 }
 
 // Concrete Syntax
@@ -33,31 +28,21 @@ concept NamedElementNode: Node
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
-collaborator modelElementSynthesizer: modelElementSynthesizer;
-
-interface ModelElementSynthesizer
+command synthesizeModelElement(element: ~ModelElement, elementNode: Node)
 {
-    command synthesizeElement(element: ~ModelElement, elementNode: Node)
+    ensure
     {
-        ensure
-        {
-            element.location = elementNode.location;
-        }
+        element.location = elementNode.location;
     }
 }
 
-collaborator namedElementSynthesizer: NamedElementSynthesizer;
-
-interface NamedElementSynthesizer
+command synthesizeNamedElement(element: ~NamedElement, elementNode: NamedElementNode, parentScope: Scope)
 {
-    command synthesizeElement(element: ~NamedElement, elementNode: NamedElementNode, parentScope: Scope)
-    {
-        invoke modelElementSynthesizer.synthesizeElement(element, elementNode);
+    invoke synthesizeElement(element, elementNode);
 
-        ensure
-        {
-            element.name = elementNode.name;
-            element.scope = parentScope;
-        }
+    ensure
+    {
+        element.name = elementNode.name;
+        element.scope = parentScope;
     }
 }
