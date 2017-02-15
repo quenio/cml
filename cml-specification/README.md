@@ -37,6 +37,13 @@ The ModelSynthesizer will synthesize the attributes of the syntax tree based on 
 
 To generate the ModelSynthesizer interface and the contracts scaffolding, for each production rule containing attributes, define a command "synthesize" containing the node type of the production rule as an argument.
 
+## Invariants
+
+Notice that we cannot add any invariants that prevent the instantiation of malformed models,
+because the concrete syntax allows it.
+
+The model (abstract syntax) is validated only after they have been synthesized.
+
 ## Collections
 
 List = Order Set or Sequence?

@@ -25,8 +25,8 @@ abstract concept TypedElement: NamedElement
         given not typeAllowed require not typeRequired;
 
         // Notice that we cannot add any invariant on the "type" property,
-        // because we want to allow the instantiation of malformed models,
-        // which will be validated at some point.
+        // because the concrete syntax allows the instantiation of malformed models,
+        // which are validated once they have been synthesized.
     }
 }
 
