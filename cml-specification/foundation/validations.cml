@@ -20,3 +20,29 @@ const primitiveTypes = [
     "Boolean", "Integer", "Decimal", "String", "Regex",
     "Byte", "Short", "Long", "Float", "Double", "Char"
 ];
+
+// Type Required
+
+command validateTypeRequired(element: TypedElement)
+{
+    given element.typeRequired
+    {
+        require element.typeAllowed;
+
+        given not element.type
+            invoke reportTypeRequired(element);
+    }
+}
+
+// Type Not Allowed
+
+command validateTypeNotAllowed(element: TypedElement)
+{
+    given not element.typeAllowed
+    {
+        require not element.typeRequired;
+
+        given element.type
+            invoke reportTypeNotAllowed(element);
+    }
+}

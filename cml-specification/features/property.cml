@@ -1,7 +1,7 @@
 
 // Model (Abstract Syntax)
 
-concept Property: NamedElement
+concept Property: TypedElement
 {
     value: String;
 }
@@ -10,7 +10,7 @@ concept Property: NamedElement
 
 command validateProperty(property: Property)
 {
-    invoke validateNameConflicts(property);
+    invoke validateTypedElement(property);
 }
 
 // Concrete Syntax
@@ -28,7 +28,7 @@ concept PropertyNode: Node
 command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
 {
     let property = new Property;
-    invoke synthesizeNamedElement(property, propertyNode, parentScope);
+    invoke synthesizeTypedElement(property, propertyNode, parentScope);
 
     ensure
     {

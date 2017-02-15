@@ -34,6 +34,12 @@ command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
 
     ensure
     {
+        for target.properties
+        {
+            typeRequired = false;
+            typeAllowed = false;
+        }
+
         targetNode.target = target;
     }
 }

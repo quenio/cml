@@ -36,6 +36,12 @@ command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
 
     ensure
     {
+        for concept.properties
+        {
+            typeRequired = false;
+            typeAllowed = true;
+        }
+
         conceptNode.concept = concept;
     }
 }
