@@ -9,18 +9,13 @@ concept Model: NamedElement
 
 // Validator (Well-Formedness Rules)
 
-collaborator modelValidator: ModelValidator;
-
-interface ModelValidator
+command validateModel(model: Model)
 {
-    command validateModel(model: Model)
-    {
-        for concept in concepts
-            invoke conceptValidator.validateConcept(concept);
+    for concept in model.concepts
+        invoke validateConcept(concept);
 
-        for target in targets
-            invoke targetValidator.validateTarget(target);
-    }
+    for target in model.targets
+        invoke validateTarget(target);
 }
 
 // Concrete Syntax
@@ -40,29 +35,23 @@ concept ModelElementNode: Node
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
-collaborator modelSynthesizer: ModelSynthesizer;
-
-interface ModelSynthesizer
+command synthesizeModel(modelNode: ModelNode)
 {
-    command synthesizeModel(modelNode: ModelNode)
+    let model = new Model;
+    synthesizeModelElement(model, modelNode);
+
+    let scope = createRootScope(model);
+    for modelNode.modelElementNodes
     {
-        let model = new Model;
-        let scope = environment.createRootScope(model);
+        given conceptNode invoke synthesiseConcept(conceptNode, scope);
+        given targetNode invoke synthesiseTarget(targetNode, scope);
+    }
 
-        for modelNode.modelElementNodes
-        {
-            given conceptNode invoke synthesiseConcept(conceptNode, scope);
-            given targetNode invoke synthesiseTarget(targetNode, scope);
-        }
+    ensure
+    {
+        model.concepts = modelNode.modelElementNodes.conceptNode.concept;
+        model.targets = modelNode.modelElementNodes.targetNode.target;
 
-        ensure
-        {
-            model.location = modelNode.location;
-
-            model.concepts = modelNode.modelElementNodes.conceptNode.concept;
-            model.targets = modelNode.modelElementNodes.targetNode.target;
-
-            modelNode.model = model;
-        }
+        modelNode.model = model;
     }
 }

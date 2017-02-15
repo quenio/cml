@@ -1,18 +1,15 @@
 
 // Model (Abstract Syntax)
 
-concept Concept: NamedElement;
+concept Concept: NamedElement, PropertyList;
 
 // Validator (Well-Formedness Rules)
 
-collaborator conceptValidator: ConceptValidator;
-
-interface ConceptValidator
+command validateConcept(concept: Concept)
 {
-    command validateConcept(concept: Concept)
-    {
-        invoke nameConflictValidator.validateNameConflicts(concept);
-    }
+    invoke validateNamedElement(concept);
+
+    invoke validatePropertyList(concept.properties);
 }
 
 // Concrete Syntax
@@ -20,6 +17,7 @@ interface ConceptValidator
 concept ConceptNode: Node
 {
     name: String;
+    propertyListNode: PropertyListNode;
 
     concept: Concept;
 }
@@ -28,21 +26,22 @@ concept ConceptNode: Node
 
 collaborator conceptSynthesizer: ConceptSynthesizer;
 
-interface ConceptSynthesizer
+command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
 {
-    command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
+    let concept = new Concept;
+    invoke synthesizeNamedElement(concept, conceptNode, parentScope);
+
+    let scope = createScope(concept, parentScope);
+    invoke synthesizePropertyList(concept, conceptNode, scope);
+
+    ensure
     {
-        let concept = new Concept;
-        let scope = environment.createScope(concept, parentScope);
-
-        ensure
+        for concept.properties
         {
-            concept.scope = parentScope;
-
-            concept.location = conceptNode.location;
-            concept.name = conceptNode.name;
-
-            conceptNode.concept = concept;
+            typeRequired = false;
+            typeAllowed = true;
         }
+
+        conceptNode.concept = concept;
     }
 }

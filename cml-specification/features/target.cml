@@ -1,24 +1,15 @@
 
 // Model (Abstract Syntax)
 
-concept Target: NamedElement
-{
-    properties: Property*;
-}
+concept Target: NamedElement, PropertyList;
 
 // Validator (Well-Formedness Rules)
 
-collaborator targetValidator: TargetValidator;
-
-interface TargetValidator
+command validateTarget(target: Target)
 {
-    command validateTarget(target: Target)
-    {
-        invoke nameConflictValidator.validateNameConflicts(target);
+    invoke validateNamedElement(target);
 
-        for property in properties
-            invoke propertyValidator.validateProperty(property);
-    }
+    invoke validatePropertyList(target.properties);
 }
 
 // Concrete Syntax
@@ -33,29 +24,22 @@ concept TargetNode: Node
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
-collaborator targetSynthesizer: TargetSynthesizer;
-
-interface TargetSynthesizer
+command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
 {
-    command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
+    let target = new Target;
+    invoke synthesizeNamedElement(target, targetNode, parentScope);
+
+    let scope = createScope(target, parentScope);
+    invoke synthesizePropertyList(target, targetNode, scope);
+
+    ensure
     {
-        let target = new Target;
-        let scope = environment.createScope(target, parentScope);
-
-        let propertyNodes = targetNode.propertyListNode.propertyNodes;
-        for propertyNode in propertyNodes
-            invoke synthesizeProperty(propertyNode, scope);
-
-        ensure
+        for target.properties
         {
-            target.scope = parentScope;
-
-            target.location = targetNode.location;
-            target.name = targetNode.name;
-
-            target.properties = propertyNodes.property;
-
-            targetNode.target = target;
+            typeRequired = false;
+            typeAllowed = false;
         }
+
+        targetNode.target = target;
     }
 }
