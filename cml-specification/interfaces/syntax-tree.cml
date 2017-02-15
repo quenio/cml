@@ -1,0 +1,37 @@
+
+singleton syntaxTree: SyntaxTree;
+
+concept SyntaxTree
+{
+    currentModelNode: ModelNode?;
+    currentPropertyListNode: PropertyListNode?;
+}
+
+interface SyntaxTreeBuilder
+{
+    command startModelNode();
+
+    command finishConceptNode(name: String);
+}
+
+command SyntaxTreeBuilder.startModelNode()
+{
+    let model = new ModelMode;
+
+    ensure syntaxTree.currentModelNode = model;
+}
+
+command SyntaxTreeBuilder.finishConceptNode(name: String)
+{
+    require syntaxTree.currentPropertyListNode;
+
+    let conceptNode = new ConceptMode;
+
+    ensure
+    {
+        conceptNode.name = name;
+        conceptNode.propertyListNode = syntaxTree.currentPropertyListNode;
+
+        syntaxTree.currentModelNode | includes conceptNode;
+    }
+}

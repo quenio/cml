@@ -19,7 +19,7 @@ concept TargetNode: Node
     name: String;
     propertyListNode: PropertyListNode;
 
-    target: Target;
+    target: Target?;
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)

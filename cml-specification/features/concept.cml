@@ -19,7 +19,7 @@ concept ConceptNode: Node
     name: String;
     propertyListNode: PropertyListNode;
 
-    concept: Concept;
+    concept: Concept?;
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)

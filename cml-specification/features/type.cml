@@ -16,7 +16,7 @@ concept TypeNode: Node
 {
     name: String;
 
-    type: Type;
+    type: Type?;
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)

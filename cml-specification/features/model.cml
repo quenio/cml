@@ -3,8 +3,8 @@
 
 concept Model: NamedElement
 {
-    concepts: Concept*;
-    targets: Target*;
+    concepts: list of Concept*;
+    targets: list of Target*;
 }
 
 // Validator (Well-Formedness Rules)
@@ -24,7 +24,7 @@ concept ModelNode: Node
 {
     modelElementNodes: ModelElementNode*;
 
-    model: Model;
+    model: Model?;
 }
 
 concept ModelElementNode: Node
