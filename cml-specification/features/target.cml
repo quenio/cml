@@ -14,9 +14,8 @@ command validateTarget(target: Target)
 
 // Concrete Syntax
 
-concept TargetNode: Node
+concept TargetNode: NamedElementNode
 {
-    name: String;
     propertyListNode: PropertyListNode;
 
     target: Target?;

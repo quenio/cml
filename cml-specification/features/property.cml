@@ -15,9 +15,8 @@ command validateProperty(property: Property)
 
 // Concrete Syntax
 
-concept PropertyNode: Node
+concept PropertyNode: TypedElementNode
 {
-    name: String;
     string: String;
 
     property: Property?;

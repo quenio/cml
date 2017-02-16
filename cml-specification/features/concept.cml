@@ -14,9 +14,8 @@ command validateConcept(concept: Concept)
 
 // Concrete Syntax
 
-concept ConceptNode: Node
+concept ConceptNode: NamedElementNode
 {
-    name: String;
     propertyListNode: PropertyListNode?;
 
     concept: Concept?;

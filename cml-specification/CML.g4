@@ -12,11 +12,14 @@ concept returns [concept: Concept]
 target returns [target: Target]
     : 'target' NAME propertyList;
 
-propertyList
+propertyList returns [propertyList: PropertyList]
     : '{' (property ';')* '}';
 
 property returns [property: Property]
-    : NAME '=' STRING;
+    : NAME (':' type)? '=' STRING;
+
+type returns [type: Type]
+    : NAME;
 
 NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
 STRING: '"' .*? '"';
