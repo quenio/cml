@@ -17,9 +17,24 @@ command validateConcept(concept: Concept)
 concept ConceptNode: Node
 {
     name: String;
-    propertyListNode: PropertyListNode;
+    propertyListNode: PropertyListNode?;
 
     concept: Concept?;
+}
+
+command SyntaxTreeBuilder.includeConceptNode(name: String)
+{
+    require syntaxTree.currentModelElementNode;
+
+    let conceptNode = new ConceptMode;
+
+    ensure
+    {
+        conceptNode.name = name;
+        conceptNode.propertyListNode = syntaxTree.currentPropertyListNode;
+
+        syntaxTree.currentModelElementNode.conceptNode = conceptNode;
+    }
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
@@ -31,8 +46,11 @@ command synthesizeConcept(conceptNode: ConceptNode, parentScope: Scope)
     let concept = new Concept;
     invoke synthesizeNamedElement(concept, conceptNode, parentScope);
 
-    let scope = createScope(concept, parentScope);
-    invoke synthesizePropertyList(concept, conceptNode, scope);
+    given conceptNode.propertyListNode
+    {
+        let scope = createScope(concept, parentScope);
+        invoke synthesizePropertyList(concept.properties, conceptNode.propertyListNode, scope);
+    }
 
     ensure
     {

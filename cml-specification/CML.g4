@@ -7,13 +7,13 @@ modelElement
     : concept | target;
 
 concept returns [concept: Concept]
-    : 'concept' NAME ';';
+    : 'concept' NAME (';' | propertyList);
 
 target returns [target: Target]
-    : 'target' NAME '{' propertyList '}';
+    : 'target' NAME propertyList;
 
 propertyList
-    : (property ';')*;
+    : '{' (property ';')* '}';
 
 property returns [property: Property]
     : NAME '=' STRING;

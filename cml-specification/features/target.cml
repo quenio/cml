@@ -22,6 +22,25 @@ concept TargetNode: Node
     target: Target?;
 }
 
+command SyntaxTreeBuilder.includeTargetNode(name: String)
+{
+    require
+    {
+        syntaxTree.currentModelElementNode;
+        syntaxTree.currentPropertyListNode;
+    }
+
+    let targetNode = new TargetMode;
+
+    ensure
+    {
+        targetNode.name = name;
+        targetNode.propertyListNode = syntaxTree.currentPropertyListNode;
+
+        syntaxTree.currentModelElementNode.targetNode = targetNode;
+    }
+}
+
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
 command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
@@ -30,7 +49,7 @@ command synthesizeTarget(targetNode: TargetNode, parentScope: Scope)
     invoke synthesizeNamedElement(target, targetNode, parentScope);
 
     let scope = createScope(target, parentScope);
-    invoke synthesizePropertyList(target, targetNode, scope);
+    invoke synthesizePropertyList(target.properties, targetNode.propertyListNode, scope);
 
     ensure
     {

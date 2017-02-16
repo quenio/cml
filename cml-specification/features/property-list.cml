@@ -21,6 +21,16 @@ concept PropertyListNode: Node
     propertyNodes: list of PropertyNode*;
 }
 
+command SyntaxTreeBuilder.createPropertyList()
+{
+    let propertyListNode = new PropertyListNode;
+
+    ensure
+    {
+        syntaxTree.currentPropertyListNode = propertyListNode;
+    }
+}
+
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
 command synthesizePropertyList(propertyList: ~PropertyList, propertyListNode: PropertyListNode, parentScope: Scope)

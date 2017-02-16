@@ -31,6 +31,16 @@ To transform the grammar into this syntax tree, for each production rule:
 - for production rules containing a returns clause,
   the corresponding attributes or association roles will be added to the node concept.
 
+## Syntax Tree Builder
+
+In order to build the syntax tree, the buider will have methods called when traversing the production rules of the grammar during parsing.
+
+The following annotations are used to determine when to call each builder method:
+- @BeforeRule to call createXxxxxNode(...) methods before evaluating the specified grammar rule.
+- @AfterRule to call includeXxxxxNode(...) methods after evaluating the specified rule.
+
+The "include" methods of @AfterRule may have parameters corresponding to the terminal nodes parsed by the rule.
+
 ## Model Synthesizers
 
 The ModelSynthesizer will synthesize the attributes of the syntax tree based on the node's terminals and the node's children.

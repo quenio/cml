@@ -33,6 +33,27 @@ concept ModelElementNode: Node
     targetNode: TargetNode?;
 }
 
+command SyntaxTreeBuilder.createModelNode()
+{
+    let modelNode = new ModelMode;
+
+    ensure syntaxTree.modelNode = model;
+}
+
+command SyntaxTreeBuilder.createModelElementNode()
+{
+    let modelElementNode = new ModelElementNode;
+
+    ensure syntaxTree.currentModelElementNode = modelElementNode;
+}
+
+command SyntaxTreeBuilder.includeModelElementNode()
+{
+    require syntaxTree.currentModelElementNode;
+
+    ensure syntaxTree.modelNode.modelElementNodes | includes syntaxTree.currentModelElementNode;
+}
+
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
 command synthesizeModel(modelNode: ModelNode)

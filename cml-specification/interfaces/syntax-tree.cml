@@ -1,37 +1,44 @@
 
+interface SyntaxTreeBuilder
+{
+    @BeforeRule("model")
+    command createModelNode();
+
+    @BeforeRule("modelElement");
+    command createModelElementNode();
+
+    @AfterRule("modelElement");
+    command includeModelElementNode();
+
+    @AfterRule("concept")
+    command includeConceptNode(name: String);
+
+    @AfterRule("target")
+    command includeTargetNode(name: String);
+
+    @BeforeRule("propertyList");
+    command createPropertyList();
+
+    @AfterRule("property")
+    command includeProperty(name: String, string: String);
+}
+
 singleton syntaxTree: SyntaxTree;
 
 concept SyntaxTree
 {
-    currentModelNode: ModelNode?;
+    modelNode: ModelNode?;
+
+    currentModelElementNode: ModelElementNode?;
     currentPropertyListNode: PropertyListNode?;
 }
 
-interface SyntaxTreeBuilder
+annotation BeforeRule(ruleName: String)
 {
-    command startModelNode();
-
-    command finishConceptNode(name: String);
+    usages = ["command"];
 }
 
-command SyntaxTreeBuilder.startModelNode()
+annotation AfterRule(ruleName: String)
 {
-    let model = new ModelMode;
-
-    ensure syntaxTree.currentModelNode = model;
-}
-
-command SyntaxTreeBuilder.finishConceptNode(name: String)
-{
-    require syntaxTree.currentPropertyListNode;
-
-    let conceptNode = new ConceptMode;
-
-    ensure
-    {
-        conceptNode.name = name;
-        conceptNode.propertyListNode = syntaxTree.currentPropertyListNode;
-
-        syntaxTree.currentModelNode | includes conceptNode;
-    }
+    usages = ["command"];
 }

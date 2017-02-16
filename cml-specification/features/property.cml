@@ -23,6 +23,21 @@ concept PropertyNode: Node
     property: Property?;
 }
 
+command SyntaxTreeBuilder.includeProperty(name: String, string: String)
+{
+    require syntaxTree.currentPropertyListNode;
+
+    let propertyNode = new PropertyNode;
+
+    ensure
+    {
+        propertyNode.name = name;
+        proeprtyNode.string = string;
+
+        syntaxTree.currentPropertyListNode.propertyNodes | includes propertyNode;
+    }
+}
+
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
 command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
