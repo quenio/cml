@@ -21,12 +21,14 @@ concept PropertyListNode: Node
     propertyNodes: list of PropertyNode*;
 }
 
-command SyntaxTreeBuilder.createPropertyList()
+command SyntaxTreeBuilder.createPropertyList(location: SourceLocation)
 {
     let propertyListNode = new PropertyListNode;
 
     ensure
     {
+        propertyListNode.location = location;
+
         syntaxTree.currentPropertyListNode = propertyListNode;
     }
 }

@@ -33,14 +33,19 @@ concept ModelElementNode: Node
     targetNode: TargetNode?;
 }
 
-command SyntaxTreeBuilder.createModelNode()
+command SyntaxTreeBuilder.createModelNode(location: SourceLocation)
 {
     let modelNode = new ModelMode;
 
-    ensure syntaxTree.modelNode = model;
+    ensure
+    {
+        modelNode.location = location;
+        
+        syntaxTree.modelNode = model;
+    }
 }
 
-command SyntaxTreeBuilder.createModelElementNode()
+command SyntaxTreeBuilder.createModelElementNode(location: SourceLocation)
 {
     let modelElementNode = new ModelElementNode;
 

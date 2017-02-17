@@ -22,7 +22,7 @@ concept PropertyNode: TypedElementNode
     property: Property?;
 }
 
-command SyntaxTreeBuilder.includeProperty(name: String, string: String)
+command SyntaxTreeBuilder.includeProperty(location: SourceLocation, name: String, string: String)
 {
     require syntaxTree.currentPropertyListNode;
 
@@ -30,6 +30,8 @@ command SyntaxTreeBuilder.includeProperty(name: String, string: String)
 
     ensure
     {
+        propertyNode.location = location;
+
         propertyNode.name = name;
         proeprtyNode.string = string;
 

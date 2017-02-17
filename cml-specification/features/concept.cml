@@ -21,7 +21,7 @@ concept ConceptNode: NamedElementNode
     concept: Concept?;
 }
 
-command SyntaxTreeBuilder.includeConceptNode(name: String)
+command SyntaxTreeBuilder.includeConceptNode(location: SourceLocation, name: String)
 {
     require syntaxTree.currentModelElementNode;
 
@@ -29,6 +29,8 @@ command SyntaxTreeBuilder.includeConceptNode(name: String)
 
     ensure
     {
+        conceptNode.location = location;
+        
         conceptNode.name = name;
         conceptNode.propertyListNode = syntaxTree.currentPropertyListNode;
 

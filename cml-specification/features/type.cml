@@ -19,6 +19,20 @@ concept TypeNode: Node
     type: Type?;
 }
 
+command SyntaxTreeBuilder.includeType(location: SourceLocation, name: String)
+{
+    let typeNode = new TypeNode;
+
+    ensure
+    {
+        typeNode.location = location;
+
+        typeNode.name = name;
+
+        syntaxTree.currentTypeNode = typeNode;
+    }
+}
+
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
 command synthesizeType(typeNode: TypeNode, parentScope: Scope)

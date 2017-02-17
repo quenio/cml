@@ -2,25 +2,28 @@
 interface SyntaxTreeBuilder
 {
     @BeforeRule("model")
-    command createModelNode();
+    command createModelNode(location: SourceLocation);
 
     @BeforeRule("modelElement");
-    command createModelElementNode();
+    command createModelElementNode(location: SourceLocation);
 
     @AfterRule("modelElement");
-    command includeModelElementNode();
+    command includeModelElementNode(location: SourceLocation);
 
     @AfterRule("concept")
-    command includeConceptNode(name: String);
+    command includeConceptNode(location: SourceLocation, name: String);
 
     @AfterRule("target")
-    command includeTargetNode(name: String);
+    command includeTargetNode(location: SourceLocation, name: String);
 
     @BeforeRule("propertyList");
-    command createPropertyList();
+    command createPropertyList(location: SourceLocation);
 
     @AfterRule("property")
-    command includeProperty(name: String, string: String);
+    command includeProperty(location: SourceLocation, name: String, string: String);
+
+    @AfterRule("type")
+    command SyntaxTreeBuilder.includeType(location: SourceLocation, name: String);
 }
 
 singleton syntaxTree: SyntaxTree;
@@ -31,6 +34,7 @@ concept SyntaxTree
 
     currentModelElementNode: ModelElementNode?;
     currentPropertyListNode: PropertyListNode?;
+    currentTypeNode: TypeNode?;
 }
 
 annotation BeforeRule(ruleName: String)

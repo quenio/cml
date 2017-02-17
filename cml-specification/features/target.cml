@@ -21,7 +21,7 @@ concept TargetNode: NamedElementNode
     target: Target?;
 }
 
-command SyntaxTreeBuilder.includeTargetNode(name: String)
+command SyntaxTreeBuilder.includeTargetNode(location: SourceLocation, name: String)
 {
     require
     {
@@ -33,6 +33,8 @@ command SyntaxTreeBuilder.includeTargetNode(name: String)
 
     ensure
     {
+        targetNode.location = location;
+
         targetNode.name = name;
         targetNode.propertyListNode = syntaxTree.currentPropertyListNode;
 
