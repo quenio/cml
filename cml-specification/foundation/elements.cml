@@ -48,6 +48,11 @@ command validateTypedElement(element: TypedElement)
 
 // Concrete Syntax
 
+abstract concept Node
+{
+    location: SourceLocation;
+}
+
 concept NamedElementNode: Node
 {
     name: String;
