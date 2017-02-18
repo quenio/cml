@@ -1,10 +1,10 @@
 package cml.language.foundation.elements;
 
-class Node
+public class Node
 {
     private SourceLocation location;
 
-    Node(SourceLocation location)
+    protected Node(SourceLocation location)
     {
         this.location = location;
     }

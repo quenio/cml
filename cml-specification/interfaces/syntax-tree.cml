@@ -4,10 +4,10 @@ interface SyntaxTreeBuilder
     @BeforeRule("model")
     command createModelNode(location: SourceLocation);
 
-    @BeforeRule("modelElement");
+    @BeforeRule("modelElement")
     command createModelElementNode(location: SourceLocation);
 
-    @AfterRule("modelElement");
+    @AfterRule("modelElement")
     command includeModelElementNode(location: SourceLocation);
 
     @AfterRule("concept")
@@ -16,14 +16,14 @@ interface SyntaxTreeBuilder
     @AfterRule("target")
     command includeTargetNode(location: SourceLocation, name: String);
 
-    @BeforeRule("propertyList");
+    @BeforeRule("propertyList")
     command createPropertyList(location: SourceLocation);
 
     @AfterRule("property")
     command includeProperty(location: SourceLocation, name: String, string: String);
 
     @AfterRule("type")
-    command SyntaxTreeBuilder.includeType(location: SourceLocation, name: String);
+    command includeType(location: SourceLocation, name: String);
 }
 
 singleton syntaxTree: SyntaxTree;

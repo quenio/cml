@@ -49,12 +49,23 @@ command SyntaxTreeBuilder.createModelElementNode(location: SourceLocation)
 {
     let modelElementNode = new ModelElementNode;
 
-    ensure syntaxTree.currentModelElementNode = modelElementNode;
+    ensure
+    {
+        modelElementNode.location = location;
+
+        syntaxTree.currentModelElementNode = modelElementNode;
+
+        not syntaxTree.currentPropertyListNode;
+    }
 }
 
 command SyntaxTreeBuilder.includeModelElementNode()
 {
-    require syntaxTree.currentModelElementNode;
+    require
+    {
+        syntaxTree.modelNode;
+        syntaxTree.currentModelElementNode;
+    }
 
     ensure syntaxTree.modelNode.modelElementNodes | includes syntaxTree.currentModelElementNode;
 }
