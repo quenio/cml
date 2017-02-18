@@ -1,11 +1,37 @@
 
-command reportNameConflict(element: NamedElement, conflictingElements: NamedElement*);
-command reportUnknownType(type: Type);
+command reportNameConflict(element: NamedElement, conflictingElements: NamedElement*)
+{
+    let Error = new Error;
+
+    ensure
+    {
+        error.code = "name-conflict";
+        error.element = element;
+        error.participants = conflictingElements;
+
+        errorReport.errors | includes error;
+    }
+
+}
+
+command reportUnknownType(type: Type)
+{
+    let error = new Error;
+
+    ensure
+    {
+        error.code = "unknown-type";
+        error.element = type;
+
+        errorReport.errors | includes error;
+    }
+}
 
 concept Error
 {
     code: String;
     element: ModelElement;
+    participants: Any*;
 }
 
 concept ErrorReport

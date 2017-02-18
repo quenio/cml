@@ -19,7 +19,7 @@ abstract concept TypedElement: NamedElement
     }
 }
 
-concept Type: TypedElement;
+concept Type: NamedElement;
 
 // Validator (Well-Formedness Rules)
 
