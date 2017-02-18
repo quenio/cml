@@ -1,13 +1,40 @@
 
 // Model (Abstract Syntax)
 
-concept Type: NamedElement;
+abstract concept TypedElement: NamedElement
+{
+    type: Type?;
+
+    typeRequired: Boolean = true;
+    typeAllowed: Boolean = true;
+
+    invariants
+    {
+        given typeRequired require typeAllowed;
+        given not typeAllowed require not typeRequired;
+
+        // Notice that we cannot add any invariant on the "type" property,
+        // because the concrete syntax allows the instantiation of malformed models,
+        // which are validated once they have been synthesized.
+    }
+}
+
+concept Type: TypedElement;
 
 // Validator (Well-Formedness Rules)
 
 command validateType(type: Type)
 {
     invoke validatePrimitiveType(type);
+}
+
+command validateTypedElement(element: TypedElement)
+{
+    invoke validateNamedElement(element);
+
+    invoke validateTypeRequired(element);
+
+    invoke validateTypeNotAllowed(element);
 }
 
 // Concrete Syntax
@@ -17,6 +44,11 @@ concept TypeNode: Node
     name: String;
 
     type: Type?;
+}
+
+concept TypedElementNode: NamedElementNode
+{
+    typeNode: TypeNode;
 }
 
 command SyntaxTreeBuilder.includeType(location: SourceLocation, name: String)
@@ -43,5 +75,17 @@ command synthesizeType(typeNode: TypeNode, parentScope: Scope)
     ensure
     {
         typeNode.type = type;
+    }
+}
+
+command synthesizeTypedElement(element: ~TypedElement, elementNode: TypedElementNode, parentScope: Scope)
+{
+    invoke synthesizeNamedElement(element, elementNode, parentScope);
+
+    inoke synthesizeType(elementNode.typeNode, parentScope);
+
+    ensure
+    {
+        element.type = elementNode.typeNode.type;
     }
 }
