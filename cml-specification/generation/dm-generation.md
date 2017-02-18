@@ -12,6 +12,7 @@ Mapping:
     - class commands (based on visibility, coupling and cohesion) or be inlined
     - or be inline (if contains incomplete instances as parameters)
 - Individual queries will become intermediate or basic queries.    
+- Interfaces are implemented by root instances
 
 Steps:
 - Start from interface contracts
