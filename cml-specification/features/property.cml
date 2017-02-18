@@ -6,11 +6,22 @@ concept Property: TypedElement
     value: String;
 }
 
+concept PropertyList
+{
+    properties: list of Property*;
+}
+
 // Validator (Well-Formedness Rules)
 
 command validateProperty(property: Property)
 {
     invoke validateTypedElement(property);
+}
+
+command validatePropertyList(propertyList: PropertyList)
+{
+    for property in propertyList.properties
+        invoke validateProperty(property);
 }
 
 // Concrete Syntax
@@ -20,6 +31,11 @@ concept PropertyNode: TypedElementNode
     string: String;
 
     property: Property?;
+}
+
+concept PropertyListNode: Node
+{
+    propertyNodes: list of PropertyNode*;
 }
 
 command SyntaxTreeBuilder.includeProperty(location: SourceLocation, name: String, string: String)
@@ -39,6 +55,18 @@ command SyntaxTreeBuilder.includeProperty(location: SourceLocation, name: String
     }
 }
 
+command SyntaxTreeBuilder.createPropertyList(location: SourceLocation)
+{
+    let propertyListNode = new PropertyListNode;
+
+    ensure
+    {
+        propertyListNode.location = location;
+
+        syntaxTree.currentPropertyListNode = propertyListNode;
+    }
+}
+
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)
 
 command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
@@ -51,5 +79,16 @@ command synthesizeProperty(propertyNode: PropertyNode, parentScope: Scope)
         property.value = propertyNode.string;
 
         propertyNode.property = property;
+    }
+}
+
+command synthesizePropertyList(propertyList: ~PropertyList, propertyListNode: PropertyListNode, parentScope: Scope)
+{
+    for propertyNode in propertyListNode.propertyNodes
+        invoke synthesizeProperty(propertyNode, parentScope);
+
+    ensure
+    {
+        propertyList.properties = propertyListNode.propertyNodes.property;
     }
 }
