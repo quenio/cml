@@ -4,6 +4,7 @@ Mapping:
 - Directories map to packages.
 - CML source files have no corresponding mapping on the target structure.
 - Concepts map to classes.
+- Concept invariants are enforced by constructors.
 - Interfaces map to interfaces and at a single implementation class.
 - Interface commands are delegated to class commands.
 - Interface queries are delegated to class queries.
