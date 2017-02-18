@@ -49,7 +49,9 @@ query findElement(name: String, scope: Scope): NamedElement?
     return element;
 }
 
-query findLocalConflictsFor(element: NamedElement): NamedElement*
+query findLocalConflicts(element: NamedElement): NamedElement*
 {
-    return for e in scope.elements | select e.name = element.name and e != element;
+    let scope = element.scope;
+
+    return for e in scope.elements | select e != element | select e.name = element.name;
 }
