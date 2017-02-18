@@ -1,9 +1,11 @@
 package cml.language.foundation;
 
-import org.jetbrains.annotations.NotNull;
-
-public class Node
+class Node
 {
-    @NotNull
     private SourceLocation location;
+
+    Node(SourceLocation location)
+    {
+        this.location = location;
+    }
 }

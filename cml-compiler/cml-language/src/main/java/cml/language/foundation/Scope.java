@@ -1,6 +1,5 @@
 package cml.language.foundation;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -8,28 +7,24 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Scope
+class Scope
 {
-    @Nullable
-    private final Scope parent;
-
-    @NotNull
+    private final @Nullable Scope parent;
     private final ModelElement owner;
-
     private final Set<NamedElement> elements = new HashSet<>();
 
-    public Scope(@NotNull ModelElement owner)
+    Scope(ModelElement owner)
     {
         this(null, owner);
     }
 
-    public Scope(@Nullable Scope parent, @NotNull ModelElement owner)
+    Scope(@Nullable Scope parent, ModelElement owner)
     {
         this.parent = parent;
         this.owner = owner;
     }
 
-    public Optional<NamedElement> findElement(@NotNull String name)
+    Optional<NamedElement> findElement(String name)
     {
         assert !name.matches("\\s*") : "require not name = /\\s*/";
 
@@ -45,7 +40,7 @@ public class Scope
         return element;
     }
 
-    public Set<NamedElement> findLocalConflicts(@NotNull NamedElement element)
+    Set<NamedElement> findLocalConflicts(NamedElement element)
     {
         return elements.stream()
                        .filter(e -> !element.equals(e))

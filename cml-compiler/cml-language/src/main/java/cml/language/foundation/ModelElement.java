@@ -1,13 +1,10 @@
 package cml.language.foundation;
 
-import org.jetbrains.annotations.NotNull;
-
 public abstract class ModelElement
 {
-    @NotNull
     private final SourceLocation location;
 
-    public ModelElement(@NotNull SourceLocation location)
+    ModelElement(SourceLocation location)
     {
         this.location = location;
     }
@@ -17,7 +14,7 @@ public abstract class ModelElement
         return new Scope(this);
     }
 
-    Scope createScope(@NotNull Scope parent)
+    Scope createScope(Scope parent)
     {
         return new Scope(parent, this);
     }
