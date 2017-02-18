@@ -1,4 +1,6 @@
-package cml.language.foundation;
+package cml.language.foundation.error;
+
+import cml.language.foundation.elements.NamedElement;
 
 import java.util.ArrayList;
 import java.util.List;
