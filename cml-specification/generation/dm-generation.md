@@ -1,5 +1,17 @@
 # Dynamic Model Generation
 
+Mapping:
+- Directories map to packages.
+- CML source files have no corresponding mapping on the target structure.
+- Concepts map to classes.
+- Interfaces map to interfaces and at a single implementation class.
+- Interface commands are delegated to class commands.
+- Interface queries are delegated to class queries.
+- Individual commands may become:
+    - class commands (based on visibility, coupling and cohesion) or be inlined
+    - or be inline (if contains incomplete instances as parameters)
+- Individual queries will become intermediate or basic queries.    
+
 Steps:
 - Start from interface contracts
 
