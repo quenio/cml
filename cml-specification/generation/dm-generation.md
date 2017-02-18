@@ -1,8 +1,8 @@
 # Dynamic Model Generation
 
 Mapping:
-- Directories map to packages.
-- CML source files have no corresponding mapping on the target structure.
+- Source directories map to target directories.
+- CML source files have no inherent mapping on the target structure, but targets may define mapping from source files to target directories and files.
 - Concepts map to classes.
 - Concept invariants are enforced by constructors.
 - Interfaces map to interfaces and at a single implementation class.
