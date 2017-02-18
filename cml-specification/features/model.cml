@@ -22,7 +22,7 @@ command validateModel(model: Model)
 
 concept ModelNode: Node
 {
-    modelElementNodes: ModelElementNode*;
+    modelElementNodes: list of ModelElementNode*;
 
     model: Model?;
 }
@@ -40,7 +40,7 @@ command SyntaxTreeBuilder.createModelNode(location: SourceLocation)
     ensure
     {
         modelNode.location = location;
-        
+
         syntaxTree.modelNode = model;
     }
 }

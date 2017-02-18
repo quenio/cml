@@ -1,17 +1,4 @@
 
-concept Scope
-{
-    parent: Scope?;
-    owner: ModelElement;
-    elements: NamedElement*;
-}
-
-association ScopeElements
-{
-    Scope.elements: NamedElement*;
-    ModelElement.scope: Scope;
-}
-
 command createRootScope(owner: ~ModelElement): Scope
 {
     let rootScope = new Scope;

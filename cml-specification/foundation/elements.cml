@@ -12,6 +12,19 @@ abstract concept NamedElement: ModelElement
     scope: Scope;
 }
 
+concept Scope
+{
+    parent: Scope?;
+    owner: ModelElement;
+    elements: NamedElement*;
+}
+
+association ScopeElements
+{
+    Scope.elements: NamedElement*;
+    ModelElement.scope: Scope;
+}
+
 // Validator (Well-Formedness Rules)
 
 command validateNamedElement(element: NamedElement)
