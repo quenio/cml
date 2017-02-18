@@ -1,4 +1,4 @@
-package cml.language.foundation.error;
+package cml.language.foundation.errors;
 
 import cml.language.foundation.elements.ModelElement;
 
