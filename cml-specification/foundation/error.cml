@@ -11,7 +11,6 @@ command reportNameConflict(element: NamedElement, conflictingElements: NamedElem
 
         errorReport.errors | includes error;
     }
-
 }
 
 command reportUnknownType(type: Type)
@@ -31,12 +30,12 @@ concept Error
 {
     code: String;
     element: ModelElement;
-    participants: Any*;
+    participants: ModelElement*;
 }
 
 concept ErrorReport
 {
-    errors: Error*;
+    errors: list of Error*;
 }
 
-singleton errorReport: ErrorReport;
+root errorReport: ErrorReport;
