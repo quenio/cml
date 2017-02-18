@@ -48,6 +48,13 @@ command validateTypedElement(element: TypedElement)
 
 // Concrete Syntax
 
+concept SourceLocation
+{
+    line: Integer;
+    column: Integer;
+    sourcePath: String;
+}
+
 abstract concept Node
 {
     location: SourceLocation;

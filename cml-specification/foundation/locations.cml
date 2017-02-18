@@ -1,7 +1,0 @@
-
-concept SourceLocation
-{
-    line: Integer;
-    column: Integer;
-    sourcePath: String;
-}
