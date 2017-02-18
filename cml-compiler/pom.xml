@@ -15,6 +15,7 @@
         <module>cml-parser</module>
         <module>cml-generator</module>
         <module>cml-model</module>
+        <module>cml-language</module>
         <module>cml-templates</module>
         <module>cml-io</module>
         <module>cml-antlr</module>
