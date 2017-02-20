@@ -39,16 +39,14 @@ command validateTypedElement(element: TypedElement)
 
 // Concrete Syntax
 
-concept TypeNode: Node
+concept TypeNode: NamedElementNode
 {
-    name: String;
-
     type: Type?;
 }
 
 concept TypedElementNode: NamedElementNode
 {
-    typeNode: TypeNode;
+    typeNode: TypeNode?;
 }
 
 command SyntaxTreeBuilder.includeType(location: SourceLocation, name: String)
