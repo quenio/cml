@@ -10,8 +10,14 @@ public class PropertyListNode extends Node
 {
     private final List<PropertyNode> propertyNodes = new ArrayList<>();
 
-    PropertyListNode(SourceLocation location)
+    public PropertyListNode(SourceLocation location)
     {
         super(location);
+    }
+
+    // DMR: 9.2.2b
+    public boolean addPropertyNode(PropertyNode propertyNode)
+    {
+        return propertyNodes.add(propertyNode);
     }
 }

@@ -4,6 +4,7 @@ import cml.language.features.concept.ConceptNode;
 import cml.language.features.model.ModelElementNode;
 import cml.language.features.model.ModelNode;
 import cml.language.features.property.PropertyListNode;
+import cml.language.features.property.PropertyNode;
 import cml.language.features.target.TargetNode;
 import cml.language.features.type.TypeNode;
 import cml.language.foundation.elements.SourceLocation;
@@ -73,20 +74,29 @@ class SyntaxTree implements SyntaxTreeBuilder
     @Override
     public void createPropertyList(SourceLocation location)
     {
-
+        currentPropertyListNode = new PropertyListNode(location);
     }
 
     // DMR: 9.4.1a
     @Override
     public void includeProperty(SourceLocation location, String name, String string)
     {
+        assert currentTypeNode != null: "require syntaxTree.currentTypeNode";
+        assert currentPropertyListNode != null: "require syntaxTree.currentPropertyListNode";
 
+        final PropertyNode propertyNode = new PropertyNode(location, name, string);
+
+        propertyNode.setTypeNode(currentTypeNode);
+
+        currentPropertyListNode.addPropertyNode(propertyNode);
+
+        currentTypeNode = null;
     }
 
     // DMR: 9.4.1a
     @Override
     public void includeType(SourceLocation location, String name)
     {
-
+        currentTypeNode = new TypeNode(location, name);
     }
 }

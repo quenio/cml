@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class Scope
+public class Scope
 {
     private final @Nullable Scope parent;
     private final ModelElement owner;

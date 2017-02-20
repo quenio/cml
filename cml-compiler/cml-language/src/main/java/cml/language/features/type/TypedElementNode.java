@@ -4,18 +4,18 @@ import cml.language.foundation.elements.NamedElementNode;
 import cml.language.foundation.elements.SourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-public class TypeNode extends NamedElementNode
+public class TypedElementNode extends NamedElementNode
 {
-    private @Nullable Type type;
+    private @Nullable TypeNode typeNode;
 
-    public TypeNode(SourceLocation location, String name)
+    public TypedElementNode(SourceLocation location, String name)
     {
         super(location, name);
     }
 
     // DMR: 9.2.2b
-    public void setType(@Nullable Type type)
+    public void setTypeNode(@Nullable TypeNode typeNode)
     {
-        this.type = type;
+        this.typeNode = typeNode;
     }
 }

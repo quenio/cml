@@ -1,14 +1,19 @@
 package cml.language.features.property;
 
-import cml.language.foundation.elements.Node;
+import cml.language.features.type.TypedElementNode;
 import cml.language.foundation.elements.SourceLocation;
+import org.jetbrains.annotations.Nullable;
 
-public class PropertyNode extends Node
+public class PropertyNode extends TypedElementNode
 {
-    
+    private final String string;
 
-    protected PropertyNode(SourceLocation location)
+    private @Nullable Property property;
+
+    public PropertyNode(SourceLocation location, String name, String string)
     {
-        super(location);
+        super(location, name);
+
+        this.string = string;
     }
 }
