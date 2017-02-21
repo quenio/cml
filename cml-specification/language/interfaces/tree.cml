@@ -26,7 +26,7 @@ interface SyntaxTreeBuilder
     command includeType(location: SourceLocation, name: String);
 }
 
-singleton syntaxTree: SyntaxTree;
+root syntaxTree: SyntaxTree;
 
 concept SyntaxTree
 {
