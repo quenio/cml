@@ -1,4 +1,4 @@
-package cml.language.interfaces.syntax_tree;
+package cml.language.interfaces.tree;
 
 import cml.language.features.concept.ConceptNode;
 import cml.language.features.model.ModelElementNode;
