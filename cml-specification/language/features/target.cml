@@ -21,12 +21,12 @@ concept TargetNode: NamedElementNode
     target: Target?;
 }
 
-command SyntaxTreeBuilder.includeTargetNode(location: SourceLocation, name: String)
+command ModelBuilder.includeTargetNode(location: SourceLocation, name: String)
 {
     require
     {
-        syntaxTree.currentModelElementNode;
-        syntaxTree.currentPropertyListNode;
+        buildingSite.currentModelElementNode;
+        buildingSite.currentPropertyListNode;
     }
 
     let targetNode = new TargetMode;
@@ -36,9 +36,9 @@ command SyntaxTreeBuilder.includeTargetNode(location: SourceLocation, name: Stri
         targetNode.location = location;
 
         targetNode.name = name;
-        targetNode.propertyListNode = syntaxTree.currentPropertyListNode;
+        targetNode.propertyListNode = buildingSite.currentPropertyListNode;
 
-        syntaxTree.currentModelElementNode.targetNode = targetNode;
+        buildingSite.currentModelElementNode.targetNode = targetNode;
     }
 }
 

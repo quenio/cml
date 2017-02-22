@@ -38,12 +38,12 @@ concept PropertyListNode: Node
     propertyNodes: list of PropertyNode*;
 }
 
-command SyntaxTreeBuilder.includeProperty(location: SourceLocation, name: String, string: String)
+command ModelBuilder.includeProperty(location: SourceLocation, name: String, string: String)
 {
-    require syntaxTree.currentPropertyListNode;
-    require syntaxTree.currentTypeNode;
+    require buildingSite.currentPropertyListNode;
+    require buildingSite.currentTypeNode;
 
-    let currentTypeNode = syntaxTree.currentTypeNode
+    let currentTypeNode = buildingSite.currentTypeNode
 
     let propertyNode = new PropertyNode;
 
@@ -56,13 +56,13 @@ command SyntaxTreeBuilder.includeProperty(location: SourceLocation, name: String
 
         propertyNode.typeNode = currentTypeNode;
 
-        syntaxTree.currentPropertyListNode.propertyNodes | includes propertyNode;
+        buildingSite.currentPropertyListNode.propertyNodes | includes propertyNode;
 
-        not syntaxTree.currentTypeNode;
+        not buildingSite.currentTypeNode;
     }
 }
 
-command SyntaxTreeBuilder.createPropertyList(location: SourceLocation)
+command ModelBuilder.createPropertyList(location: SourceLocation)
 {
     let propertyListNode = new PropertyListNode;
 
@@ -70,7 +70,7 @@ command SyntaxTreeBuilder.createPropertyList(location: SourceLocation)
     {
         propertyListNode.location = location;
 
-        syntaxTree.currentPropertyListNode = propertyListNode;
+        buildingSite.currentPropertyListNode = propertyListNode;
     }
 }
 

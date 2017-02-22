@@ -49,7 +49,7 @@ concept TypedElementNode: NamedElementNode
     typeNode: TypeNode?;
 }
 
-command SyntaxTreeBuilder.includeType(location: SourceLocation, name: String)
+command ModelBuilder.includeType(location: SourceLocation, name: String)
 {
     let typeNode = new TypeNode;
 
@@ -59,7 +59,7 @@ command SyntaxTreeBuilder.includeType(location: SourceLocation, name: String)
 
         typeNode.name = name;
 
-        syntaxTree.currentTypeNode = typeNode;
+        buildingSite.currentTypeNode = typeNode;
     }
 }
 

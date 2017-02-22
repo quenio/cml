@@ -21,20 +21,20 @@ concept ConceptNode: NamedElementNode
     concept: Concept?;
 }
 
-command SyntaxTreeBuilder.includeConceptNode(location: SourceLocation, name: String)
+command ModelBuilder.includeConceptNode(location: SourceLocation, name: String)
 {
-    require syntaxTree.currentModelElementNode;
+    require buildingSite.currentModelElementNode;
 
     let conceptNode = new ConceptMode;
 
     ensure
     {
         conceptNode.location = location;
-        
+
         conceptNode.name = name;
         conceptNode.propertyListNode = syntaxTree.currentPropertyListNode;
 
-        syntaxTree.currentModelElementNode.conceptNode = conceptNode;
+        buildingSite.currentModelElementNode.conceptNode = conceptNode;
     }
 }
 

@@ -5,6 +5,8 @@ concept Model: NamedElement
 {
     concepts: list of Concept*;
     targets: list of Target*;
+
+    errors: list of Error*;
 }
 
 // Validator (Well-Formedness Rules)
@@ -33,7 +35,7 @@ concept ModelElementNode: Node
     targetNode: TargetNode?;
 }
 
-command SyntaxTreeBuilder.createModelNode(location: SourceLocation)
+command ModelBuilder.createModelNode(location: SourceLocation)
 {
     let modelNode = new ModelMode;
 
@@ -41,11 +43,11 @@ command SyntaxTreeBuilder.createModelNode(location: SourceLocation)
     {
         modelNode.location = location;
 
-        syntaxTree.modelNode = model;
+        buildingSite.modelNode = model;
     }
 }
 
-command SyntaxTreeBuilder.createModelElementNode(location: SourceLocation)
+command ModelBuilder.createModelElementNode(location: SourceLocation)
 {
     let modelElementNode = new ModelElementNode;
 
@@ -53,21 +55,21 @@ command SyntaxTreeBuilder.createModelElementNode(location: SourceLocation)
     {
         modelElementNode.location = location;
 
-        syntaxTree.currentModelElementNode = modelElementNode;
+        buildingSite.currentModelElementNode = modelElementNode;
 
-        not syntaxTree.currentPropertyListNode;
+        not buildingSite.currentPropertyListNode;
     }
 }
 
-command SyntaxTreeBuilder.includeModelElementNode()
+command ModelBuilder.includeModelElementNode()
 {
     require
     {
-        syntaxTree.modelNode;
-        syntaxTree.currentModelElementNode;
+        buildingSite.modelNode;
+        buildingSite.currentModelElementNode;
     }
 
-    ensure syntaxTree.modelNode.modelElementNodes | includes syntaxTree.currentModelElementNode;
+    ensure buildingSite.modelNode.modelElementNodes | includes buildingSite.currentModelElementNode;
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)

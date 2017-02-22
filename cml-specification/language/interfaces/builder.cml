@@ -1,8 +1,8 @@
 
-interface SyntaxTreeBuilder
+interface ModelBuilder
 {
     command startBuilding();
-    command finishBuilding(): ModelNode;
+    command finishBuilding(): Model;
 
     @BeforeRule("model")
     command createModelNode(location: SourceLocation);
@@ -29,33 +29,44 @@ interface SyntaxTreeBuilder
     command includeType(location: SourceLocation, name: String);
 }
 
-root syntaxTree: SyntaxTree;
+root buildingSite: BuildingSite;
 
-concept SyntaxTree
+concept BuildingSite
 {
     modelNode: ModelNode?;
 
     currentModelElementNode: ModelElementNode?;
     currentPropertyListNode: PropertyListNode?;
     currentTypeNode: TypeNode?;
+
+    errors: list of Error*;
 }
 
 command SyntaxTreeBuilder.startBuilding()
 {
     ensure
     {
-        not modelNode;
-        not currentModelElementNode;
-        not currentPropertyListNode;
-        not currentTypeNode;
+        not buildingSite.modelNode;
+        not buildingSite.currentModelElementNode;
+        not buildingSite.currentPropertyListNode;
+        not buildingSite.currentTypeNode;
+        errors | count = 0;
     }
 }
 
 command SyntaxTreeBuilder.finishBuilding(): ModelNode
 {
-    require modelNode;
+    require buildingSite.modelNode;
 
-    return modelNode;
+    invoke synthesizeModel(buildingSite.modelNode);
+    invoke validateModel(buildingSite.modelNode.model);
+
+    ensure
+    {
+        buildingSite.modelNode.model.errors = buildingSite.errors;
+    }
+
+    return buildingSite.modelNode.model;
 }
 
 annotation BeforeRule(ruleName: String)

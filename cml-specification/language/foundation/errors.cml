@@ -9,7 +9,7 @@ command reportNameConflict(element: NamedElement, conflictingElements: NamedElem
         error.element = element;
         error.participants = conflictingElements;
 
-        errorReport.errors | includes error;
+        buildingSite.errors | includes error;
     }
 }
 
@@ -22,7 +22,7 @@ command reportUnknownType(type: Type)
         error.code = "unknown-type";
         error.element = type;
 
-        errorReport.errors | includes error;
+        buildingSite.errors | includes error;
     }
 }
 
@@ -32,10 +32,3 @@ concept Error
     element: ModelElement;
     participants: ModelElement*;
 }
-
-concept ErrorReport
-{
-    errors: list of Error*;
-}
-
-root errorReport: ErrorReport;
