@@ -19,7 +19,7 @@ class SyntaxTree implements SyntaxTreeBuilder
     private @Nullable PropertyListNode currentPropertyListNode;
     private @Nullable TypeNode currentTypeNode;
 
-    // DMR: 9.4.3
+    // DMR: 9.4.5
     @Override
     public void startBuilding()
     {
@@ -29,7 +29,6 @@ class SyntaxTree implements SyntaxTreeBuilder
         currentTypeNode = null;
     }
 
-    // DMR: 9.4.3
     @Override
     public ModelNode finishingBuilding()
     {
