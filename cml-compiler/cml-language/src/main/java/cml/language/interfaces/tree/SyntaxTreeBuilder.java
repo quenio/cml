@@ -1,9 +1,13 @@
 package cml.language.interfaces.tree;
 
+import cml.language.features.model.ModelNode;
 import cml.language.foundation.elements.SourceLocation;
 
 public interface SyntaxTreeBuilder
 {
+    void startBuilding();
+    ModelNode finishingBuilding();
+
     @BeforeRule("model")
     void createModelNode(SourceLocation location);
 

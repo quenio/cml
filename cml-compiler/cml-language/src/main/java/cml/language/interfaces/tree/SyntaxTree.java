@@ -19,6 +19,25 @@ class SyntaxTree implements SyntaxTreeBuilder
     private @Nullable PropertyListNode currentPropertyListNode;
     private @Nullable TypeNode currentTypeNode;
 
+    // DMR: 9.4.3
+    @Override
+    public void startBuilding()
+    {
+        modelNode = null;
+        currentModelElementNode = null;
+        currentPropertyListNode = null;
+        currentTypeNode = null;
+    }
+
+    // DMR: 9.4.3
+    @Override
+    public ModelNode finishingBuilding()
+    {
+        assert modelNode != null : "require syntaxTree.modelNode";
+
+        return modelNode;
+    }
+
     // DMR: 9.4.1a
     @Override
     public void createModelNode(SourceLocation location)
