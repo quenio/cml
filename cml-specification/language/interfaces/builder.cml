@@ -4,29 +4,29 @@ interface ModelBuilder
     command startBuilding();
     command finishBuilding(): Model;
 
-    @BeforeRule("model")
+    @BeforeRule("ModelNode")
     command createModelNode(location: SourceLocation);
 
-    @BeforeRule("modelElement")
+    @BeforeRule("ModelElementNode")
     command createModelElementNode(location: SourceLocation);
 
-    @AfterRule("modelElement")
+    @AfterRule("ModelElementNode")
     command includeModelElementNode(location: SourceLocation);
 
-    @AfterRule("concept")
+    @AfterRule("ConceptNode")
     command includeConceptNode(location: SourceLocation, name: String);
 
-    @AfterRule("target")
+    @AfterRule("TargetNode")
     command includeTargetNode(location: SourceLocation, name: String);
 
-    @BeforeRule("propertyList")
-    command createPropertyList(location: SourceLocation);
+    @BeforeRule("PropertyListNode")
+    command createPropertyListNode(location: SourceLocation);
 
-    @AfterRule("property")
-    command includeProperty(location: SourceLocation, name: String, string: String);
+    @AfterRule("PropertyNode")
+    command includePropertyNode(location: SourceLocation, name: String, string: String);
 
-    @AfterRule("type")
-    command includeType(location: SourceLocation, name: String);
+    @AfterRule("TypeNode")
+    command includeTypeNode(location: SourceLocation, name: String);
 }
 
 root buildingSite: BuildingSite;

@@ -49,7 +49,7 @@ concept TypedElementNode: NamedElementNode
     typeNode: TypeNode?;
 }
 
-command ModelBuilder.includeType(location: SourceLocation, name: String)
+command ModelBuilder.includeTypeNode(location: SourceLocation, name: String)
 {
     let typeNode = new TypeNode;
 
