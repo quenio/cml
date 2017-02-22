@@ -1,25 +1,23 @@
 grammar CML;
 
-model returns [model: Model]
-    : modelElement*;
+ModelNode: ModelElementNode*
+-> Model { concepts = <ConceptNode*>; targets = <TargetNode*>; }
 
-modelElement
-    : concept | target;
+ModelElementNode: ConceptNode | TargetNode;
 
-concept returns [concept: Concept]
-    : 'concept' NAME (';' | propertyList);
+ConceptNode: 'concept' NAME (';' | PropertyListNode)
+-> Concept { name = <NAME>; properties = <PropertyNode*>; }
 
-target returns [target: Target]
-    : 'target' NAME propertyList;
+TargetNode: 'target' NAME PropertyListNode
+-> Target { name = <NAME>; properties = <PropertyNode*>); }
 
-propertyList returns [propertyList: PropertyList]
-    : '{' (property ';')* '}';
+PropertyListNode: '{' (PropertyNode ';')* '}';
 
-property returns [property: Property]
-    : NAME (':' type)? '=' STRING;
+PropertyNode: NAME (':' TypeNode)? '=' STRING
+-> Property { name = <NAME>; value = <STRING>; type = <TypeNode?>; }
 
-type returns [type: Type]
-    : NAME;
+TypeNode: NAME
+-> Type { name = <NAME>; }
 
 NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
 STRING: '"' .*? '"';
