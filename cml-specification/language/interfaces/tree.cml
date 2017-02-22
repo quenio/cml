@@ -1,6 +1,9 @@
 
 interface SyntaxTreeBuilder
 {
+    command startBuilding();
+    command finishBuilding(): ModelNode;
+
     @BeforeRule("model")
     command createModelNode(location: SourceLocation);
 
@@ -35,6 +38,24 @@ concept SyntaxTree
     currentModelElementNode: ModelElementNode?;
     currentPropertyListNode: PropertyListNode?;
     currentTypeNode: TypeNode?;
+}
+
+command SyntaxTreeBuilder.startBuilding()
+{
+    ensure
+    {
+        not modelNode;
+        not currentModelElementNode;
+        not currentPropertyListNode;
+        not currentTypeNode;
+    }
+}
+
+command SyntaxTreeBuilder.finishBuilding(): ModelNode
+{
+    require modelNode;
+
+    return modelNode;
 }
 
 annotation BeforeRule(ruleName: String)
