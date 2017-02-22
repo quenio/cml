@@ -19,7 +19,7 @@
 
 ## 9.4 Postconditions
 
-### 9.4.1 Instance Creation
+### 9.4.1 Creating Instance
 
 When a contract establishes that some instance must be created, an object has to be chosen to create it.
 
@@ -27,6 +27,14 @@ The choice should be based on the following rules:
 - a) An object that is the aggregate of the instance to be created.
 - b) An object of a class that has one-to-many association to the class of the instance to be created.
 - c) An object that has the initialization information for the object to be created.
+
+### 9.4.2 Adding Link
+
+### 9.4.3 Changing Attribute Value
+
+### 9.4.4 Destroying Instance
+
+### 9.4.5 Removing/Replacing Link
 
 ## 9.5 Queries
 
