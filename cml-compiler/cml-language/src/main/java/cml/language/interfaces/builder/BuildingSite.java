@@ -92,14 +92,14 @@ class BuildingSite implements ModelBuilder
 
     // DMR: 9.4.1a
     @Override
-    public void createPropertyList(SourceLocation location)
+    public void createPropertyListNode(SourceLocation location)
     {
         currentPropertyListNode = new PropertyListNode(location);
     }
 
     // DMR: 9.4.1a
     @Override
-    public void includeProperty(SourceLocation location, String name, String string)
+    public void includePropertyNode(SourceLocation location, String name, String string)
     {
         assert currentTypeNode != null: "require syntaxTree.currentTypeNode";
         assert currentPropertyListNode != null: "require syntaxTree.currentPropertyListNode";
@@ -115,7 +115,7 @@ class BuildingSite implements ModelBuilder
 
     // DMR: 9.4.1a
     @Override
-    public void includeType(SourceLocation location, String name)
+    public void includeTypeNode(SourceLocation location, String name)
     {
         currentTypeNode = new TypeNode(location, name);
     }

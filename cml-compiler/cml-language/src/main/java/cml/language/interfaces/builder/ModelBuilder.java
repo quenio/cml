@@ -24,11 +24,11 @@ public interface ModelBuilder
     void includeTargetNode(SourceLocation location, String name);
 
     @BeforeRule("PropertyListNode")
-    void createPropertyList(SourceLocation location);
+    void createPropertyListNode(SourceLocation location);
 
     @AfterRule("PropertyNode")
-    void includeProperty(SourceLocation location, String name, String string);
+    void includePropertyNode(SourceLocation location, String name, String string);
 
     @AfterRule("TypeNode")
-    void includeType(SourceLocation location, String name);
+    void includeTypeNode(SourceLocation location, String name);
 }
