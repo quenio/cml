@@ -1,4 +1,4 @@
-package cml.language.interfaces.tree;
+package cml.language.interfaces.builder;
 
 @interface AfterRule
 {

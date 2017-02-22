@@ -1,4 +1,4 @@
-package cml.language.interfaces.tree;
+package cml.language.interfaces.builder;
 
 import cml.language.features.concept.ConceptNode;
 import cml.language.features.model.ModelElementNode;
@@ -11,7 +11,7 @@ import cml.language.foundation.elements.SourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 // DMR: 9.4.1a
-class SyntaxTree implements SyntaxTreeBuilder
+class BuildingSite implements ModelBuilder
 {
     private @Nullable ModelNode modelNode;
 
@@ -33,6 +33,8 @@ class SyntaxTree implements SyntaxTreeBuilder
     public ModelNode finishingBuilding()
     {
         assert modelNode != null : "require syntaxTree.modelNode";
+
+        // TODO synthesize and validate the model.
 
         return modelNode;
     }

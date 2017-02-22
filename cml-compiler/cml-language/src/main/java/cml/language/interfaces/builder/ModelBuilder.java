@@ -1,34 +1,34 @@
-package cml.language.interfaces.tree;
+package cml.language.interfaces.builder;
 
 import cml.language.features.model.ModelNode;
 import cml.language.foundation.elements.SourceLocation;
 
-public interface SyntaxTreeBuilder
+public interface ModelBuilder
 {
     void startBuilding();
     ModelNode finishingBuilding();
 
-    @BeforeRule("model")
+    @BeforeRule("ModelNode")
     void createModelNode(SourceLocation location);
 
-    @BeforeRule("modelElement")
+    @BeforeRule("ModelElementNode")
     void createModelElementNode(SourceLocation location);
 
-    @AfterRule("modelElement")
+    @AfterRule("ModelElementNode")
     void includeModelElementNode(SourceLocation location);
 
-    @AfterRule("concept")
+    @AfterRule("ConceptNode")
     void includeConceptNode(SourceLocation location, String name);
 
-    @AfterRule("target")
+    @AfterRule("TargetNode")
     void includeTargetNode(SourceLocation location, String name);
 
-    @BeforeRule("propertyList")
+    @BeforeRule("PropertyListNode")
     void createPropertyList(SourceLocation location);
 
-    @AfterRule("property")
+    @AfterRule("PropertyNode")
     void includeProperty(SourceLocation location, String name, String string);
 
-    @AfterRule("type")
+    @AfterRule("TypeNode")
     void includeType(SourceLocation location, String name);
 }
