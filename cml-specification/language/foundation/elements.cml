@@ -1,6 +1,13 @@
 
 // Model (Abstract Syntax)
 
+concept SourceLocation
+{
+    line: Integer;
+    column: Integer;
+    sourcePath: String;
+}
+
 abstract concept ModelElement
 {
     location: SourceLocation;
@@ -30,25 +37,6 @@ association ScopeElements
 command validateNamedElement(element: NamedElement)
 {
     invoke validateNameConflicts(element);
-}
-
-// Concrete Syntax
-
-concept SourceLocation
-{
-    line: Integer;
-    column: Integer;
-    sourcePath: String;
-}
-
-abstract concept Node
-{
-    location: SourceLocation;
-}
-
-concept NamedElementNode: Node
-{
-    name: String;
 }
 
 // Model Synthesis (Synthesized Attributes / Inherited Scopes)

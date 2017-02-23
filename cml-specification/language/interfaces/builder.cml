@@ -1,60 +1,5 @@
 
-interface ModelBuilder
-{
-    command startBuilding();
-    command finishBuilding(): Model;
-
-    @BeforeRule("ModelNode")
-    command createModelNode(location: SourceLocation);
-
-    @BeforeRule("ModelElementNode")
-    command createModelElementNode(location: SourceLocation);
-
-    @AfterRule("ModelElementNode")
-    command includeModelElementNode(location: SourceLocation);
-
-    @AfterRule("ConceptNode")
-    command includeConceptNode(location: SourceLocation, name: String);
-
-    @AfterRule("TargetNode")
-    command includeTargetNode(location: SourceLocation, name: String);
-
-    @BeforeRule("PropertyListNode")
-    command createPropertyListNode(location: SourceLocation);
-
-    @AfterRule("PropertyNode")
-    command includePropertyNode(location: SourceLocation, name: String, string: String);
-
-    @AfterRule("TypeNode")
-    command includeTypeNode(location: SourceLocation, name: String);
-}
-
-root buildingSite: BuildingSite;
-
-concept BuildingSite
-{
-    modelNode: ModelNode?;
-
-    currentModelElementNode: ModelElementNode?;
-    currentPropertyListNode: PropertyListNode?;
-    currentTypeNode: TypeNode?;
-
-    errors: list of Error*;
-}
-
-command SyntaxTreeBuilder.startBuilding()
-{
-    ensure
-    {
-        not buildingSite.modelNode;
-        not buildingSite.currentModelElementNode;
-        not buildingSite.currentPropertyListNode;
-        not buildingSite.currentTypeNode;
-        errors | count = 0;
-    }
-}
-
-command SyntaxTreeBuilder.finishBuilding(): ModelNode
+command finishBuilding(): ModelNode
 {
     require buildingSite.modelNode;
 
@@ -67,14 +12,4 @@ command SyntaxTreeBuilder.finishBuilding(): ModelNode
     }
 
     return buildingSite.modelNode.model;
-}
-
-annotation BeforeRule(ruleName: String)
-{
-    usages = ["command"];
-}
-
-annotation AfterRule(ruleName: String)
-{
-    usages = ["command"];
 }

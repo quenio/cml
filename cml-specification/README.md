@@ -3,10 +3,8 @@
 
 For each language feature, the specification process follows the following steps:
 - Define production rules of the grammar.
-- Generate (concrete) syntax tree from production rules.
-- Define model (abstract syntax tree).
-- Generate ModelSynthesizer interface and contract scaffolding from grammar.
-- Define contracts of ModelSynthesizer.
+- Define the AST mapping for each production rule.
+- Define conceptual model supporting the grammar rules and AST mapping.
 - Generate ModelValidator interface and contract scaffolding from grammar.
 - Define contracts of ModelValidator (each having one or more validation errors).
 
