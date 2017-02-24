@@ -2,6 +2,7 @@ package cml.parser;
 
 import cml.antlr.CMLLexer;
 import cml.antlr.CMLParser;
+import cml.antlr.CMLParser.ModelContext;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
@@ -53,7 +54,7 @@ class PlainParser implements Parser
             final CMLLexer lexer = new CMLLexer(input);
             final CommonTokenStream tokens = new CommonTokenStream(lexer);
             final CMLParser parser = new CMLParser(tokens);
-            final CMLParser.StartContext startContext = parser.start();
+            final ModelContext startContext = parser.model();
             final ParseTreeWalker walker = new ParseTreeWalker();
             final ModelSynthesiser synthesiser = new ModelSynthesiser(modelBuilder);
 

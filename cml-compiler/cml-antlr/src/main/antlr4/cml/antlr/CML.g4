@@ -1,10 +1,12 @@
 grammar CML;
 
-start: (concept | target)*;
-concept: 'concept' NAME ';';
-target: 'target' NAME '{' propertyList '}';
-propertyList: (property ';')*;
-property: NAME '=' STRING;
+model: modelElement*;
+modelElement: concept | target;
+concept: 'concept' NAME (';' | propertyList);
+target: 'target' NAME propertyList;
+propertyList: '{' (property ';')* '}';
+property: NAME (':' type)? '=' STRING;
+type: NAME;
 
 NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
 STRING: '"' .*? '"';
