@@ -33,7 +33,7 @@ production Property: NAME (':' Type)? '=' STRING
     name = NAME;
     value = STRING;
     type = Type?;
-    scope = { parent = Parent.scope; owner = Self; }
+    scope = Parent.scope;
 }
 
 production Type: NAME
