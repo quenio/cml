@@ -1,50 +1,44 @@
 package cml.language.foundation.elements;
 
-import org.jetbrains.annotations.Nullable;
-
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public class Scope
+import static java.util.stream.Collectors.toSet;
+
+public interface Scope extends ModelElement
 {
-    private final @Nullable Scope parent;
-    private final ModelElement owner;
-    private final Set<NamedElement> elements = new HashSet<>();
+    Set<ModelElement> getElements();
+    void addElement(ModelElement element);
 
-    Scope(ModelElement owner)
+    default Set<NamedElement> getNamedElements()
     {
-        this(null, owner);
+        return getElements().stream()
+                            .filter(e -> e instanceof NamedElementImpl)
+                            .map(e -> (NamedElement)e)
+                            .collect(toSet());
     }
 
-    Scope(@Nullable Scope parent, ModelElement owner)
-    {
-        this.parent = parent;
-        this.owner = owner;
-    }
-
-    Optional<NamedElement> findElement(String name)
+    default Optional<NamedElement> findElement(String name)
     {
         assert !name.matches("\\s*") : "require not name = /\\s*/";
 
-        final Optional<NamedElement> element = elements.stream()
-                                                       .filter(e -> name.equals(e.getName()))
-                                                       .findFirst();
+        final Optional<NamedElement> element = getNamedElements().stream()
+                                                                 .filter(e -> name.equals(e.getName()))
+                                                                 .findFirst();
 
-        if (!element.isPresent() && (parent != null))
+        if (!element.isPresent() && getParentScope().isPresent())
         {
-            return parent.findElement(name);
+            return getParentScope().get().findElement(name);
         }
 
         return element;
     }
 
-    Set<NamedElement> findLocalConflicts(NamedElement element)
+    default Set<NamedElement> findLocalConflicts(NamedElement element)
     {
-        return elements.stream()
-                       .filter(e -> !element.equals(e))
-                       .filter(e -> e.getName().equals(element.getName()))
-                       .collect(Collectors.toSet());
+        return getNamedElements().stream()
+                                 .filter(e -> !element.equals(e))
+                                 .filter(e -> e.getName().equals(element.getName()))
+                                 .collect(toSet());
     }
 }

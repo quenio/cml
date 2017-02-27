@@ -1,0 +1,41 @@
+Model: ModelItem*
+{
+    elements = Concept* + Target*;
+}
+
+ModelItem: Concept | Target;
+
+Concept: 'concept' NAME (';' | PropertyList)
+{
+    name = NAME;
+
+    properties = Property*;
+    properties.typeRequired = false;
+    properties.typeAllowed = true;
+}
+
+Target: 'target' NAME PropertyList
+{
+    name = NAME;
+
+    properties = Property*;
+    properties.typeRequired = false;
+    properties.typeAllowed = false;
+}
+
+PropertyList: '{' (Property ';')* '}';
+
+Property: NAME (':' Type)? '=' STRING
+{
+    name = NAME;
+    value = STRING;
+    type = Type?;
+}
+
+Type: NAME
+{
+    name = NAME;
+}
+
+NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
+STRING: '"' .*? '"';

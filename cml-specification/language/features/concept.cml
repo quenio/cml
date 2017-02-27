@@ -1,7 +1,13 @@
 
 // Model (Abstract Syntax)
 
-concept Concept: NamedElement, PropertyList;
+concept Concept: NamedElement, PropertySet;
+
+invariant of Concept
+{
+    properties.typeRequired = false;
+    properties.typeAllowed = true;
+}
 
 // Validator (Well-Formedness Rules)
 

@@ -1,7 +1,15 @@
 
 // Model (Abstract Syntax)
 
-concept Target: NamedElement, PropertyList;
+concept Target: NamedElement, PropertySet
+{
+}
+
+invariant of Target
+{
+    properties.typeRequired = false;
+    properties.typeAllowed = false;
+}
 
 // Validator (Well-Formedness Rules)
 

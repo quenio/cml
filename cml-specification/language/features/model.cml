@@ -1,10 +1,10 @@
 
 // Model (Abstract Syntax)
 
-concept Model: NamedElement
+concept Model: Scope
 {
-    concepts: list of Concept*;
-    targets: list of Target*;
+    /concepts: Concept* = elements;
+    /targets: Target* = elements;
 
     errors: list of Error*;
 }

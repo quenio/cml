@@ -11,25 +11,24 @@ concept SourceLocation
 abstract concept ModelElement
 {
     location: SourceLocation;
+    parentScope: Scope?;
+}
+
+abstract concept Scope: ModelElement
+{
+    elements: ModelElement*;
+    /namedElements: NamedElement* = elements;
+}
+
+association ScopeElement
+{
+    Scope.elements: ModelElement*;
+    ModelElement.parentScope: Scope?;
 }
 
 abstract concept NamedElement: ModelElement
 {
     name: String;
-    scope: Scope;
-}
-
-concept Scope
-{
-    parent: Scope?;
-    owner: ModelElement;
-    elements: NamedElement*;
-}
-
-association ScopeElements
-{
-    Scope.elements: NamedElement*;
-    ModelElement.scope: Scope;
 }
 
 // Validator (Well-Formedness Rules)

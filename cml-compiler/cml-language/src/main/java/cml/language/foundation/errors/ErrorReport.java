@@ -22,7 +22,7 @@ class ErrorReport
         errors.add(error);
     }
 
-    // TODO Change NamedElement to Type.
+    // TODO Change NamedElementImpl to Type.
     void reportUnknownType(NamedElement type)
     {
         errors.add(new Error(UNKNOWN_TYPE, type));

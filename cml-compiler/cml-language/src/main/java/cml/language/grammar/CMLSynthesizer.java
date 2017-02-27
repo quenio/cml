@@ -1,0 +1,69 @@
+package cml.language.grammar;
+
+import cml.language.features.concept.Concept;
+import cml.language.features.model.Model;
+import cml.language.features.property.Property;
+import cml.language.features.target.Target;
+import cml.language.features.type.Type;
+import cml.language.grammar.CMLParser.*;
+
+public class CMLSynthesizer extends CMLBaseListener
+{
+    @Override
+    public void exitModelNode(ModelNodeContext ctx)
+    {
+        ctx.model = Model.create();
+
+        ctx.modelElementNode()
+           .stream()
+           .filter(node -> node.conceptNode() != null)
+           .forEach(node -> ctx.model.addElement(node.conceptNode().concept));
+
+        ctx.modelElementNode()
+           .stream()
+           .filter(node -> node.targetNode() != null)
+           .forEach(node -> ctx.model.addElement(node.targetNode().target));
+    }
+
+    @Override
+    public void exitConceptNode(ConceptNodeContext ctx)
+    {
+        final String name = ctx.NAME().getText();
+
+        ctx.concept = Concept.create(name);
+
+        ctx.propertyListNode()
+           .propertyNode()
+           .forEach(node -> ctx.concept.addElement(node.property));
+    }
+
+    @Override
+    public void exitTargetNode(TargetNodeContext ctx)
+    {
+        final String name = ctx.NAME().getText();
+
+        ctx.target = Target.create(name);
+
+        ctx.propertyListNode()
+           .propertyNode()
+           .forEach(node -> ctx.target.addElement(node.property));
+    }
+
+    @Override
+    public void exitPropertyNode(PropertyNodeContext ctx)
+    {
+        final String name = ctx.NAME().getText();
+        final String value = ctx.STRING().getText();
+
+        ctx.property = Property.create(name, value);
+    }
+
+    @Override
+    public void exitTypeNode(TypeNodeContext ctx)
+    {
+        final String name = ctx.NAME().getText();
+
+        ctx.type = Type.create(name);
+    }
+
+}
