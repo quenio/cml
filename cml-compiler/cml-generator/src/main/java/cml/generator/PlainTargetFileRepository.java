@@ -1,11 +1,10 @@
 package cml.generator;
 
-import cml.model.Target;
+import cml.language.features.target.Target;
 import cml.templates.TemplateFile;
 import cml.templates.TemplateRenderer;
 import cml.templates.TemplateRepository;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -36,7 +35,7 @@ class PlainTargetFileRepository implements TargetFileRepository
         final String fileType,
         final Map<String, Object> args)
     {
-        final Optional<TemplateFile> fileTemplates = templateRepository.findTemplate(target.getTargetType(), GROUP_FILES);
+        final Optional<TemplateFile> fileTemplates = templateRepository.findTemplate(target.getName(), GROUP_FILES);
 
         if (fileTemplates.isPresent())
         {
@@ -44,7 +43,7 @@ class PlainTargetFileRepository implements TargetFileRepository
             final String files = templateRenderer.renderTemplate(fileTemplates.get(), templateName, args);
             return stream(files.split("\n"))
                 .map(line -> line.split("\\|"))
-                .map(pair -> createTargetFile(pair[1], target.getTargetType(), pair[0]))
+                .map(pair -> createTargetFile(pair[1], target.getName(), pair[0]))
                 .collect(toSet());
         }
         else

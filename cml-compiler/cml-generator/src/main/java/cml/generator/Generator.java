@@ -1,6 +1,6 @@
 package cml.generator;
 
-import cml.model.Model;
+import cml.language.features.model.Model;
 
 public interface Generator
 {

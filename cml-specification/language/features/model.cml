@@ -5,6 +5,7 @@ concept Model: Scope
 {
     /concepts: Concept* = elements;
     /targets: Target* = elements;
+    /target[name: String]: Target? = for t in targets | select first t.name = name;
 
     errors: list of Error*;
 }

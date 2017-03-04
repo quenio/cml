@@ -38,4 +38,9 @@ public class ScopeImpl implements Scope
 
         scopeElement = association;
     }
+
+    static
+    {
+        ScopeElement.init(ScopeImpl.class);
+    }
 }

@@ -7,6 +7,7 @@ import cml.language.foundation.elements.ModelElementImpl;
 import cml.language.foundation.elements.Scope;
 import cml.language.foundation.elements.ScopeImpl;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
@@ -27,6 +28,11 @@ public interface Model extends Scope
                             .filter(e -> e instanceof Target)
                             .map(e -> (Target)e)
                             .collect(toSet());
+    }
+
+    default Optional<Target> getTarget(String name)
+    {
+        return getTargets().stream().filter(t -> t.getName().equals(name)).findFirst();
     }
 
     static Model create()

@@ -28,7 +28,7 @@ PropertyList: '{' (Property ';')* '}';
 Property: NAME (':' Type)? '=' STRING
 {
     name = NAME;
-    value = STRING;
+    value = unwrap(STRING);
     type = Type?;
 }
 
@@ -39,3 +39,10 @@ Type: NAME
 
 NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
 STRING: '"' .*? '"';
+
+function unwrap(str: String): String
+{
+    let /"?(<value>.*?)"?/ = str;
+
+    return value or else str;
+}

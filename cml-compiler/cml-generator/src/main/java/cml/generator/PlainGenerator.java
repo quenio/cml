@@ -3,12 +3,12 @@ package cml.generator;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
-import cml.model.Concept;
-import cml.model.Model;
-import cml.model.ModelRepository;
-import cml.model.Target;
+import cml.language.features.concept.Concept;
+import cml.language.features.model.Model;
+import cml.language.features.target.Target;
 import cml.templates.TemplateRenderer;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,28 +24,26 @@ class PlainGenerator implements Generator
     private static final String CONCEPT = "concept";
 
     private final Console console;
-    private final ModelRepository modelRepository;
     private final TargetFileRepository targetFileRepository;
     private final TemplateRenderer templateRenderer;
     private final FileSystem fileSystem;
 
     PlainGenerator(
-        final Console console,
-        final FileSystem fileSystem,
-        final ModelRepository modelRepository,
-        final TargetFileRepository targetFileRepository, final TemplateRenderer templateRenderer)
+        Console console,
+        FileSystem fileSystem,
+        TargetFileRepository targetFileRepository,
+        TemplateRenderer templateRenderer)
     {
         this.console = console;
         this.fileSystem = fileSystem;
-        this.modelRepository = modelRepository;
         this.targetFileRepository = targetFileRepository;
         this.templateRenderer = templateRenderer;
     }
 
     @Override
-    public int generate(final Model model, final String targetType, final String targetDirPath)
+    public int generate(Model model, final String targetType, final String targetDirPath)
     {
-        final Optional<Target> target = modelRepository.getTarget(model, targetType);
+        final Optional<Target> target = model.getTarget(targetType);
         if (!target.isPresent())
         {
             console.println("Source files have not declared target type: %s", targetType);
@@ -64,25 +62,20 @@ class PlainGenerator implements Generator
         }
 
         final Optional<Directory> targetDir = fileSystem.findDirectory(targetDirPath);
-        if (targetDir.isPresent())
-        {
-            fileSystem.cleanDirectory(targetDir.get());
-        }
+        targetDir.ifPresent(fileSystem::cleanDirectory);
 
         console.println("module files:");
         moduleFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
 
-        final Set<Concept> concepts = modelRepository.getConcepts(model);
-        concepts.forEach(
-            concept ->
-            {
-                templateArgs.put(CONCEPT, concept);
+        for (Concept concept: model.getConcepts())
+        {
+            templateArgs.put(CONCEPT, concept);
 
-                final Set<TargetFile> conceptFiles = findConceptFiles(target.get(), templateArgs);
+            final Set<TargetFile> conceptFiles = findConceptFiles(target.get(), templateArgs);
 
-                console.println("\n%s files:", concept.getName());
-                conceptFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
-            });
+            console.println("\n%s files:", concept.getName());
+            conceptFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
+        }
 
         return SUCCESS;
     }
@@ -106,7 +99,7 @@ class PlainGenerator implements Generator
 
         if (targetFile.getTemplateFile().isPresent())
         {
-            final String path = targetDirPath + "/" + targetFile.getPath();
+            final String path = targetDirPath + File.separatorChar + targetFile.getPath();
             final String contents = templateRenderer.renderTemplate(
                 targetFile.getTemplateFile().get(),
                 targetFile.getTemplateName(),
@@ -116,12 +109,11 @@ class PlainGenerator implements Generator
         }
     }
 
-    private Map<String, Object> getTargetProperties(final Target target)
+    private static Map<String, Object> getTargetProperties(final Target target)
     {
         final Map<String, Object> properties = new HashMap<>();
 
-        modelRepository.getProperties(target)
-                       .forEach(property -> properties.put(property.getName(), property.getValue()));
+        target.getProperties().forEach(property -> properties.put(property.getName(), property.getValue()));
 
         return properties;
     }

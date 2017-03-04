@@ -51,7 +51,8 @@ public class AcceptanceTest
 
     private static final int SUCCESS = 0;
     private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
-    private static final int FAILURE__PARSING_FAILED = 2;
+    private static final int FAILURE__SOURCE_FILE_NOT_FOUND = 2;
+    private static final int FAILURE__PARSING_FAILED = 3;
     private static final int FAILURE__TARGET_TYPE_UNKNOWN = 101;
     private static final int FAILURE__TARGET_TYPE_UNDECLARED = 102;
 
@@ -116,7 +117,7 @@ public class AcceptanceTest
     @Test
     public void missing_source_file() throws Exception
     {
-        compileAndVerifyOutput(CASES_DIR + "/missing-source", FAILURE__PARSING_FAILED);
+        compileAndVerifyOutput(CASES_DIR + "/missing-source", FAILURE__SOURCE_FILE_NOT_FOUND);
     }
 
     @Test

@@ -18,4 +18,9 @@ public class ModelElementImpl implements ModelElement
 
         scopeElement = association;
     }
+
+    static
+    {
+        ScopeElement.init(ModelElementImpl.class);
+    }
 }

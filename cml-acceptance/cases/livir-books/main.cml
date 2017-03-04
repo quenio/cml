@@ -1,5 +1,5 @@
-concept BookStore;
 concept Book;
+concept BookStore;
 
 target poj
 {

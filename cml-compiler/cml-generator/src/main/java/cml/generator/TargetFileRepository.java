@@ -1,6 +1,6 @@
 package cml.generator;
 
-import cml.model.Target;
+import cml.language.features.target.Target;
 
 import java.util.Map;
 import java.util.Set;

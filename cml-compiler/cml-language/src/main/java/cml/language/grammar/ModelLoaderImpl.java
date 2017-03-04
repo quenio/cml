@@ -1,5 +1,8 @@
 package cml.language.grammar;
 
+import cml.io.Console;
+import cml.io.FileSystem;
+import cml.io.SourceFile;
 import cml.language.features.model.Model;
 import cml.language.grammar.CMLParser.ModelNodeContext;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -12,33 +15,36 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public class CMLLoader extends CMLBaseListener
+class ModelLoaderImpl implements ModelLoader
 {
-    private final CMLSynthesizer synthesizer = new CMLSynthesizer();
+    private final Console console;
 
-    public Optional<Model> loadModel(String sourcePath)
+    ModelLoaderImpl(final Console console)
     {
-        
-        try (final FileInputStream fileInputStream = new FileInputStream(sourcePath))
+        this.console = console;
+    }
+
+    @Override
+    public Optional<Model> loadModel(SourceFile sourceFile)
+    {
+        try (final FileInputStream fileInputStream = new FileInputStream(sourceFile.getPath()))
         {
             final ANTLRInputStream input = new ANTLRInputStream(fileInputStream);
             final CMLLexer lexer = new CMLLexer(input);
             final CommonTokenStream tokens = new CommonTokenStream(lexer);
             final CMLParser parser = new CMLParser(tokens);
-            final ModelNodeContext startContext = parser.modelNode();
+            final ModelNodeContext modelNodeContext = parser.modelNode();
             final ParseTreeWalker walker = new ParseTreeWalker();
+            final ModelSynthesizer modelSynthesizer = new ModelSynthesizer();
 
-            walker.walk(synthesizer, startContext);
+            walker.walk(modelSynthesizer, modelNodeContext);
 
-            return empty();
-
-//            return Optional.of(modelBuilder.getModel());
+            return Optional.of(modelNodeContext.model);
         }
-        catch (final IOException ignored)
+        catch (final IOException exception)
         {
-//            console.println("I/O Error: %s", exception.getMessage());
+            console.println("I/O Error: %s", exception.getMessage());
             return empty();
         }
     }
-
 }

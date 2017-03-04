@@ -9,12 +9,18 @@ class ScopeElement
     private final Map<Scope, Set<ModelElement>> elements = new HashMap<>();
     private final Map<ModelElement, Scope> parentScope = new HashMap<>();
 
-    static
-    {
-        final ScopeElement scopeElement = new ScopeElement();
+    private static final ScopeElement singleton = new ScopeElement();
 
-        ScopeImpl.setScopeElement(scopeElement);
-        ModelElementImpl.setScopeElement(scopeElement);
+    static void init(Object object)
+    {
+        if (ScopeImpl.class.equals(object))
+        {
+            ScopeImpl.setScopeElement(singleton);
+        }
+        else if (ModelElementImpl.class.equals(object))
+        {
+            ModelElementImpl.setScopeElement(singleton);
+        }
     }
 
     void link(Scope scope, ModelElement modelElement)
