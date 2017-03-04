@@ -16,8 +16,8 @@ abstract concept ModelElement
 
 abstract concept Scope: ModelElement
 {
-    elements: ModelElement*;
-    /namedElements: NamedElement* = elements;
+    elements: list of ModelElement*;
+    /namedElements: list of NamedElement* = elements;
 }
 
 association ScopeElement

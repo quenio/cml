@@ -1,7 +1,7 @@
 
 // Model (Abstract Syntax)
 
-concept Target: NamedElement, PropertySet
+concept Target: NamedElement, PropertyList
 {
 }
 

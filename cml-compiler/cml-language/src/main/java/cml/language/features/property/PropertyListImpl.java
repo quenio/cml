@@ -3,14 +3,14 @@ package cml.language.features.property;
 import cml.language.foundation.elements.ModelElement;
 import cml.language.foundation.elements.Scope;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-public class PropertySetImpl implements PropertySet
+public class PropertyListImpl implements PropertyList
 {
     private final Scope scope;
 
-    public PropertySetImpl(Scope scope)
+    public PropertyListImpl(Scope scope)
     {
         this.scope = scope;
     }
@@ -22,7 +22,7 @@ public class PropertySetImpl implements PropertySet
     }
 
     @Override
-    public Set<ModelElement> getElements()
+    public List<ModelElement> getElements()
     {
         return scope.getElements();
     }

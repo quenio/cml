@@ -1,7 +1,7 @@
 package cml.language.foundation.elements;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class ScopeImpl implements Scope
 {
@@ -19,7 +19,7 @@ public class ScopeImpl implements Scope
     }
 
     @Override
-    public Set<ModelElement> getElements()
+    public List<ModelElement> getElements()
     {
         return scopeElement.getElements(this);
     }

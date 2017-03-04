@@ -3,15 +3,15 @@ package cml.language.features.model;
 import cml.language.foundation.elements.ModelElement;
 import cml.language.foundation.elements.Scope;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-public class ModelImpl implements Model
+class ModelImpl implements Model
 {
     private final ModelElement modelElement;
     private final Scope scope;
 
-    public ModelImpl(ModelElement modelElement, Scope scope)
+    ModelImpl(ModelElement modelElement, Scope scope)
     {
         this.modelElement = modelElement;
         this.scope = scope;
@@ -24,7 +24,7 @@ public class ModelImpl implements Model
     }
 
     @Override
-    public Set<ModelElement> getElements()
+    public List<ModelElement> getElements()
     {
         return scope.getElements();
     }

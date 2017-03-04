@@ -7,27 +7,27 @@ import cml.language.foundation.elements.ModelElementImpl;
 import cml.language.foundation.elements.Scope;
 import cml.language.foundation.elements.ScopeImpl;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
 
 public interface Model extends Scope
 {
-    default Set<Concept> getConcepts()
+    default List<Concept> getConcepts()
     {
         return getElements().stream()
                             .filter(e -> e instanceof Concept)
                             .map(e -> (Concept)e)
-                            .collect(toSet());
+                            .collect(toList());
     }
 
-    default Set<Target> getTargets()
+    default List<Target> getTargets()
     {
         return getElements().stream()
                             .filter(e -> e instanceof Target)
                             .map(e -> (Target)e)
-                            .collect(toSet());
+                            .collect(toList());
     }
 
     default Optional<Target> getTarget(String name)

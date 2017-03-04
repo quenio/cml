@@ -12,7 +12,7 @@ query findElement(name: String, scope: Scope): NamedElement?
     return element;
 }
 
-query findLocalConflicts(element: NamedElement): NamedElement*
+query findLocalConflicts(element: NamedElement): list of NamedElement*
 {
     let scope = element.scope;
 

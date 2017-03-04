@@ -6,9 +6,9 @@ concept Property: TypedElement
     value: String;
 }
 
-abstract concept PropertySet: Scope
+abstract concept PropertyList: Scope
 {
-    /properties: Property* = elements;
+    /properties: list of Property* = elements;
 }
 
 // Validator (Well-Formedness Rules)
@@ -18,8 +18,8 @@ command validateProperty(property: Property)
     invoke validateTypedElement(property);
 }
 
-command validatePropertySet(propertySet: PropertySet)
+command validatePropertyList(propertyList: PropertyList)
 {
-    for property in propertySet.properties
+    for property in propertyList.properties
         invoke validateProperty(property);
 }

@@ -1,7 +1,7 @@
 
 // Model (Abstract Syntax)
 
-concept Concept: NamedElement, PropertySet;
+concept Concept: NamedElement, PropertyList;
 
 invariant of Concept
 {

@@ -1,18 +1,18 @@
 package cml.language.features.concept;
 
-import cml.language.features.property.PropertySet;
-import cml.language.features.property.PropertySetImpl;
+import cml.language.features.property.PropertyList;
+import cml.language.features.property.PropertyListImpl;
 import cml.language.foundation.elements.*;
 
-public interface Concept extends NamedElement, PropertySet
+public interface Concept extends NamedElement, PropertyList
 {
     static Concept create(String name)
     {
         final ModelElement modelElement = new ModelElementImpl();
         final NamedElement namedElement = new NamedElementImpl(modelElement, name);
         final Scope scope = new ScopeImpl(modelElement);
-        final PropertySet propertySet = new PropertySetImpl(scope);
+        final PropertyList propertyList = new PropertyListImpl(scope);
         
-        return new ConceptImpl(modelElement, namedElement, propertySet);
+        return new ConceptImpl(modelElement, namedElement, propertyList);
     }
 }

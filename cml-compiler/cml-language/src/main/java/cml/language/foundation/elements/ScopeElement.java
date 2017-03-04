@@ -2,11 +2,11 @@ package cml.language.foundation.elements;
 
 import java.util.*;
 
-import static java.util.Collections.emptySet;
+import static java.util.Collections.emptyList;
 
 class ScopeElement
 {
-    private final Map<Scope, Set<ModelElement>> elements = new HashMap<>();
+    private final Map<Scope, List<ModelElement>> elements = new HashMap<>();
     private final Map<ModelElement, Scope> parentScope = new HashMap<>();
 
     private static final ScopeElement singleton = new ScopeElement();
@@ -25,8 +25,8 @@ class ScopeElement
 
     void link(Scope scope, ModelElement modelElement)
     {
-        final Set<ModelElement> modelElementList =
-            elements.computeIfAbsent(scope, key -> new HashSet<>());
+        final List<ModelElement> modelElementList =
+            elements.computeIfAbsent(scope, key -> new ArrayList<>());
 
         if (!modelElementList.contains(modelElement))
         {
@@ -37,7 +37,7 @@ class ScopeElement
 
     void unlink(Scope scope, ModelElement modelElement)
     {
-        final Set<ModelElement> modelElementList = elements.get(scope);
+        final List<ModelElement> modelElementList = elements.get(scope);
 
         if ((modelElementList != null) && modelElementList.contains(modelElement))
         {
@@ -47,11 +47,11 @@ class ScopeElement
         parentScope.remove(modelElement, scope);
     }
 
-    Set<ModelElement> getElements(Scope scope)
+    List<ModelElement> getElements(Scope scope)
     {
-        final Set<ModelElement> modelElementList = elements.get(scope);
+        final List<ModelElement> modelElementList = elements.get(scope);
 
-        return (modelElementList == null) ? emptySet() : modelElementList;
+        return (modelElementList == null) ? emptyList() : modelElementList;
     }
 
     Optional<Scope> getParentScope(ModelElement modelElement)

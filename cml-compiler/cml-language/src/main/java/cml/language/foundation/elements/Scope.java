@@ -1,21 +1,21 @@
 package cml.language.foundation.elements;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
 
 public interface Scope extends ModelElement
 {
-    Set<ModelElement> getElements();
+    List<ModelElement> getElements();
     void addElement(ModelElement element);
 
-    default Set<NamedElement> getNamedElements()
+    default List<NamedElement> getNamedElements()
     {
         return getElements().stream()
                             .filter(e -> e instanceof NamedElementImpl)
                             .map(e -> (NamedElement)e)
-                            .collect(toSet());
+                            .collect(toList());
     }
 
     default Optional<NamedElement> findElement(String name)
@@ -34,11 +34,11 @@ public interface Scope extends ModelElement
         return element;
     }
 
-    default Set<NamedElement> findLocalConflicts(NamedElement element)
+    default List<NamedElement> findLocalConflicts(NamedElement element)
     {
         return getNamedElements().stream()
                                  .filter(e -> !element.equals(e))
                                  .filter(e -> e.getName().equals(element.getName()))
-                                 .collect(toSet());
+                                 .collect(toList());
     }
 }
