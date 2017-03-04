@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import static org.apache.commons.io.FileUtils.forceMkdir;
 
-class PlainFileSystem implements FileSystem
+class FileSystemImpl implements FileSystem
 {
     private static final String EXCEPTION_FILE_CREATION_FAILED = "Unexpected exception. File should have been created: ";
     private static final String EXCEPTION_DIRECTORY_DELETION_FAILED = "Unexpected exception. Dir should have been deleted: ";

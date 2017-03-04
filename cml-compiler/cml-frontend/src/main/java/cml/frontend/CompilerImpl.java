@@ -10,7 +10,7 @@ import cml.language.grammar.ModelLoader;
 
 import java.util.Optional;
 
-class PlainCompiler implements Compiler
+class CompilerImpl implements Compiler
 {
     private static final String MAIN_SOURCE = "main.cml";
 
@@ -23,7 +23,7 @@ class PlainCompiler implements Compiler
     private final ModelLoader modelLoader;
     private final Generator generator;
 
-    PlainCompiler(Console console, FileSystem fileSystem, ModelLoader modelLoader, Generator generator)
+    CompilerImpl(Console console, FileSystem fileSystem, ModelLoader modelLoader, Generator generator)
     {
         this.console = console;
         this.fileSystem = fileSystem;

@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-class PlainGenerator implements Generator
+class GeneratorImpl implements Generator
 {
     private static final int SUCCESS = 0;
     private static final int FAILURE__TARGET_TYPE_UNKNOWN = 101;
@@ -28,7 +28,7 @@ class PlainGenerator implements Generator
     private final TemplateRenderer templateRenderer;
     private final FileSystem fileSystem;
 
-    PlainGenerator(
+    GeneratorImpl(
         Console console,
         FileSystem fileSystem,
         TargetFileRepository targetFileRepository,

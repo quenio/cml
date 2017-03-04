@@ -13,7 +13,7 @@ import static java.util.Arrays.stream;
 import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toSet;
 
-class PlainTargetFileRepository implements TargetFileRepository
+class TargetFileRepositoryImpl implements TargetFileRepository
 {
     private static final String STG_EXT = ".stg";
     private static final String GROUP_FILES = "files" + STG_EXT;
@@ -23,7 +23,7 @@ class PlainTargetFileRepository implements TargetFileRepository
     private final TemplateRepository templateRepository;
     private final TemplateRenderer templateRenderer;
 
-    PlainTargetFileRepository(final TemplateRepository templateRepository, final TemplateRenderer templateRenderer)
+    TargetFileRepositoryImpl(final TemplateRepository templateRepository, final TemplateRenderer templateRenderer)
     {
         this.templateRepository = templateRepository;
         this.templateRenderer = templateRenderer;

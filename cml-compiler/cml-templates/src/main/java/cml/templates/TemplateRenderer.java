@@ -5,4 +5,9 @@ import java.util.Map;
 public interface TemplateRenderer
 {
     String renderTemplate(TemplateFile templateFile, String templateName, Map<String, Object> args);
+
+    static TemplateRenderer create()
+    {
+        return new TemplateRendererImpl();
+    }
 }

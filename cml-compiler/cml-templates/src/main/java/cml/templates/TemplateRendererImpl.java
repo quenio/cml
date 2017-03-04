@@ -6,7 +6,7 @@ import org.stringtemplate.v4.STGroupFile;
 import java.net.URL;
 import java.util.Map;
 
-class PlainTemplateRenderer implements TemplateRenderer
+class TemplateRendererImpl implements TemplateRenderer
 {
     private static final String ENCODING = "UTF-8";
 

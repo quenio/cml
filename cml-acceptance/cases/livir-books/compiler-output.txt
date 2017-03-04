@@ -1,8 +1,8 @@
 module files:
 - pom.xml
 
-BookStore files:
-- src/main/java/livir/books/BookStore.java
-
 Book files:
 - src/main/java/livir/books/Book.java
+
+BookStore files:
+- src/main/java/livir/books/BookStore.java

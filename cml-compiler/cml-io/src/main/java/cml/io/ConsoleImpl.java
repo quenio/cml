@@ -1,6 +1,6 @@
 package cml.io;
 
-class PlainConsole implements Console
+class ConsoleImpl implements Console
 {
     @Override
     public void println(final String message, final Object... args)

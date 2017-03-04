@@ -9,4 +9,9 @@ public interface FileSystem
 
     void createFile(String path, String content);
     void cleanDirectory(Directory directory);
+
+    static FileSystem create()
+    {
+        return new FileSystemImpl();
+    }
 }
