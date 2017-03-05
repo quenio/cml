@@ -1,20 +1,30 @@
-package cml.language.features.target;
+package cml.language.features;
 
-import cml.language.features.property.PropertyList;
-import cml.language.foundation.elements.ModelElement;
-import cml.language.foundation.elements.NamedElement;
-import cml.language.foundation.elements.Scope;
+import cml.language.foundation.elements.*;
 
 import java.util.List;
 import java.util.Optional;
 
-class TargetImpl implements Target
+public interface Concept extends NamedElement, PropertyList
+{
+    static Concept create(String name)
+    {
+        final ModelElement modelElement = new ModelElementImpl();
+        final NamedElement namedElement = new NamedElementImpl(modelElement, name);
+        final Scope scope = new ScopeImpl(modelElement);
+        final PropertyList propertyList = new PropertyListImpl(scope);
+        
+        return new ConceptImpl(modelElement, namedElement, propertyList);
+    }
+}
+
+class ConceptImpl implements Concept
 {
     private final ModelElement modelElement;
     private final NamedElement namedElement;
     private final PropertyList propertyList;
 
-    TargetImpl(ModelElement modelElement, NamedElement namedElement, PropertyList propertyList)
+    ConceptImpl(ModelElement modelElement, NamedElement namedElement, PropertyList propertyList)
     {
         this.modelElement = modelElement;
         this.namedElement = namedElement;

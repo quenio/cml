@@ -1,10 +1,10 @@
 package cml.language.grammar;
 
-import cml.language.features.concept.Concept;
-import cml.language.features.model.Model;
-import cml.language.features.property.Property;
-import cml.language.features.target.Target;
-import cml.language.features.type.Type;
+import cml.language.features.Concept;
+import cml.language.features.Model;
+import cml.language.features.Property;
+import cml.language.features.Target;
+import cml.language.features.Type;
 import cml.language.grammar.CMLParser.*;
 
 public class ModelSynthesizer extends CMLBaseListener

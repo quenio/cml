@@ -1,4 +1,4 @@
-package cml.language.features.type;
+package cml.language.features;
 
 import cml.language.foundation.elements.NamedElement;
 import cml.language.foundation.elements.Scope;
@@ -6,14 +6,26 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class TypedElementImpl implements TypedElement
+public interface TypedElement extends NamedElement
+{
+    boolean isTypeRequired();
+    void setTypeRequired(boolean typeRequired);
+
+    boolean isTypeAllowed();
+    void setTypeAllowed(boolean typeAllowed);
+
+    Optional<Type> getType();
+    void setType(@Nullable Type type);
+}
+
+class TypedElementImpl implements TypedElement
 {
     private final NamedElement namedElement;
     private boolean typeRequired;
     private boolean typeAllowed;
     private @Nullable Type type;
-    
-    public TypedElementImpl(NamedElement namedElement)
+
+    TypedElementImpl(NamedElement namedElement)
     {
         this.namedElement = namedElement;
     }
@@ -65,5 +77,5 @@ public class TypedElementImpl implements TypedElement
     {
         this.type = type;
     }
-
 }
+

@@ -1,11 +1,22 @@
-package cml.language.features.property;
+package cml.language.features;
 
-import cml.language.features.type.Type;
-import cml.language.foundation.elements.Scope;
-import cml.language.features.type.TypedElement;
+import cml.language.foundation.elements.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+
+public interface Property extends TypedElement
+{
+    String getValue();
+
+    static Property create(String name, String value)
+    {
+        final ModelElement modelElement = new ModelElementImpl();
+        final NamedElement namedElement = new NamedElementImpl(modelElement, name);
+        final TypedElement typedElement = new TypedElementImpl(namedElement);
+        return new PropertyImpl(typedElement, value);
+    }
+}
 
 class PropertyImpl implements Property
 {
@@ -72,3 +83,4 @@ class PropertyImpl implements Property
         return value;
     }
 }
+

@@ -1,4 +1,4 @@
-package cml.language.features.model;
+package cml.language.features;
 
 import cml.language.foundation.elements.ModelElement;
 import cml.language.foundation.elements.Scope;
@@ -6,21 +6,32 @@ import cml.language.foundation.elements.Scope;
 import java.util.List;
 import java.util.Optional;
 
-class ModelImpl implements Model
+import static java.util.stream.Collectors.toList;
+
+public interface PropertyList extends Scope
 {
-    private final ModelElement modelElement;
+    default List<Property> getProperties()
+    {
+        return getElements().stream()
+                            .filter(e -> e instanceof PropertyImpl)
+                            .map(e -> (Property)e)
+                            .collect(toList());
+    }
+}
+
+class PropertyListImpl implements PropertyList
+{
     private final Scope scope;
 
-    ModelImpl(ModelElement modelElement, Scope scope)
+    public PropertyListImpl(Scope scope)
     {
-        this.modelElement = modelElement;
         this.scope = scope;
     }
 
     @Override
     public Optional<Scope> getParentScope()
     {
-        return modelElement.getParentScope();
+        return scope.getParentScope();
     }
 
     @Override

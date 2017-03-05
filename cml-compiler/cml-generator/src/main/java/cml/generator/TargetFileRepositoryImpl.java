@@ -1,6 +1,6 @@
 package cml.generator;
 
-import cml.language.features.target.Target;
+import cml.language.features.Target;
 import cml.templates.TemplateFile;
 import cml.templates.TemplateRenderer;
 import cml.templates.TemplateRepository;

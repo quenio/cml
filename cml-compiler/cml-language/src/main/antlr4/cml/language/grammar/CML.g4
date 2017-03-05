@@ -3,11 +3,7 @@ grammar CML;
 @header
 {
 import cml.language.foundation.elements.*;
-import cml.language.features.model.*;
-import cml.language.features.concept.*;
-import cml.language.features.target.*;
-import cml.language.features.property.*;
-import cml.language.features.type.*;
+import cml.language.features.*;
 }
 
 modelNode returns [Model model]: modelElementNode*;

@@ -2,7 +2,7 @@ package cml.generator;
 
 import cml.io.Console;
 import cml.io.FileSystem;
-import cml.language.features.model.Model;
+import cml.language.features.Model;
 import cml.templates.TemplateRenderer;
 import cml.templates.TemplateRepository;
 

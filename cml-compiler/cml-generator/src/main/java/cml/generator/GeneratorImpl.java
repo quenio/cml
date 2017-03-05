@@ -3,9 +3,9 @@ package cml.generator;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
-import cml.language.features.concept.Concept;
-import cml.language.features.model.Model;
-import cml.language.features.target.Target;
+import cml.language.features.Concept;
+import cml.language.features.Model;
+import cml.language.features.Target;
 import cml.templates.TemplateRenderer;
 
 import java.io.File;

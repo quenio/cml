@@ -1,10 +1,18 @@
-package cml.language.features.type;
+package cml.language.features;
 
-import cml.language.foundation.elements.ModelElement;
-import cml.language.foundation.elements.NamedElement;
-import cml.language.foundation.elements.Scope;
+import cml.language.foundation.elements.*;
 
 import java.util.Optional;
+
+public interface Type extends NamedElement
+{
+    static Type create(String name)
+    {
+        final ModelElement modelElement = new ModelElementImpl();
+        final NamedElement namedElement = new NamedElementImpl(modelElement, name);
+        return new TypeImpl(modelElement, namedElement);
+    }
+}
 
 class TypeImpl implements Type
 {
@@ -29,3 +37,4 @@ class TypeImpl implements Type
         return namedElement.getName();
     }
 }
+
