@@ -1,4 +1,20 @@
 
+// Model (Abstract Syntax)
+
+abstract concept Scope: ModelElement
+{
+    elements: list of ModelElement*;
+    /namedElements: list of NamedElement* = elements;
+}
+
+association ScopeElement
+{
+    Scope.elements: ModelElement*;
+    ModelElement.parentScope: Scope?;
+}
+
+// Validator (Well-Formedness Rules)
+
 query findElement(name: String, scope: Scope): NamedElement?
 {
     require not name = /\s*/;
