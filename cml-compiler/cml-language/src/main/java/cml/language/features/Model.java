@@ -1,9 +1,7 @@
 package cml.language.features;
 
-import cml.language.foundation.elements.ModelElement;
-import cml.language.foundation.elements.ModelElementImpl;
-import cml.language.foundation.elements.Scope;
-import cml.language.foundation.elements.ScopeImpl;
+import cml.language.foundation.ModelElement;
+import cml.language.foundation.Scope;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +33,8 @@ public interface Model extends Scope
 
     static Model create()
     {
-        final ModelElement modelElement = new ModelElementImpl();
-        final Scope scope = new ScopeImpl(modelElement);
+        final ModelElement modelElement = ModelElement.create();
+        final Scope scope = Scope.create(modelElement);
         
         return new ModelImpl(modelElement, scope);
     }

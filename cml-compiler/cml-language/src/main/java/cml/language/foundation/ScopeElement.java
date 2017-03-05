@@ -1,4 +1,4 @@
-package cml.language.foundation.elements;
+package cml.language.foundation;
 
 import java.util.*;
 

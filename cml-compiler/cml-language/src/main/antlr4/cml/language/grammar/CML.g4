@@ -2,7 +2,7 @@ grammar CML;
 
 @header
 {
-import cml.language.foundation.elements.*;
+import cml.language.foundation.*;
 import cml.language.features.*;
 }
 

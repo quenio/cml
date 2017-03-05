@@ -1,6 +1,6 @@
 package cml.language.features;
 
-import cml.language.foundation.elements.*;
+import cml.language.foundation.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -11,9 +11,9 @@ public interface Property extends TypedElement
 
     static Property create(String name, String value)
     {
-        final ModelElement modelElement = new ModelElementImpl();
-        final NamedElement namedElement = new NamedElementImpl(modelElement, name);
-        final TypedElement typedElement = new TypedElementImpl(namedElement);
+        final ModelElement modelElement = ModelElement.create();
+        final NamedElement namedElement = NamedElement.create(modelElement, name);
+        final TypedElement typedElement = TypedElement.create(namedElement);
         return new PropertyImpl(typedElement, value);
     }
 }

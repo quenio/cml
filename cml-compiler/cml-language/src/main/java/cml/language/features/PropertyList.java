@@ -1,7 +1,7 @@
 package cml.language.features;
 
-import cml.language.foundation.elements.ModelElement;
-import cml.language.foundation.elements.Scope;
+import cml.language.foundation.ModelElement;
+import cml.language.foundation.Scope;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,13 +17,18 @@ public interface PropertyList extends Scope
                             .map(e -> (Property)e)
                             .collect(toList());
     }
+
+    static PropertyList create(Scope scope)
+    {
+        return new PropertyListImpl(scope);
+    }
 }
 
 class PropertyListImpl implements PropertyList
 {
     private final Scope scope;
 
-    public PropertyListImpl(Scope scope)
+    PropertyListImpl(Scope scope)
     {
         this.scope = scope;
     }

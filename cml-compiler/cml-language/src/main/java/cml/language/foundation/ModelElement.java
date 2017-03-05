@@ -1,8 +1,18 @@
-package cml.language.foundation.elements;
+package cml.language.foundation;
 
 import java.util.Optional;
 
-public class ModelElementImpl implements ModelElement
+public interface ModelElement
+{
+    Optional<Scope> getParentScope();
+
+    static ModelElement create()
+    {
+        return new ModelElementImpl();
+    }
+}
+
+class ModelElementImpl implements ModelElement
 {
     @Override
     public Optional<Scope> getParentScope()
@@ -24,3 +34,4 @@ public class ModelElementImpl implements ModelElement
         ScopeElement.init(ModelElementImpl.class);
     }
 }
+

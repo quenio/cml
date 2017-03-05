@@ -1,6 +1,6 @@
 package cml.language.foundation.errors;
 
-import cml.language.foundation.elements.ModelElement;
+import cml.language.foundation.ModelElement;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,6 +1,8 @@
 package cml.language.features;
 
-import cml.language.foundation.elements.*;
+import cml.language.foundation.ModelElement;
+import cml.language.foundation.NamedElement;
+import cml.language.foundation.Scope;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +11,10 @@ public interface Concept extends NamedElement, PropertyList
 {
     static Concept create(String name)
     {
-        final ModelElement modelElement = new ModelElementImpl();
-        final NamedElement namedElement = new NamedElementImpl(modelElement, name);
-        final Scope scope = new ScopeImpl(modelElement);
-        final PropertyList propertyList = new PropertyListImpl(scope);
+        final ModelElement modelElement = ModelElement.create();
+        final NamedElement namedElement = NamedElement.create(modelElement, name);
+        final Scope scope = Scope.create(modelElement);
+        final PropertyList propertyList = PropertyList.create(scope);
         
         return new ConceptImpl(modelElement, namedElement, propertyList);
     }

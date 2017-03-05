@@ -1,6 +1,8 @@
 package cml.language.features;
 
-import cml.language.foundation.elements.*;
+import cml.language.foundation.ModelElement;
+import cml.language.foundation.NamedElement;
+import cml.language.foundation.Scope;
 
 import java.util.Optional;
 
@@ -8,8 +10,8 @@ public interface Type extends NamedElement
 {
     static Type create(String name)
     {
-        final ModelElement modelElement = new ModelElementImpl();
-        final NamedElement namedElement = new NamedElementImpl(modelElement, name);
+        final ModelElement modelElement = ModelElement.create();
+        final NamedElement namedElement = NamedElement.create(modelElement, name);
         return new TypeImpl(modelElement, namedElement);
     }
 }

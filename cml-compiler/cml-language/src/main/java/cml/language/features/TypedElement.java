@@ -1,7 +1,7 @@
 package cml.language.features;
 
-import cml.language.foundation.elements.NamedElement;
-import cml.language.foundation.elements.Scope;
+import cml.language.foundation.NamedElement;
+import cml.language.foundation.Scope;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -16,6 +16,11 @@ public interface TypedElement extends NamedElement
 
     Optional<Type> getType();
     void setType(@Nullable Type type);
+
+    static TypedElement create(NamedElement namedElement)
+    {
+        return new TypedElementImpl(namedElement);
+    }
 }
 
 class TypedElementImpl implements TypedElement
