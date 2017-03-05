@@ -1,4 +1,4 @@
-package cml.language.foundation.errors;
+package cml.language.errors;
 
 import cml.language.foundation.NamedElement;
 

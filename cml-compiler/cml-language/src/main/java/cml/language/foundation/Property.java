@@ -1,6 +1,5 @@
-package cml.language.features;
+package cml.language.foundation;
 
-import cml.language.foundation.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;

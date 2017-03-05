@@ -1,8 +1,4 @@
-package cml.language.features;
-
-import cml.language.foundation.ModelElement;
-import cml.language.foundation.NamedElement;
-import cml.language.foundation.Scope;
+package cml.language.foundation;
 
 import java.util.Optional;
 
