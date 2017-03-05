@@ -1,0 +1,14 @@
+
+// Model (Abstract Syntax)
+
+concept Property: TypedElement
+{
+    value: String;
+}
+
+// Validator (Well-Formedness Rules)
+
+command validateProperty(property: Property)
+{
+    invoke validateTypedElement(property);
+}

@@ -19,14 +19,7 @@ abstract concept TypedElement: NamedElement
     }
 }
 
-concept Type: NamedElement;
-
 // Validator (Well-Formedness Rules)
-
-command validateType(type: Type)
-{
-    invoke validatePrimitiveType(type);
-}
 
 command validateTypedElement(element: TypedElement)
 {

@@ -1,22 +1,12 @@
 
 // Model (Abstract Syntax)
 
-concept Property: TypedElement
-{
-    value: String;
-}
-
 abstract concept PropertyList: Scope
 {
     /properties: list of Property* = elements;
 }
 
 // Validator (Well-Formedness Rules)
-
-command validateProperty(property: Property)
-{
-    invoke validateTypedElement(property);
-}
 
 command validatePropertyList(propertyList: PropertyList)
 {
