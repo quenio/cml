@@ -1,11 +1,11 @@
-Model: ModelItem*
+root Model: ModelItem*
 {
     elements = Concept* + Target*;
 }
 
-ModelItem: Concept | Target;
+node ModelItem: Concept | Target;
 
-Concept: 'concept' NAME (';' | PropertyList)
+node Concept: 'concept' NAME (';' | PropertyList)
 {
     name = NAME;
 
@@ -14,7 +14,7 @@ Concept: 'concept' NAME (';' | PropertyList)
     properties.typeAllowed = true;
 }
 
-Target: 'target' NAME PropertyList
+node Target: 'target' NAME PropertyList
 {
     name = NAME;
 
@@ -23,22 +23,22 @@ Target: 'target' NAME PropertyList
     properties.typeAllowed = false;
 }
 
-PropertyList: '{' (Property ';')* '}';
+node PropertyList: '{' (Property ';')* '}';
 
-Property: NAME (':' Type)? '=' STRING
+node Property: NAME (':' Type)? '=' STRING
 {
     name = NAME;
     value = unwrap(STRING);
     type = Type?;
 }
 
-Type: NAME
+node Type: NAME
 {
     name = NAME;
 }
 
-NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
-STRING: '"' .*? '"';
+token NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
+token STRING: '"' .*? '"';
 
 function unwrap(str: String): String
 {

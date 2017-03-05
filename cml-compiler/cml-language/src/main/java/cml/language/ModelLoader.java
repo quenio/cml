@@ -1,4 +1,4 @@
-package cml.language.grammar;
+package cml.language;
 
 import cml.io.Console;
 import cml.io.SourceFile;

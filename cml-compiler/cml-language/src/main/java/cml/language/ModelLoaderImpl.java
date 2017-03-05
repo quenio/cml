@@ -1,8 +1,10 @@
-package cml.language.grammar;
+package cml.language;
 
 import cml.io.Console;
 import cml.io.SourceFile;
 import cml.language.features.Model;
+import cml.language.grammar.CMLLexer;
+import cml.language.grammar.CMLParser;
 import cml.language.grammar.CMLParser.ModelNodeContext;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;

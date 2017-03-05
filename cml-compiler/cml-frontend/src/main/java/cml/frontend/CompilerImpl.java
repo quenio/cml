@@ -6,7 +6,7 @@ import cml.io.Directory;
 import cml.io.FileSystem;
 import cml.io.SourceFile;
 import cml.language.features.Model;
-import cml.language.grammar.ModelLoader;
+import cml.language.ModelLoader;
 
 import java.util.Optional;
 

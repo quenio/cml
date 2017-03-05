@@ -3,7 +3,7 @@ package cml.frontend;
 import cml.generator.Generator;
 import cml.io.Console;
 import cml.io.FileSystem;
-import cml.language.grammar.ModelLoader;
+import cml.language.ModelLoader;
 
 public interface Compiler
 {
