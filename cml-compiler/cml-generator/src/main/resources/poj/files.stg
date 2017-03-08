@@ -1,4 +1,4 @@
-moduleFiles(poj) ::= <<
+modelFiles(poj, model) ::= <<
 pom|pom.xml
 >>
 

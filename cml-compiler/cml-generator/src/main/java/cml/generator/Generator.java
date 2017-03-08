@@ -3,28 +3,25 @@ package cml.generator;
 import cml.io.Console;
 import cml.io.Directory;
 import cml.io.FileSystem;
-import cml.language.features.Concept;
-import cml.language.features.Model;
 import cml.language.features.Target;
+import cml.language.grammar.CMLParser.ModelNodeContext;
 import cml.templates.TemplateRenderer;
 import cml.templates.TemplateRepository;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public interface Generator
 {
-    int generate(Model model, final String targetType, final String targetDirPath);
+    int generate(ModelNodeContext modelNodeContext, final String targetType, final String targetDirPath);
 
-    static Generator create(final Console console, final FileSystem fileSystem)
+    static Generator create(Console console, FileSystem fileSystem)
     {
         final TemplateRepository templateRepository = TemplateRepository.create();
-        final TemplateRenderer templateRenderer = TemplateRenderer.create();
-        final TargetFileRepository targetFileRepository = new TargetFileRepositoryImpl(templateRepository, templateRenderer);
-        return new GeneratorImpl(console, fileSystem, targetFileRepository, templateRenderer);
+        final TemplateRenderer templateRenderer = TemplateRenderer.create(console);
+        final TargetFileRepository targetFileRepository = TargetFileRepository.create(templateRepository, templateRenderer);
+        final TargetFileRenderer targetFileRenderer = TargetFileRenderer.create(console, fileSystem, targetFileRepository, templateRenderer);
+        return new GeneratorImpl(console, fileSystem, targetFileRepository, targetFileRenderer);
     }
 }
 
@@ -34,42 +31,34 @@ class GeneratorImpl implements Generator
     private static final int FAILURE__TARGET_TYPE_UNKNOWN = 101;
     private static final int FAILURE__TARGET_TYPE_UNDECLARED = 102;
 
-    private static final String MODULE = "module";
-    private static final String CONCEPT = "concept";
-
     private final Console console;
-    private final TargetFileRepository targetFileRepository;
-    private final TemplateRenderer templateRenderer;
     private final FileSystem fileSystem;
+    private final TargetFileRepository targetFileRepository;
+    private final TargetFileRenderer targetFileRenderer;
 
     GeneratorImpl(
         Console console,
         FileSystem fileSystem,
         TargetFileRepository targetFileRepository,
-        TemplateRenderer templateRenderer)
+        TargetFileRenderer targetFileRenderer)
     {
         this.console = console;
         this.fileSystem = fileSystem;
         this.targetFileRepository = targetFileRepository;
-        this.templateRenderer = templateRenderer;
+        this.targetFileRenderer = targetFileRenderer;
     }
 
     @Override
-    public int generate(Model model, final String targetType, final String targetDirPath)
+    public int generate(ModelNodeContext modelNodeContext, final String targetType, final String targetDirPath)
     {
-        final Optional<Target> target = model.getTarget(targetType);
+        final Optional<Target> target = modelNodeContext.model.getTarget(targetType);
         if (!target.isPresent())
         {
             console.println("Source files have not declared target type: %s", targetType);
             return FAILURE__TARGET_TYPE_UNDECLARED;
         }
 
-        final Map<String, Object> templateArgs = new HashMap<>();
-        templateArgs.put(targetType, getTargetProperties(target.get()));
-
-        final Set<TargetFile> moduleFiles = findModuleFiles(target.get(), templateArgs);
-
-        if (moduleFiles.isEmpty())
+        if (!targetFileRepository.templatesFoundFor(target.get()))
         {
             console.println("No templates found for target type: %s", targetType);
             return FAILURE__TARGET_TYPE_UNKNOWN;
@@ -78,58 +67,17 @@ class GeneratorImpl implements Generator
         final Optional<Directory> targetDir = fileSystem.findDirectory(targetDirPath);
         targetDir.ifPresent(fileSystem::cleanDirectory);
 
-        console.println("module files:");
-        moduleFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
 
-        for (Concept concept: model.getConcepts())
-        {
-            templateArgs.put(CONCEPT, concept);
+        final ParseTreeWalker walker = new ParseTreeWalker();
+        final TargetGenerator targetGenerator = new TargetGenerator(
+            console, targetFileRenderer,
+            target.get(), targetDirPath
+        );
 
-            final Set<TargetFile> conceptFiles = findConceptFiles(target.get(), templateArgs);
-
-            console.println("\n%s files:", concept.getName());
-            conceptFiles.forEach(targetFile -> renderTargetFile(targetFile, targetDirPath, templateArgs));
-        }
+        walker.walk(targetGenerator, modelNodeContext);
 
         return SUCCESS;
     }
 
-    private Set<TargetFile> findModuleFiles(final Target target, final Map<String, Object> templateArgs)
-    {
-        return targetFileRepository.findTargetFiles(target, MODULE, templateArgs);
-    }
-
-    private Set<TargetFile> findConceptFiles(final Target target, final Map<String, Object> templateArgs)
-    {
-        return targetFileRepository.findTargetFiles(target, CONCEPT, templateArgs);
-    }
-
-    private void renderTargetFile(
-        final TargetFile targetFile,
-        final String targetDirPath,
-        final Map<String, Object> args)
-    {
-        console.println("- %s", targetFile.getPath());
-
-        if (targetFile.getTemplateFile().isPresent())
-        {
-            final String path = targetDirPath + File.separatorChar + targetFile.getPath();
-            final String contents = templateRenderer.renderTemplate(
-                targetFile.getTemplateFile().get(),
-                targetFile.getTemplateName(),
-                args);
-
-            fileSystem.createFile(path, contents);
-        }
-    }
-
-    private static Map<String, Object> getTargetProperties(final Target target)
-    {
-        final Map<String, Object> properties = new HashMap<>();
-
-        target.getProperties().forEach(property -> properties.put(property.getName(), property.getValue()));
-
-        return properties;
-    }
 }
 

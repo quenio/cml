@@ -1,4 +1,4 @@
-module files:
+model files:
 - pom.xml
 
 Book files:

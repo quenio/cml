@@ -2,7 +2,6 @@ package cml.language;
 
 import cml.io.Console;
 import cml.io.SourceFile;
-import cml.language.features.Model;
 import cml.language.grammar.CMLLexer;
 import cml.language.grammar.CMLParser;
 import cml.language.grammar.CMLParser.ModelNodeContext;
@@ -18,7 +17,7 @@ import static java.util.Optional.empty;
 
 public interface ModelLoader
 {
-    Optional<Model> loadModel(SourceFile sourceFile);
+    Optional<ModelNodeContext> loadModel(SourceFile sourceFile);
 
     static ModelLoader create(Console console)
     {
@@ -36,7 +35,7 @@ class ModelLoaderImpl implements ModelLoader
     }
 
     @Override
-    public Optional<Model> loadModel(SourceFile sourceFile)
+    public Optional<ModelNodeContext> loadModel(SourceFile sourceFile)
     {
         try (final FileInputStream fileInputStream = new FileInputStream(sourceFile.getPath()))
         {
@@ -50,7 +49,7 @@ class ModelLoaderImpl implements ModelLoader
 
             walker.walk(modelSynthesizer, modelNodeContext);
 
-            return Optional.of(modelNodeContext.model);
+            return Optional.of(modelNodeContext);
         }
         catch (final IOException exception)
         {

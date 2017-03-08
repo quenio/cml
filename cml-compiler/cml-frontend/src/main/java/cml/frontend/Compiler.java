@@ -6,7 +6,7 @@ import cml.io.Directory;
 import cml.io.FileSystem;
 import cml.io.SourceFile;
 import cml.language.ModelLoader;
-import cml.language.features.Model;
+import cml.language.grammar.CMLParser.ModelNodeContext;
 
 import java.util.Optional;
 
@@ -64,10 +64,10 @@ class CompilerImpl implements Compiler
             return FAILURE__SOURCE_FILE_NOT_FOUND;
         }
 
-        final Optional<Model> model = modelLoader.loadModel(sourceFile.get());
-        if (model.isPresent())
+        final Optional<ModelNodeContext> modelNodeContext = modelLoader.loadModel(sourceFile.get());
+        if (modelNodeContext.isPresent())
         {
-            return generator.generate(model.get(), targetType, targetDirPath);
+            return generator.generate(modelNodeContext.get(), targetType, targetDirPath);
         }
         else
         {

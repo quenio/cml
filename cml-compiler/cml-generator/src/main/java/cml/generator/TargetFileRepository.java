@@ -15,7 +15,13 @@ import static java.util.stream.Collectors.toSet;
 
 interface TargetFileRepository
 {
+    boolean templatesFoundFor(Target target);
     Set<TargetFile> findTargetFiles(Target target, String fileType, Map<String, Object> args);
+
+    static TargetFileRepository create(TemplateRepository templateRepository, TemplateRenderer templateRenderer)
+    {
+        return new TargetFileRepositoryImpl(templateRepository, templateRenderer);
+    }
 }
 
 class TargetFileRepositoryImpl implements TargetFileRepository
@@ -28,10 +34,16 @@ class TargetFileRepositoryImpl implements TargetFileRepository
     private final TemplateRepository templateRepository;
     private final TemplateRenderer templateRenderer;
 
-    TargetFileRepositoryImpl(final TemplateRepository templateRepository, final TemplateRenderer templateRenderer)
+    TargetFileRepositoryImpl(TemplateRepository templateRepository, TemplateRenderer templateRenderer)
     {
         this.templateRepository = templateRepository;
         this.templateRenderer = templateRenderer;
+    }
+
+    @Override
+    public boolean templatesFoundFor(Target target)
+    {
+        return findTemplatesForTarget(target).isPresent();
     }
 
     @Override
@@ -40,7 +52,7 @@ class TargetFileRepositoryImpl implements TargetFileRepository
         final String fileType,
         final Map<String, Object> args)
     {
-        final Optional<TemplateFile> fileTemplates = templateRepository.findTemplate(target.getName(), GROUP_FILES);
+        final Optional<TemplateFile> fileTemplates = findTemplatesForTarget(target);
 
         if (fileTemplates.isPresent())
         {
@@ -55,6 +67,11 @@ class TargetFileRepositoryImpl implements TargetFileRepository
         {
             return emptySet();
         }
+    }
+
+    private Optional<TemplateFile> findTemplatesForTarget(Target target)
+    {
+        return templateRepository.findTemplate(target.getName(), GROUP_FILES);
     }
 
     private TargetFile createTargetFile(final String path, final String targetType, final String templateName)
