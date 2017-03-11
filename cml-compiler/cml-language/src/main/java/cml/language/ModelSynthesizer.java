@@ -38,13 +38,6 @@ public class ModelSynthesizer extends CMLBaseListener
 
         ctx.concept = Concept.create(name);
 
-        if (ctx.ancestorListNode() != null)
-        {
-            ctx.ancestorListNode()
-               .typeNode()
-               .forEach(node -> ctx.concept.addAncestor(node.type));
-        }
-
         if (ctx.propertyListNode() != null)
         {
             ctx.propertyListNode()

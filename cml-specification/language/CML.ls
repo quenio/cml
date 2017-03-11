@@ -9,11 +9,12 @@ node Concept: 'concept' NAME (':' AncestorList)? (';' | PropertyList)
 {
     name = NAME;
 
-    ancestors = AncestorList.Type*;
-
     properties = Property*;
     properties.typeRequired = false;
     properties.typeAllowed = true;
+
+    ancestors = for name in AncestorList.NAME* | map Model.concept[name];
+    missingAncestors = AncestorList.NAME* - ancestors.name;
 }
 
 node Target: 'target' NAME PropertyList
@@ -34,7 +35,7 @@ node Property: NAME (':' Type)? ('=' STRING)?
     type = Type?;
 }
 
-node ancestorListNode: typeNode (',' typeNode)*;
+node ancestorListNode: NAME (',' NAME)*;
 
 node Type: NAME CARDINALITY?
 {

@@ -12,5 +12,7 @@ public class Launcher
         System.out.println("Classes:");
         System.out.println("- " + ModelElement.class.getName());
         System.out.println("- " + Scope.class.getName());
+        System.out.println();
+        System.out.println("Scope extends ModelElement? " + ModelElement.class.isAssignableFrom(Scope.class));
     }
 }

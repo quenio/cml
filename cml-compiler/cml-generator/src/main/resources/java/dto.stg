@@ -7,7 +7,7 @@ import java.util.*;
 >>
 
 class(concept) ::= <<
-public class <typeName(concept)>
+public class <typeName(concept)> <ancestor(concept.ancestors)>
 {
     <concept.properties:field();separator="\n">
 
@@ -19,13 +19,18 @@ public class <typeName(concept)>
 }
 >>
 
+ancestor(ancestors) ::= <<
+<if(!ancestors.empty)>extends <ancestors:typeName();separator=", "><endif>
+>>
+
 field(property) ::= <<
 private final <typeDecl(property.type)> <fieldName(property)>;
 >>
 
 constructor(concept) ::= <<
-public <typeName(concept)>(<concept.properties:constructorArgs();separator=", ">)
+public <typeName(concept)>(<concept.allProperties:constructorArgs();separator=", ">)
 {
+    <superConstructor(concept.inheritedProperties)>
     <concept.properties:fieldInit();separator="\n">
 }
 >>
@@ -36,6 +41,14 @@ constructorArgs(property) ::= <<
 
 fieldInit(property) ::= <<
 this.<fieldName(property)> = <fieldName(property)>;
+>>
+
+superConstructor(inheritedProperties) ::= <<
+<if(!inheritedProperties.empty)>super(<inheritedProperties:superArgs();separator=", ">);<endif>
+>>
+
+superArgs(property) ::= <<
+<fieldName(property)>
 >>
 
 getter(property) ::= <<

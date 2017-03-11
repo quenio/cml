@@ -10,7 +10,7 @@ public interface PropertyList extends Scope
     default List<Property> getProperties()
     {
         return getElements().stream()
-                            .filter(e -> e instanceof PropertyImpl)
+                            .filter(e -> e instanceof Property)
                             .map(e -> (Property)e)
                             .collect(toList());
     }

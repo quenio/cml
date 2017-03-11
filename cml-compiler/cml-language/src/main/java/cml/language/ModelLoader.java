@@ -46,8 +46,10 @@ class ModelLoaderImpl implements ModelLoader
             final ModelNodeContext modelNodeContext = parser.modelNode();
             final ParseTreeWalker walker = new ParseTreeWalker();
             final ModelSynthesizer modelSynthesizer = new ModelSynthesizer();
+            final ModelAugmenter modelInheritor = new ModelAugmenter();
 
             walker.walk(modelSynthesizer, modelNodeContext);
+            walker.walk(modelInheritor, modelNodeContext);
 
             return Optional.of(modelNodeContext);
         }

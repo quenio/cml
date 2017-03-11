@@ -5,14 +5,31 @@ import cml.language.foundation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Stream.concat;
 
 public interface Concept extends NamedElement, PropertyList
 {
-    List<Type> getAncestors();
+    List<Concept> getAncestors();
+    void addAncestor(Concept concept);
 
-    void addAncestor(Type type);
+    List<String> getMissingAncestors();
+    void addMissingAncestor(String missingAncestor);
+
+    default List<Property> getInheritedProperties()
+    {
+        return getAncestors().stream()
+                             .flatMap(concept -> concept.getProperties().stream())
+                             .collect(toList());
+    }
+
+    default List<Property> getAllProperties()
+    {
+        return concat(getInheritedProperties().stream(), getProperties().stream()).collect(toList());
+    }
 
     static Concept create(String name)
     {
@@ -30,7 +47,8 @@ class ConceptImpl implements Concept
     private final ModelElement modelElement;
     private final NamedElement namedElement;
     private final PropertyList propertyList;
-    private final List<Type> ancestors = new ArrayList<>();
+    private final List<Concept> ancestors = new ArrayList<>();
+    private final List<String> missingAncestors = new ArrayList<>();
 
     ConceptImpl(ModelElement modelElement, NamedElement namedElement, PropertyList propertyList)
     {
@@ -64,16 +82,30 @@ class ConceptImpl implements Concept
     }
 
     @Override
-    public List<Type> getAncestors()
+    public List<Concept> getAncestors()
     {
         return unmodifiableList(ancestors);
     }
 
     @Override
-    public void addAncestor(Type type)
+    public void addAncestor(Concept concept)
     {
-        assert !ancestors.contains(type);
+        assert !ancestors.contains(concept);
 
-        ancestors.add(type);
+        ancestors.add(concept);
+    }
+
+    @Override
+    public List<String> getMissingAncestors()
+    {
+        return unmodifiableList(missingAncestors);
+    }
+
+    @Override
+    public void addMissingAncestor(String missingAncestor)
+    {
+        assert !missingAncestors.contains(missingAncestor);
+
+        missingAncestors.add(missingAncestor);
     }
 }

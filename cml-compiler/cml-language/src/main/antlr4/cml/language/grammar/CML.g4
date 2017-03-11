@@ -12,7 +12,7 @@ conceptNode returns [Concept concept]: 'concept' NAME (':' ancestorListNode)? ('
 targetNode returns [Target target]: 'target' NAME propertyListNode;
 propertyListNode: '{' (propertyNode ';')* '}';
 propertyNode returns [Property property]: NAME (':' typeNode)? ('=' STRING)?;
-ancestorListNode: typeNode (',' typeNode)*;
+ancestorListNode: NAME (',' NAME)*;
 typeNode returns [Type type]: NAME CARDINALITY?;
 
 NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;

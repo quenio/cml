@@ -3,7 +3,11 @@
 
 concept Concept: NamedElement, PropertyList
 {
-    ancestors: list of Type*;
+    ancestors: list of Concept*;
+    missingAncestors: String*;
+
+    /inheritedProperties: list of Property* = ancestors.properties;
+    /allProperties: list of Property* = properties + inheritedProperties;
 }
 
 invariant of Concept
