@@ -5,7 +5,63 @@ package <poj.packageName>;
 >>
 
 class(concept) ::= <<
-public class <concept.name>
+public class <typeName(concept)>
 {
+    <concept.properties:field();separator="\n">
+
+    <constructor(concept)>
+
+    <concept.properties:getter();separator="\n\n">
+
+    <toString(concept)>
 }
+>>
+
+field(property) ::= <<
+private final <typeName(property.type)> <fieldName(property)>;
+>>
+
+constructor(concept) ::= <<
+public <typeName(concept)>(<concept.properties:constructorArgs();separator=", ">)
+{
+    <concept.properties:fieldInit();separator="\n">
+}
+>>
+
+constructorArgs(property) ::= <<
+<typeName(property.type)> <fieldName(property)>
+>>
+
+fieldInit(property) ::= <<
+this.<fieldName(property)> = <fieldName(property)>;
+>>
+
+getter(property) ::= <<
+public <typeName(property.type)> get<property.name; format="pascal-case">()
+{
+    return <fieldName(property)>;
+}
+>>
+
+toString(concept) ::= <<
+public String toString()
+{
+    return new StringBuilder(<typeName(concept)>.class.getSimpleName())
+        .append('(')
+        <concept.properties:toString_field();separator=".append(\", \")\n">
+        .append(')')
+        .toString();
+}
+>>
+
+toString_field(property) ::= <<
+.append("<fieldName(property)>=\\"").append(<fieldName(property)>).append('"')
+>>
+
+fieldName(property) ::= <<
+<property.name; format="camel-case">
+>>
+
+typeName(type) ::= <<
+<type.name; format="pascal-case">
 >>

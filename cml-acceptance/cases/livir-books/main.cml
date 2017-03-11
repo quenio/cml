@@ -1,4 +1,9 @@
-concept Book;
+concept Book
+{
+    isbn: String;
+    title: String;
+}
+
 concept BookStore;
 
 target poj

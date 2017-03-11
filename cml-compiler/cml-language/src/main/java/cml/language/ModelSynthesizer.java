@@ -2,8 +2,8 @@ package cml.language;
 
 import cml.language.features.Concept;
 import cml.language.features.Model;
-import cml.language.foundation.Property;
 import cml.language.features.Target;
+import cml.language.foundation.Property;
 import cml.language.foundation.Type;
 import cml.language.grammar.CMLBaseListener;
 import cml.language.grammar.CMLParser.*;
@@ -65,9 +65,10 @@ public class ModelSynthesizer extends CMLBaseListener
     public void exitPropertyNode(PropertyNodeContext ctx)
     {
         final String name = ctx.NAME().getText();
+        final Type type = (ctx.typeNode() == null) ? null : ctx.typeNode().type;
         final String value = (ctx.STRING() == null) ? null : unwrap(ctx.STRING().getText());
 
-        ctx.property = Property.create(name, value);
+        ctx.property = Property.create(name, value, type);
     }
 
     @Override

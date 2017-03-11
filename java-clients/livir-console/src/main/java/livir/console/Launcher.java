@@ -12,5 +12,7 @@ public class Launcher
         System.out.println("Classes:");
         System.out.println("- " + BookStore.class.getName());
         System.out.println("- " + Book.class.getName());
+        System.out.println();
+        System.out.println(new Book("1234", "Programming Adventures"));
     }
 }

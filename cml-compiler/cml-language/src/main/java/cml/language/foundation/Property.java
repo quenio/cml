@@ -8,11 +8,11 @@ public interface Property extends TypedElement
 {
     Optional<String> getValue();
 
-    static Property create(String name, @Nullable String value)
+    static Property create(String name, @Nullable String value, @Nullable Type type)
     {
         final ModelElement modelElement = ModelElement.create();
         final NamedElement namedElement = NamedElement.create(modelElement, name);
-        final TypedElement typedElement = TypedElement.create(namedElement);
+        final TypedElement typedElement = TypedElement.create(namedElement, type);
         return new PropertyImpl(typedElement, value);
     }
 }
@@ -32,6 +32,12 @@ class PropertyImpl implements Property
     public Optional<Scope> getParentScope()
     {
         return typedElement.getParentScope();
+    }
+
+    @Override
+    public Optional<Type> getType()
+    {
+        return typedElement.getType();
     }
 
     @Override
@@ -56,18 +62,6 @@ class PropertyImpl implements Property
     public void setTypeAllowed(boolean typeAllowed)
     {
         typedElement.setTypeAllowed(true);
-    }
-
-    @Override
-    public Optional<Type> getType()
-    {
-        return typedElement.getType();
-    }
-
-    @Override
-    public void setType(@Nullable Type type)
-    {
-        typedElement.setType(type);
     }
 
     @Override

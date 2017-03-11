@@ -51,6 +51,9 @@ class TemplateRendererImpl implements TemplateRenderer
             template.add(entry.getKey(), entry.getValue());
         }
 
+        groupFile.registerModelAdaptor(Object.class, new OptionalValueAdaptor());
+        groupFile.registerRenderer(String.class, new NameRenderer());
+
         return template.render();
     }
 }
