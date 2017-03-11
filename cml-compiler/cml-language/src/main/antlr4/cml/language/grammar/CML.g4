@@ -11,7 +11,7 @@ modelElementNode: conceptNode | targetNode;
 conceptNode returns [Concept concept]: 'concept' NAME (';' | propertyListNode);
 targetNode returns [Target target]: 'target' NAME propertyListNode;
 propertyListNode: '{' (propertyNode ';')* '}';
-propertyNode returns [Property property]: NAME (':' typeNode)? '=' STRING;
+propertyNode returns [Property property]: NAME (':' typeNode)? ('=' STRING)?;
 typeNode returns [Type type]: NAME;
 
 NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;

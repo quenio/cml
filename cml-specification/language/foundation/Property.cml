@@ -3,7 +3,7 @@
 
 concept Property: TypedElement
 {
-    value: String;
+    value: String?;
 }
 
 // Validator (Well-Formedness Rules)

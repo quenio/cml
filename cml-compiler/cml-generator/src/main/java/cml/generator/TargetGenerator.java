@@ -63,7 +63,10 @@ class TargetGenerator extends CMLBaseListener
     {
         final Map<String, Object> properties = new HashMap<>();
 
-        target.getProperties().forEach(property -> properties.put(property.getName(), property.getValue()));
+        target.getProperties()
+              .stream()
+              .filter(property -> property.getValue().isPresent())
+              .forEach(property -> properties.put(property.getName(), property.getValue().get()));
 
         return properties;
     }

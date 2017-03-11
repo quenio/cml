@@ -25,10 +25,10 @@ node Target: 'target' NAME PropertyList
 
 node PropertyList: '{' (Property ';')* '}';
 
-node Property: NAME (':' Type)? '=' STRING
+node Property: NAME (':' Type)? ('=' STRING)?
 {
     name = NAME;
-    value = unwrap(STRING);
+    value = unwrap(STRING?);
     type = Type?;
 }
 

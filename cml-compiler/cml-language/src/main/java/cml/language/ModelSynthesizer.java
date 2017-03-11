@@ -65,7 +65,7 @@ public class ModelSynthesizer extends CMLBaseListener
     public void exitPropertyNode(PropertyNodeContext ctx)
     {
         final String name = ctx.NAME().getText();
-        final String value = unwrap(ctx.STRING().getText());
+        final String value = (ctx.STRING() == null) ? null : unwrap(ctx.STRING().getText());
 
         ctx.property = Property.create(name, value);
     }
