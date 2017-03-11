@@ -1,0 +1,5 @@
+Mini-CML Language
+
+Classes:
+- mcml.language.ModelElement
+- mcml.language.Scope

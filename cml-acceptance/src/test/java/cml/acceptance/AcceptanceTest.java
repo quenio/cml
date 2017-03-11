@@ -20,9 +20,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static org.codehaus.plexus.util.FileUtils.cleanDirectory;
-import static org.codehaus.plexus.util.FileUtils.forceDelete;
-import static org.codehaus.plexus.util.FileUtils.forceMkdir;
+import static org.codehaus.plexus.util.FileUtils.*;
 import static org.codehaus.plexus.util.cli.CommandLineUtils.executeCommandLine;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -57,10 +55,10 @@ public class AcceptanceTest
     private static final int FAILURE__TARGET_TYPE_UNDECLARED = 102;
 
     @DataPoints("success-cases")
-    public static String[] successCases = {"livir-books"};
-
-    @DataPoints("java-clients")
-    public static String[] javaClients = {"livir-console"};
+    public static Case[] successCases = {
+        new Case("livir-books", "livir-console"),
+//        new Case("mini-cml-language", "mini-cml-compiler")
+    };
 
     @BeforeClass
     public static void buildCompiler() throws MavenInvocationException
@@ -82,22 +80,20 @@ public class AcceptanceTest
     }
 
     @Theory
-    public void poj(
-        @FromDataPoints("success-cases") final String caseName,
-        @FromDataPoints("java-clients") final String javaClient) throws Exception
+    public void successCases(@FromDataPoints("success-cases") final Case successCase) throws Exception
     {
-        final String sourceDir = CASES_DIR + "/" + caseName;
+        final String sourceDir = CASES_DIR + "/" + successCase.getName();
 
         compileAndVerifyOutput(sourceDir, SUCCESS);
         buildModule(TARGET_DIR);
 
-        final String clientModuleDir = CLIENT_BASE_DIR + "/" + javaClient;
+        final String clientModuleDir = CLIENT_BASE_DIR + "/" + successCase.getJavaClient();
         buildModule(clientModuleDir);
 
         final File clientTargetDir = new File(clientModuleDir, "target");
         assertThat("Client target dir must exist: " + clientTargetDir, clientTargetDir.exists(), is(true));
 
-        final String clientJarPath = clientTargetDir.getPath() + "/" + javaClient + CLIENT_JAR_SUFFIX;
+        final String clientJarPath = clientTargetDir.getPath() + "/" + successCase.getJavaClient() + CLIENT_JAR_SUFFIX;
         final String actualClientOutput = executeJar(clientJarPath, emptyList(), SUCCESS);
         assertThatOutputMatches(
             "client's output",

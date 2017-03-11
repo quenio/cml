@@ -29,6 +29,8 @@ class TargetFileRepositoryImpl implements TargetFileRepository
     private static final String STG_EXT = ".stg";
     private static final String GROUP_FILES = "files" + STG_EXT;
     private static final String FILES_SUFFIX = "Files";
+    private static final String FILE_LINE_SEPARATOR = "\\|";
+    private static final String TEMPLATE_NAME_SEPARATOR = ":";
 
     // Collaborators:
     private final TemplateRepository templateRepository;
@@ -59,7 +61,7 @@ class TargetFileRepositoryImpl implements TargetFileRepository
             final String templateName = fileType + FILES_SUFFIX;
             final String files = templateRenderer.renderTemplate(fileTemplates.get(), templateName, args);
             return stream(files.split("\n"))
-                .map(line -> line.split("\\|"))
+                .map(line -> line.split(FILE_LINE_SEPARATOR))
                 .map(pair -> createTargetFile(pair[1], target.getName(), pair[0]))
                 .collect(toSet());
         }
@@ -74,8 +76,16 @@ class TargetFileRepositoryImpl implements TargetFileRepository
         return templateRepository.findTemplate(target.getName(), GROUP_FILES);
     }
 
-    private TargetFile createTargetFile(final String path, final String targetType, final String templateName)
+    private TargetFile createTargetFile(String path, String targetType, String templateName)
     {
+        final String[] pair = templateName.split(TEMPLATE_NAME_SEPARATOR);
+
+        if (pair.length == 2)
+        {
+            targetType = pair[0];
+            templateName = pair[1];
+        }
+
         final TargetFile targetFile = new TargetFile(path, templateName);
         final Optional<TemplateFile> templateFile = templateRepository.findTemplate(targetType, templateName + STG_EXT);
 

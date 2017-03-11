@@ -1,9 +1,9 @@
-pom(poj, model) ::= <<
+pom(target, model) ::= <<
 <project_start()>
 
     \<modelVersion>4.0.0\</modelVersion>
 
-    <module_def(poj)>
+    <module_def(target)>
 
     \<properties>
         \<project.build.sourceEncoding>UTF-8\</project.build.sourceEncoding>
@@ -39,10 +39,10 @@ project_end() ::= <<
 \</project>
 >>
 
-module_def(poj) ::= <<
-\<groupId><poj.groupId>\</groupId>
-\<artifactId><poj.artifactId>\</artifactId>
-\<version><poj.version>\</version>
+module_def(target) ::= <<
+\<groupId><target.groupId>\</groupId>
+\<artifactId><target.artifactId>\</artifactId>
+\<version><target.version>\</version>
 \<packaging>jar\</packaging>
 >>
 
