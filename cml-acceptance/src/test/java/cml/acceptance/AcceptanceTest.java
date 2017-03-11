@@ -44,8 +44,8 @@ public class AcceptanceTest
     private static final String COMPILER_OUTPUT_FILENAME = "/compiler-output.txt";
     private static final String CLIENT_OUTPUT_FILENAME = "/client-output.txt";
 
-    private static final String TARGET_DIR = "target/poj";
-    private static final String TARGET_TYPE = "poj";
+    private static final String TARGET_DIR = "target/acceptance-test";
+    private static final String POJ = "poj"; // plain old Java
 
     private static final int SUCCESS = 0;
     private static final int FAILURE__SOURCE_DIR_NOT_FOUND = 1;
@@ -56,8 +56,8 @@ public class AcceptanceTest
 
     @DataPoints("success-cases")
     public static Case[] successCases = {
-        new Case("livir-books", "livir-console"),
-//        new Case("mini-cml-language", "mini-cml-compiler")
+        new Case("livir-books", "poj", "livir-console"),
+        new Case("mini-cml-language", "cmlc", "mcml-compiler")
     };
 
     @BeforeClass
@@ -84,7 +84,7 @@ public class AcceptanceTest
     {
         final String sourceDir = CASES_DIR + "/" + successCase.getName();
 
-        compileAndVerifyOutput(sourceDir, SUCCESS);
+        compileAndVerifyOutput(sourceDir, successCase.getTargetType(), SUCCESS);
         buildModule(TARGET_DIR);
 
         final String clientModuleDir = CLIENT_BASE_DIR + "/" + successCase.getJavaClient();
@@ -106,6 +106,7 @@ public class AcceptanceTest
     {
         compileAndVerifyOutput(
             CASES_DIR + "/unknown-dir",
+            POJ,
             CASES_DIR + "/missing-source-dir",
             FAILURE__SOURCE_DIR_NOT_FOUND);
     }
@@ -113,7 +114,7 @@ public class AcceptanceTest
     @Test
     public void missing_source_file() throws Exception
     {
-        compileAndVerifyOutput(CASES_DIR + "/missing-source", FAILURE__SOURCE_FILE_NOT_FOUND);
+        compileAndVerifyOutput(CASES_DIR + "/missing-source", POJ, FAILURE__SOURCE_FILE_NOT_FOUND);
     }
 
     @Test
@@ -130,6 +131,7 @@ public class AcceptanceTest
     {
         compileAndVerifyOutput(
             CASES_DIR + "/target-type-undeclared",
+            POJ, 
             FAILURE__TARGET_TYPE_UNDECLARED);
     }
 
@@ -141,7 +143,7 @@ public class AcceptanceTest
         forceDelete(targetDir);
         assertThat("Target dir must NOT exist: " + targetDir, targetDir.exists(), is(false));
 
-        compileAndVerifyOutput(CASES_DIR + "/target-dir-created", SUCCESS);
+        compileAndVerifyOutput(CASES_DIR + "/target-dir-created", POJ, SUCCESS);
         assertThat("Target dir must exist: " + targetDir, targetDir.exists(), is(true));
     }
 
@@ -152,21 +154,22 @@ public class AcceptanceTest
         final File bookStoreFile = new File(TARGET_DIR, "src/main/java/books/BookStore.java");
 
         // Ensures there is already content in the target dir:
-        compileAndVerifyOutput(CASES_DIR + "/target-dir-created", SUCCESS);
+        compileAndVerifyOutput(CASES_DIR + "/target-dir-created", POJ, SUCCESS);
         assertThat("Book must exist: " + bookFile, bookFile.exists(), is(true));
         assertThat("BookStore must NOT exist: " + bookFile, bookStoreFile.exists(), is(false));
 
         // Verifies that the previously generated target has been cleaned before generating the new one:
-        compileAndVerifyOutput(CASES_DIR + "/target-dir-cleaned", SUCCESS);
+        compileAndVerifyOutput(CASES_DIR + "/target-dir-cleaned", POJ, SUCCESS);
         assertThat("Book must NOT exist: " + bookFile, bookFile.exists(), is(false));
         assertThat("BookStore must exist: " + bookFile, bookStoreFile.exists(), is(true));
     }
 
     private void compileAndVerifyOutput(
         final String sourceDir,
+        final String targetType,
         final int expectedExitCode) throws CommandLineException, IOException
     {
-        compileWithTargetTypeAndVerifyOutput(sourceDir, TARGET_TYPE, expectedExitCode);
+        compileWithTargetTypeAndVerifyOutput(sourceDir, targetType, expectedExitCode);
     }
 
     private void compileWithTargetTypeAndVerifyOutput(
@@ -175,14 +178,6 @@ public class AcceptanceTest
         final int expectedExitCode) throws CommandLineException, IOException
     {
         compileAndVerifyOutput(sourceDir, targetType, sourceDir, expectedExitCode);
-    }
-
-    private void compileAndVerifyOutput(
-        final String sourceDir,
-        final String expectedOutputDir,
-        final int expectedExitCode) throws CommandLineException, IOException
-    {
-        compileAndVerifyOutput(sourceDir, TARGET_TYPE, expectedOutputDir, expectedExitCode);
     }
 
     private void compileAndVerifyOutput(

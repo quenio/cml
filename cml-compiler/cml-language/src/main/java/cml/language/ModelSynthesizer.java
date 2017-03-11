@@ -38,6 +38,13 @@ public class ModelSynthesizer extends CMLBaseListener
 
         ctx.concept = Concept.create(name);
 
+        if (ctx.ancestorListNode() != null)
+        {
+            ctx.ancestorListNode()
+               .typeNode()
+               .forEach(node -> ctx.concept.addAncestor(node.type));
+        }
+
         if (ctx.propertyListNode() != null)
         {
             ctx.propertyListNode()
@@ -75,8 +82,9 @@ public class ModelSynthesizer extends CMLBaseListener
     public void exitTypeNode(TypeNodeContext ctx)
     {
         final String name = ctx.NAME().getText();
+        final String cardinality = (ctx.CARDINALITY() == null) ? null : ctx.CARDINALITY().getText();
 
-        ctx.type = Type.create(name);
+        ctx.type = Type.create(name, cardinality);
     }
 
 

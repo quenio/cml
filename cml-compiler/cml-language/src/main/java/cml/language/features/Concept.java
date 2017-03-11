@@ -1,15 +1,19 @@
 package cml.language.features;
 
-import cml.language.foundation.ModelElement;
-import cml.language.foundation.NamedElement;
-import cml.language.foundation.PropertyList;
-import cml.language.foundation.Scope;
+import cml.language.foundation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Collections.unmodifiableList;
+
 public interface Concept extends NamedElement, PropertyList
 {
+    List<Type> getAncestors();
+
+    void addAncestor(Type type);
+
     static Concept create(String name)
     {
         final ModelElement modelElement = ModelElement.create();
@@ -26,6 +30,7 @@ class ConceptImpl implements Concept
     private final ModelElement modelElement;
     private final NamedElement namedElement;
     private final PropertyList propertyList;
+    private final List<Type> ancestors = new ArrayList<>();
 
     ConceptImpl(ModelElement modelElement, NamedElement namedElement, PropertyList propertyList)
     {
@@ -56,5 +61,19 @@ class ConceptImpl implements Concept
     public void addElement(ModelElement element)
     {
         propertyList.addElement(element);
+    }
+
+    @Override
+    public List<Type> getAncestors()
+    {
+        return unmodifiableList(ancestors);
+    }
+
+    @Override
+    public void addAncestor(Type type)
+    {
+        assert !ancestors.contains(type);
+
+        ancestors.add(type);
     }
 }

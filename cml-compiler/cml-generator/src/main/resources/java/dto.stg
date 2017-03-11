@@ -1,6 +1,8 @@
 dto(target, concept) ::= <<
 package <target.packageName>;
 
+import java.util.*;
+
 <class(concept)>
 >>
 
@@ -18,7 +20,7 @@ public class <typeName(concept)>
 >>
 
 field(property) ::= <<
-private final <typeName(property.type)> <fieldName(property)>;
+private final <typeDecl(property.type)> <fieldName(property)>;
 >>
 
 constructor(concept) ::= <<
@@ -29,7 +31,7 @@ public <typeName(concept)>(<concept.properties:constructorArgs();separator=", ">
 >>
 
 constructorArgs(property) ::= <<
-<typeName(property.type)> <fieldName(property)>
+<typeDecl(property.type)> <fieldName(property)>
 >>
 
 fieldInit(property) ::= <<
@@ -37,7 +39,7 @@ this.<fieldName(property)> = <fieldName(property)>;
 >>
 
 getter(property) ::= <<
-public <typeName(property.type)> get<property.name; format="pascal-case">()
+public <typeDecl(property.type)> get<property.name; format="pascal-case">()
 {
     return <fieldName(property)>;
 }
@@ -64,4 +66,20 @@ fieldName(property) ::= <<
 
 typeName(type) ::= <<
 <type.name; format="pascal-case">
+>>
+
+typeDecl(type) ::= <<
+<({<type.kind>TypeDecl})(type)>
+>>
+
+requiredTypeDecl(type) ::= <<
+<type.name; format="pascal-case">
+>>
+
+optionalTypeDecl(type) ::= <<
+Optional\<<type.name; format="pascal-case">\>
+>>
+
+setTypeDecl(type) ::= <<
+Set\<<type.name; format="pascal-case">\>
 >>

@@ -1,7 +1,10 @@
 
 // Model (Abstract Syntax)
 
-concept Concept: NamedElement, PropertyList;
+concept Concept: NamedElement, PropertyList
+{
+    ancestors: list of Type*;
+}
 
 invariant of Concept
 {

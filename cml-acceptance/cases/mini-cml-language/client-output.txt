@@ -1,4 +1,4 @@
-Mini-CML Language
+Mini-CML Compiler
 
 Classes:
 - mcml.language.ModelElement

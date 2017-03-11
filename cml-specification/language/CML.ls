@@ -5,9 +5,11 @@ root Model: ModelItem*
 
 node ModelItem: Concept | Target;
 
-node Concept: 'concept' NAME (';' | PropertyList)
+node Concept: 'concept' NAME (':' AncestorList)? (';' | PropertyList)
 {
     name = NAME;
+
+    ancestors = AncestorList.Type*;
 
     properties = Property*;
     properties.typeRequired = false;
@@ -32,13 +34,17 @@ node Property: NAME (':' Type)? ('=' STRING)?
     type = Type?;
 }
 
-node Type: NAME
+node ancestorListNode: typeNode (',' typeNode)*;
+
+node Type: NAME CARDINALITY?
 {
     name = NAME;
+    cardinality = CARDINALITY?;
 }
 
 token NAME: ('A'..'Z' | 'a'..'z') ( 'A'..'Z' | 'a'..'z' | '0'..'9' | '_' )*;
 token STRING: '"' .*? '"';
+token CARDINALITY: ('?' | '*');
 
 function unwrap(str: String): String
 {

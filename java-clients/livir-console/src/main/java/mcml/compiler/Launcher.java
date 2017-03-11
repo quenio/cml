@@ -1,4 +1,4 @@
-package livir.console;
+package mcml.compiler;
 
 import livir.books.Book;
 import livir.books.BookStore;
