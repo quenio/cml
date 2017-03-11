@@ -25,7 +25,7 @@ class TargetFile
 
     private final String templateName;
 
-    public String getTemplateName()
+    String getTemplateName()
     {
         return templateName;
     }

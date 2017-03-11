@@ -1,5 +1,10 @@
+concept Book
+{
+    isbn: String;
+    title: String;
+}
+
 concept BookStore;
-concept Book;
 
 target poj
 {

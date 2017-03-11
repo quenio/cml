@@ -1,4 +1,4 @@
-pom(poj) ::= <<
+pom(poj, model) ::= <<
 <project_start()>
 
     \<modelVersion>4.0.0\</modelVersion>

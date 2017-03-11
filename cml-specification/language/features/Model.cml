@@ -1,0 +1,22 @@
+
+// Model (Abstract Syntax)
+
+concept Model: Scope
+{
+    /concepts: list of Concept* = elements;
+    /targets: list of Target* = elements;
+    /target[name: String]: Target? = for t in targets | select first t.name = name;
+
+    errors: list of Error*;
+}
+
+// Validator (Well-Formedness Rules)
+
+command validateModel(model: Model)
+{
+    for concept in model.concepts
+        invoke validateConcept(concept);
+
+    for target in model.targets
+        invoke validateTarget(target);
+}

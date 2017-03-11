@@ -1,0 +1,11 @@
+
+// Model (Abstract Syntax)
+
+concept Type: NamedElement;
+
+// Validator (Well-Formedness Rules)
+
+command validateType(type: Type)
+{
+    invoke validatePrimitiveType(type);
+}

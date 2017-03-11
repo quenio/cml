@@ -3,3 +3,5 @@ Livir Console
 Classes:
 - livir.books.BookStore
 - livir.books.Book
+
+Book(isbn="1234", title="Programming Adventures")

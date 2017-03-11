@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>cml</groupId>
-            <artifactId>cml-parser</artifactId>
+            <artifactId>cml-language</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
