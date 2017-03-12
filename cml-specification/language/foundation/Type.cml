@@ -1,7 +1,17 @@
 
 // Model (Abstract Syntax)
 
-concept Type: NamedElement;
+concept Type: NamedElement
+{
+    cardinality: String?;
+
+    /kind: String
+    {
+        given (cardinality = /\?/) return "optional";
+        given (cardinality = /(\*|\+)/) return "set";
+        return "required";
+    }
+}
 
 // Validator (Well-Formedness Rules)
 

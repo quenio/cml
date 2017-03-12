@@ -18,6 +18,11 @@ public interface Model extends Scope
                             .collect(toList());
     }
 
+    default Optional<Concept> getConcept(String name)
+    {
+        return getConcepts().stream().filter(concept -> concept.getName().equals(name)).findFirst();
+    }
+
     default List<Target> getTargets()
     {
         return getElements().stream()
@@ -28,7 +33,7 @@ public interface Model extends Scope
 
     default Optional<Target> getTarget(String name)
     {
-        return getTargets().stream().filter(t -> t.getName().equals(name)).findFirst();
+        return getTargets().stream().filter(target -> target.getName().equals(name)).findFirst();
     }
 
     static Model create()
