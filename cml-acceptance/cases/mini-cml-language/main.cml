@@ -1,0 +1,20 @@
+
+concept ModelElement
+{
+    parentScope: Scope?;
+}
+
+concept Scope: ModelElement
+{
+    elements: ModelElement*;
+}
+
+target cmlc
+{
+    groupId = "mcml";
+    artifactId = "mcml-language";
+    version = "1.0.1-SNAPSHOT";
+    packageName = "mcml.language";
+    packagePath = "mcml/language";
+}
+

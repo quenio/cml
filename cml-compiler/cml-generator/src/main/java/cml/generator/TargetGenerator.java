@@ -13,6 +13,7 @@ class TargetGenerator extends CMLBaseListener
 {
     private static final String MODEL = "model";
     private static final String CONCEPT = "concept";
+    private static final String TARGET = "target";
 
     private final Console console;
     private final TargetFileRenderer targetFileRenderer;
@@ -32,7 +33,7 @@ class TargetGenerator extends CMLBaseListener
         this.targetDirPath = targetDirPath;
         this.baseTemplateArgs = new HashMap<>();
 
-        baseTemplateArgs.put(target.getName(), getTargetProperties(target));
+        baseTemplateArgs.put(TARGET, getTargetProperties(target));
     }
 
     @Override

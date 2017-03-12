@@ -12,6 +12,7 @@
 
     <modules>
         <module>livir-console</module>
+        <module>mcml-compiler</module>
     </modules>
 
     <build>

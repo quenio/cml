@@ -1,0 +1,8 @@
+model files:
+- pom.xml
+
+ModelElement files:
+- src/main/java/mcml/language/ModelElement.java
+
+Scope files:
+- src/main/java/mcml/language/Scope.java
