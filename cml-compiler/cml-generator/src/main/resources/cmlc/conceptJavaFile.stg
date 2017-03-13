@@ -1,0 +1,9 @@
+import "/java/class.stg"
+
+conceptJavaFile(target, concept) ::= <<
+package <target.packageName>;
+
+import java.util.*;
+
+<class(concept)>
+>>

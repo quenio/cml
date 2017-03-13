@@ -3,5 +3,5 @@ maven:pom|pom.xml
 >>
 
 conceptFiles(target, concept) ::= <<
-java:dto|src/main/java/<target.packagePath>/<concept.name>.java
+dto|src/main/java/<target.packagePath>/<concept.name>.java
 >>

@@ -1,0 +1,10 @@
+import "/java/class.stg"
+
+dto(target, concept) ::= <<
+package <target.packageName>;
+
+import java.util.*;
+
+<class(concept)>
+>>
+
