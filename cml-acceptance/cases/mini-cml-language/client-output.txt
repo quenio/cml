@@ -4,5 +4,3 @@ Classes:
 - mcml.language.ModelElement
 - mcml.language.Scope
 
-ModelElement(scope=null)
-

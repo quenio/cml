@@ -3,7 +3,7 @@ public String toString()
     return new StringBuilder(SomeConcept.class.getSimpleName())
         .append('(')
         .append("someProperty=").append('"' + someProperty + '"').append(", ")
-        .append("optionalProperty=").append(optionalProperty == null ? '"' + optionalProperty + '"' : "not present")
+        .append("optionalProperty=").append((optionalProperty == null) ? "not present" : String.format("\"%s\"", optionalProperty))
         .append(')')
         .toString();
 }

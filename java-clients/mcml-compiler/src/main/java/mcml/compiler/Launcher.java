@@ -13,6 +13,5 @@ public class Launcher
         System.out.println("- " + ModelElement.class.getName());
         System.out.println("- " + Scope.class.getName());
         System.out.println();
-        System.out.println(new ScopeImpl());
     }
 }

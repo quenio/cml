@@ -54,7 +54,7 @@ toString_fieldValue_required(property) ::= <<
 >>
 
 toString_fieldValue_optional(property) ::= <<
-.append(<fieldName(property)> == null ? '"' + <fieldName(property)> + '"' : "not present")
+.append((<fieldName(property)> == null) ? "not present" : String.format("\"%s\"", <fieldName(property)>))
 >>
 
 toString_fieldValue_set(property) ::= <<

@@ -5,6 +5,7 @@ conceptJavaFile(target, concept) ::= <<
 package <target.packageName>;
 
 import java.util.*;
+import org.jetbrains.annotations.*;
 
 public <interface(concept, concept.ancestors, "Impl")>
 
