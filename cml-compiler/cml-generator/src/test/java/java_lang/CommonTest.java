@@ -1,7 +1,6 @@
 package java_lang;
 
 import cml.language.features.Concept;
-import cml.language.foundation.NamedElement;
 import cml.language.foundation.Property;
 import cml.language.foundation.Type;
 import generic.TemplateTest;
@@ -201,63 +200,6 @@ public class CommonTest extends TemplateTest
         testGetterImplWithProperty(property, "setProperty.txt");
     }
 
-    private void testTemplateWithNamedElement(String templateName, NamedElement namedElement, String expectedResult)
-    {
-        final ST template = getTemplate(templateName);
-
-        template.add("namedElement", namedElement);
-
-        final String result = template.render();
-
-        assertThat(result, is(expectedResult));
-    }
-
-    private void testTemplateWithType(String templateName, String typeName, String cardinality, String expectedFormat)
-    {
-        final ST template = getTemplate(templateName);
-
-        template.add("type", Type.create(typeName, cardinality));
-
-        final String result = template.render();
-
-        assertThat(result, is(format(expectedFormat, pascalCase(typeName))));
-    }
-
-    private void testTemplateWithConcept(String templateName, Concept concept, String expectedOutputPath)
-        throws IOException
-    {
-        final ST template = getTemplate(templateName);
-
-        template.add("concept", concept);
-
-        final String result = template.render();
-
-        assertThatOutputMatches(expectedOutputPath, result);
-    }
-
-    private void testTemplateWithPropertyAndExpectedResult(String templateName, Property property, String expectedResult)
-    {
-        final ST template = getTemplate(templateName);
-
-        template.add("property", property);
-
-        final String result = template.render();
-
-        assertThat(result, is(expectedResult));
-    }
-
-    private void testTemplateWithPropertyAndExpectedOutput(String templateName, Property property, String expectedOutputPath)
-        throws IOException
-    {
-        final ST template = getTemplate(templateName);
-
-        template.add("property", property);
-
-        final String result = template.render();
-
-        assertThatOutputMatches(expectedOutputPath, result);
-    }
-
     private void testToStringWithConcept(Concept concept, String expectedOutputFileName) throws IOException
     {
         testTemplateWithConcept(
@@ -272,6 +214,17 @@ public class CommonTest extends TemplateTest
             "getterImpl",
             property,
             "/java_lang/common/getterImpl/" + expectedOutputFileName);
+    }
+
+    private void testTemplateWithType(String templateName, String typeName, String cardinality, String expectedFormat)
+    {
+        final ST template = getTemplate(templateName);
+
+        template.add("type", Type.create(typeName, cardinality));
+
+        final String result = template.render();
+
+        assertThat(result, is(format(expectedFormat, pascalCase(typeName))));
     }
 
     private static String camelCase(@FromDataPoints("names") String name)

@@ -4,7 +4,7 @@ import "/java_lang/common.stg"
 interface(concept, ancestors, classNameSuffix) ::= <<
 interface <typeName(concept)><ancestorList(ancestors)>
 {
-    <concept.properties:getterDecl();separator="\n\n">
+    <concept.properties:getterDecl();separator="\n">
 }
 >>
 
