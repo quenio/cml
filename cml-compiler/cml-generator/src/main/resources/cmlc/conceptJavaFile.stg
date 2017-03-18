@@ -1,9 +1,22 @@
-import "/java/class.stg"
+import "/java_lang/interface.stg"
+import "/java_lang/class.stg"
 
 conceptJavaFile(target, concept) ::= <<
 package <target.packageName>;
 
 import java.util.*;
 
-<class(concept)>
+public <interface(concept, concept.ancestors, "Impl")>
+
+<class(
+    concept=concept,
+    classNameSuffix="Impl",
+    ancestors=[],
+    interfaces=[concept],
+    fieldAncestors=concept.ancestors,
+    fieldProperties=concept.properties,
+    delegatedProperties=concept.inheritedProperties,
+    superProperties=[],
+    constructorParamProperties=concept.properties
+)>
 >>

@@ -5,7 +5,6 @@ import cml.language.foundation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.toList;
@@ -16,6 +15,7 @@ public interface Concept extends NamedElement, PropertyList
     List<Concept> getAncestors();
     void addAncestor(Concept concept);
 
+    @SuppressWarnings("unused")
     List<String> getMissingAncestors();
     void addMissingAncestor(String missingAncestor);
 
@@ -26,6 +26,7 @@ public interface Concept extends NamedElement, PropertyList
                              .collect(toList());
     }
 
+    @SuppressWarnings("unused")
     default List<Property> getAllProperties()
     {
         return concat(getInheritedProperties().stream(), getProperties().stream()).collect(toList());
@@ -33,12 +34,7 @@ public interface Concept extends NamedElement, PropertyList
 
     static Concept create(String name)
     {
-        final ModelElement modelElement = ModelElement.create();
-        final NamedElement namedElement = NamedElement.create(modelElement, name);
-        final Scope scope = Scope.create(modelElement);
-        final PropertyList propertyList = PropertyList.create(scope);
-        
-        return new ConceptImpl(modelElement, namedElement, propertyList);
+        return new ConceptImpl(name);
     }
 }
 
@@ -46,15 +42,15 @@ class ConceptImpl implements Concept
 {
     private final ModelElement modelElement;
     private final NamedElement namedElement;
-    private final PropertyList propertyList;
+    private final Scope scope;
     private final List<Concept> ancestors = new ArrayList<>();
     private final List<String> missingAncestors = new ArrayList<>();
 
-    ConceptImpl(ModelElement modelElement, NamedElement namedElement, PropertyList propertyList)
+    ConceptImpl(String name)
     {
-        this.modelElement = modelElement;
-        this.namedElement = namedElement;
-        this.propertyList = propertyList;
+        this.modelElement = ModelElement.create(this);
+        this.namedElement = NamedElement.create(modelElement, name);
+        this.scope = Scope.create(this, modelElement);
     }
 
     @Override
@@ -72,13 +68,13 @@ class ConceptImpl implements Concept
     @Override
     public List<ModelElement> getElements()
     {
-        return propertyList.getElements();
+        return scope.getElements();
     }
 
     @Override
     public void addElement(ModelElement element)
     {
-        propertyList.addElement(element);
+        scope.addElement(element);
     }
 
     @Override

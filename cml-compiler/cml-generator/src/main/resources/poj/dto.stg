@@ -1,10 +1,20 @@
-import "/java/class.stg"
+import "/java_lang/class.stg"
 
 dto(target, concept) ::= <<
 package <target.packageName>;
 
 import java.util.*;
 
-<class(concept)>
+public <class(
+    concept=concept,
+    classNameSuffix="",
+    ancestors=concept.ancestors,
+    interfaces=[],
+    fieldAncestors=[],
+    fieldProperties=concept.properties,
+    delegatedProperties=[],
+    superProperties=concept.inheritedProperties,
+    constructorParamProperties=concept.allProperties
+)>
 >>
 

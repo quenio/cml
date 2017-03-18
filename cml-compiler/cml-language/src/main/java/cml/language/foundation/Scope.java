@@ -18,6 +18,7 @@ public interface Scope extends ModelElement
                             .collect(toList());
     }
 
+    @SuppressWarnings("unused")
     default Optional<NamedElement> findElement(String name)
     {
         assert !name.matches("\\s*") : "require not name = /\\s*/";
@@ -34,6 +35,7 @@ public interface Scope extends ModelElement
         return element;
     }
 
+    @SuppressWarnings("unused")
     default List<NamedElement> findLocalConflicts(NamedElement element)
     {
         return getNamedElements().stream()
@@ -42,18 +44,20 @@ public interface Scope extends ModelElement
                                  .collect(toList());
     }
 
-    static Scope create(ModelElement modelElement)
+    static Scope create(Scope self, ModelElement modelElement)
     {
-        return new ScopeImpl(modelElement);
+        return new ScopeImpl(self, modelElement);
     }
 }
 
 class ScopeImpl implements Scope
 {
+    private final Scope self;
     private final ModelElement modelElement;
 
-    ScopeImpl(ModelElement modelElement)
+    ScopeImpl(Scope self, ModelElement modelElement)
     {
+        this.self = self;
         this.modelElement = modelElement;
     }
 
@@ -66,13 +70,13 @@ class ScopeImpl implements Scope
     @Override
     public List<ModelElement> getElements()
     {
-        return scopeElement.getElements(this);
+        return scopeElement.getElements(self);
     }
 
     @Override
     public void addElement(ModelElement element)
     {
-        scopeElement.link(this, element);
+        scopeElement.link(self, element);
     }
 
     private static ScopeElement scopeElement;
@@ -121,6 +125,7 @@ class ScopeElement
         }
     }
 
+    @SuppressWarnings("unused")
     void unlink(Scope scope, ModelElement modelElement)
     {
         final List<ModelElement> modelElementList = elements.get(scope);

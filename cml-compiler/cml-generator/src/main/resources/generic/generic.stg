@@ -1,0 +1,12 @@
+
+newLineIf(cond) ::= <<
+<if(cond)><\n><endif>
+>>
+
+commaIf(cond) ::= <<
+<if(cond)>, <endif>
+>>
+
+commaIf2(cond1, cond2) ::= <<
+<if(cond1 && cond2)>, <endif>
+>>

@@ -1,0 +1,79 @@
+import "/generic/generic.stg"
+import "/java_lang/common.stg"
+
+class(
+    concept, classNameSuffix,
+    ancestors, interfaces,
+    fieldAncestors, fieldProperties,
+    delegatedProperties, superProperties, constructorParamProperties) ::= <<
+class <typeName(concept)><classNameSuffix><ancestorList(ancestors)><interfaceList(interfaces)>
+{
+    <fieldAncestors:ancestorFieldDecl();separator="\n">
+    <fieldProperties:propertyFieldDecl();separator="\n">
+
+    <constructor(concept, classNameSuffix, superProperties, fieldAncestors, constructorParamProperties)>
+
+    <concept.properties:getterImpl();separator="\n\n">
+    <newLineIf(concept.properties)><delegatedProperties:delegateGetter();separator="\n\n">
+
+    <toString(concept)>
+}
+>>
+
+ancestorFieldDecl(concept) ::= <<
+private final <typeName(concept)> <fieldName(concept)>;
+>>
+
+propertyFieldDecl(property) ::= <<
+private final <fieldTypeDecl(property.type)> <fieldName(property)>;
+>>
+
+ancestorList(ancestors) ::= <<
+<if(ancestors)> extends <ancestors:typeName();separator=", "><endif>
+>>
+
+interfaceList(interfaces) ::= <<
+<if(interfaces)> implements <interfaces:typeName();separator=", "><endif>
+>>
+
+constructor(concept, classNameSuffix, superProperties, paramAncestors, paramProperties) ::= <<
+public <typeName(concept)><classNameSuffix>(<constructorParamList(paramAncestors, paramProperties)>)
+{
+    <superConstructor(superProperties)>
+    <[paramAncestors, paramProperties]:fieldInit();separator="\n">
+}
+>>
+
+constructorParamList(paramAncestors, paramProperties) ::= <<
+<paramAncestors:constructorAncestorParam();separator=", "><\\>
+<commaIf2(paramAncestors, paramProperties)><\\>
+<paramProperties:constructorPropertyParam();separator=", ">
+>>
+
+constructorAncestorParam(concept) ::= <<
+<typeName(concept)> <fieldName(concept)>
+>>
+
+constructorPropertyParam(property) ::= <<
+<fieldTypeDecl(property.type)> <fieldName(property)>
+>>
+
+fieldInit(namedElement) ::= <<
+this.<fieldName(namedElement)> = <fieldName(namedElement)>;
+>>
+
+superConstructor(inheritedProperties) ::= <<
+<if(!inheritedProperties.empty)>super(<inheritedProperties:superArgs();separator=", ">);<endif>
+>>
+
+superArgs(property) ::= <<
+<fieldName(property)>
+>>
+
+delegateGetter(property) ::= <<
+public <getterHeader(property)>
+{
+    return <fieldName(property.parentScope)>.get<typeName(property)>();
+}
+>>
+
