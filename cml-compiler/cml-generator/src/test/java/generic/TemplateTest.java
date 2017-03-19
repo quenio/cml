@@ -90,7 +90,7 @@ public abstract class TemplateTest
         assertThatOutputMatches(expectedOutputPath, result);
     }
 
-    private void assertThatOutputMatches(String expectedOutputPath, String actualOutput) throws IOException
+    protected void assertThatOutputMatches(String expectedOutputPath, String actualOutput) throws IOException
     {
         final URL expectedOutputResource = getClass().getResource(expectedOutputPath);
         assertNotNull("Expected output resource must exist: " + expectedOutputPath, expectedOutputResource);

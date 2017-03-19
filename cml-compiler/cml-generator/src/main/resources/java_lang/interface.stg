@@ -1,10 +1,11 @@
 import "/generic/generic.stg"
 import "/java_lang/common.stg"
 
-interface(concept, ancestors, classNameSuffix) ::= <<
-interface <typeName(concept)><ancestorList(ancestors)>
+interface(concept, classNameSuffix) ::= <<
+interface <typeName(concept)><ancestorList(concept.ancestors)>
 {
     <concept.properties:getterDecl();separator="\n">
+    <createMethod(concept, classNameSuffix)>
 }
 >>
 
@@ -14,10 +15,11 @@ ancestorList(ancestors) ::= <<
 
 createMethod(concept, classNameSuffix) ::= <<
 <if(classNameSuffix)>
+<newLineIf(concept.properties)><\\>
 static <typeName(concept)> create(<createParamList(concept.ancestors, concept.properties)>)
 {
     return new <typeName(concept)><classNameSuffix>(<createArgList(concept.ancestors, concept.properties)>);
-}
+}<\\>
 <endif>
 >>
 
