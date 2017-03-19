@@ -1,0 +1,10 @@
+class Book
+{
+    public String toString()
+    {
+        return new StringBuilder(Book.class.getSimpleName())
+            .append('(')
+            .append(')')
+            .toString();
+    }
+}

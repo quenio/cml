@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
 
 public <interface(concept, "Impl")>
 
-<class(
+<class9(
     concept=concept,
     classNameSuffix="Impl",
     ancestors=[],

@@ -6,7 +6,7 @@ package <target.packageName>;
 import java.util.*;
 import org.jetbrains.annotations.*;
 
-public <class(
+public <class9(
     concept=concept,
     classNameSuffix="",
     ancestors=concept.ancestors,

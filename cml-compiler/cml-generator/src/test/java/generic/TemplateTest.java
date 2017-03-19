@@ -59,11 +59,11 @@ public abstract class TemplateTest
         throws IOException
     {
         final ST template = getTemplate(templateName);
+        assertNotNull("Expected template: " + templateName, template);
 
         template.add("concept", concept);
 
         final String result = template.render();
-
         assertThatOutputMatches(expectedOutputPath, result);
     }
 
