@@ -7,7 +7,7 @@ package <target.packageName>;
 import java.util.*;
 import org.jetbrains.annotations.*;
 
-public <interface(concept, concept.ancestors, "Impl")>
+public <interface(concept, "Impl")>
 
 <class(
     concept=concept,
