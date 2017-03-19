@@ -39,6 +39,27 @@ public class GenericTest extends TemplateTest
     }
 
     @Theory
+    public void newLineIf2_true(@FromDataPoints("trueConditions") Object cond)
+    {
+        testTemplateWithCond2("newLineIf2", cond, cond, "\n");
+    }
+
+    @Theory
+    public void newLineIf2_false(@FromDataPoints("falseConditions") Object cond)
+    {
+        testTemplateWithCond2("newLineIf2", cond, cond, "");
+    }
+
+    @Theory
+    public void newLineIf2_mixed(
+        @FromDataPoints("trueConditions") Object trueCond,
+        @FromDataPoints("falseConditions") Object falseCond)
+    {
+        testTemplateWithCond2("newLineIf2", trueCond, falseCond, "");
+        testTemplateWithCond2("newLineIf2", falseCond, trueCond, "");
+    }
+
+    @Theory
     public void commaIf_true(@FromDataPoints("trueConditions") Object cond)
     {
         testTemplateWithCond("commaIf", cond, ", ");
