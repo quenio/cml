@@ -80,7 +80,7 @@ public class AcceptanceTest
     }
 
     @Theory
-    public void successCases(@FromDataPoints("success-cases") final Case successCase) throws Exception
+    public void success(@FromDataPoints("success-cases") final Case successCase) throws Exception
     {
         final String sourceDir = CASES_DIR + "/" + successCase.getName();
 

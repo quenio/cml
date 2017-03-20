@@ -1,0 +1,39 @@
+class Book
+{
+    private final String title;
+    private final @Nullable Book sequel;
+    private final Set<Category> categories;
+
+    public Book(String title, @Nullable Book sequel, Set<Category> categories)
+    {
+        this.title = title;
+        this.sequel = sequel;
+        this.categories = categories;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public Optional<Book> getSequel()
+    {
+        return Optional.ofNullable(sequel);
+    }
+
+    public Set<Category> getCategories()
+    {
+        return Collections.unmodifiableSet(categories);
+    }
+
+    public String toString()
+    {
+        return new StringBuilder(Book.class.getSimpleName())
+            .append('(')
+            .append("title=").append(String.format("\"%s\"", getTitle())).append(", ")
+            .append("sequel=").append(getSequel().isPresent() ? String.format("\"%s\"", getSequel()) : "not present").append(", ")
+            .append("categories=").append(getCategories())
+            .append(')')
+            .toString();
+    }
+}

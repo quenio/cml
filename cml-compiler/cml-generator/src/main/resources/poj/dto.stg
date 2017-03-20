@@ -6,16 +6,6 @@ package <target.packageName>;
 import java.util.*;
 import org.jetbrains.annotations.*;
 
-public <class9(
-    concept=concept,
-    classNameSuffix="",
-    ancestors=concept.ancestors,
-    interfaces=[],
-    fieldAncestors=[],
-    fieldProperties=concept.properties,
-    delegatedProperties=[],
-    superProperties=concept.inheritedProperties,
-    constructorParamProperties=concept.allProperties
-)>
+public <class(concept)>
 >>
 

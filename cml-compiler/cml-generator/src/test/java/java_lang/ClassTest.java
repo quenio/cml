@@ -5,8 +5,11 @@ import cml.language.foundation.Property;
 import cml.language.foundation.Type;
 import generic.TemplateTest;
 import org.junit.Test;
+import org.stringtemplate.v4.ST;
 
 import java.io.IOException;
+
+import static junit.framework.TestCase.assertNotNull;
 
 public class ClassTest extends TemplateTest
 {
@@ -21,7 +24,7 @@ public class ClassTest extends TemplateTest
     {
         final Concept concept = Concept.create("Book");
 
-        testInterfaceTemplateWithConcept(concept, "emptyConcept.txt");
+        testClassTemplateWithConcept(concept, "emptyConcept.txt");
     }
 
     @Test
@@ -31,14 +34,81 @@ public class ClassTest extends TemplateTest
 
         concept.addElement(Property.create("title", null, Type.create("String", null)));
 
-        testInterfaceTemplateWithConcept(concept, "simpleConcept.txt");
+        testClassTemplateWithConcept(concept, "simpleConcept.txt");
     }
 
-    private void testInterfaceTemplateWithConcept(Concept concept, String expectedOutputFileName) throws IOException
+    @Test
+    public void class_conceptWithOptionalProperty() throws IOException
+    {
+        final Concept concept = Concept.create("Book");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
+
+        testClassTemplateWithConcept(concept, "conceptWithOptionalProperty.txt");
+    }
+
+    @Test
+    public void class_conceptWithSetProperty() throws IOException
+    {
+        final Concept concept = Concept.create("Book");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
+        concept.addElement(Property.create("categories", null, Type.create("Category", "*")));
+
+        testClassTemplateWithConcept(concept, "conceptWithSetProperty.txt");
+    }
+
+    @Test
+    public void class_conceptWithAncestor() throws IOException
+    {
+        final Concept productConcept = Concept.create("Product");
+        productConcept.addElement(Property.create("description", null, Type.create("String", null)));
+
+        final Concept bookConcept = Concept.create("Book");
+        bookConcept.addElement(Property.create("title", null, Type.create("String", null)));
+        bookConcept.addAncestor(productConcept);
+
+        testClassTemplateWithConcept(bookConcept, "conceptWithAncestor.txt");
+    }
+
+    @Test
+    public void class2_conceptWithClassNameSuffixAndMultipleAncestors() throws IOException
+    {
+        final Concept productConcept = Concept.create("Product");
+        productConcept.addElement(Property.create("description", null, Type.create("String", null)));
+
+        final Concept stockItemConcept = Concept.create("StockItem");
+        stockItemConcept.addElement(Property.create("quantity", null, Type.create("Integer", null)));
+
+        final Concept concept = Concept.create("Book");
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addAncestor(productConcept);
+        concept.addAncestor(stockItemConcept);
+
+        testClassTemplateWithSuffix(concept, "conceptWithClassNameSuffixAndMultipleAncestors.txt");
+    }
+
+    private void testClassTemplateWithConcept(Concept concept, String expectedOutputFileName) throws IOException
     {
         testTemplateWithConcept(
             "class",
             concept,
             "/java_lang/class/" + expectedOutputFileName);
+    }
+
+    private void testClassTemplateWithSuffix(Concept concept, String expectedOutputFileName) throws IOException
+    {
+        final String templateName = "class2";
+
+        final ST template = getTemplate(templateName);
+        assertNotNull("Expected template: " + templateName, template);
+
+        template.add("concept", concept);
+        template.add("classNameSuffix", "Impl");
+
+        final String result = template.render();
+        assertThatOutputMatches("/java_lang/class/" + expectedOutputFileName, result);
     }
 }

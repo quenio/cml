@@ -35,7 +35,7 @@ public String toString()
 {
     return new StringBuilder(<typeName(concept)>.class.getSimpleName())
         .append('(')
-        <concept.properties:toString_field();separator=".append(\", \")\n">
+        <concept.allProperties:toString_field();separator=".append(\", \")\n">
         .append(')')
         .toString();
 }
@@ -50,15 +50,19 @@ toString_fieldValue(property) ::= <<
 >>
 
 toString_fieldValue_required(property) ::= <<
-.append('"' + <fieldName(property)> + '"')
+.append(String.format("\"%s\"", <getterCall(property)>))
 >>
 
 toString_fieldValue_optional(property) ::= <<
-.append((<fieldName(property)> == null) ? "not present" : String.format("\"%s\"", <fieldName(property)>))
+.append(<getterCall(property)>.isPresent() ? String.format("\"%s\"", <getterCall(property)>) : "not present")
 >>
 
 toString_fieldValue_set(property) ::= <<
-.append(<fieldName(property)>)
+.append(<getterCall(property)>)
+>>
+
+getterCall(namedElement) ::= <<
+get<namedElement.name; format="pascal-case">()
 >>
 
 fieldName(namedElement) ::= <<

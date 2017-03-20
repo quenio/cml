@@ -2,7 +2,7 @@ public String toString()
 {
     return new StringBuilder(SomeConcept.class.getSimpleName())
         .append('(')
-        .append("someProperty=").append('"' + someProperty + '"')
+        .append("someProperty=").append(String.format("\"%s\"", getSomeProperty()))
         .append(')')
         .toString();
 }

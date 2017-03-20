@@ -9,15 +9,5 @@ import org.jetbrains.annotations.*;
 
 public <interface(concept, "Impl")>
 
-<class9(
-    concept=concept,
-    classNameSuffix="Impl",
-    ancestors=[],
-    interfaces=[concept],
-    fieldAncestors=concept.ancestors,
-    fieldProperties=concept.properties,
-    delegatedProperties=concept.inheritedProperties,
-    superProperties=[],
-    constructorParamProperties=concept.properties
-)>
+<class2(concept, "Impl")>
 >>

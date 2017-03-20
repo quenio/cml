@@ -1,0 +1,40 @@
+class BookImpl implements Book
+{
+    private final Product product;
+    private final StockItem stockItem;
+
+    private final String title;
+
+    public BookImpl(Product product, StockItem stockItem, String title)
+    {
+        this.product = product;
+        this.stockItem = stockItem;
+        this.title = title;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public String getDescription()
+    {
+        return product.getDescription();
+    }
+
+    public Integer getQuantity()
+    {
+        return stockItem.getQuantity();
+    }
+
+    public String toString()
+    {
+        return new StringBuilder(Book.class.getSimpleName())
+            .append('(')
+            .append("description=").append(String.format("\"%s\"", getDescription())).append(", ")
+            .append("quantity=").append(String.format("\"%s\"", getQuantity())).append(", ")
+            .append("title=").append(String.format("\"%s\"", getTitle()))
+            .append(')')
+            .toString();
+    }
+}
