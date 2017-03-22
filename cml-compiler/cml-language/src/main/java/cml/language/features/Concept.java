@@ -12,8 +12,19 @@ import static java.util.stream.Stream.concat;
 
 public interface Concept extends NamedElement, PropertyList
 {
-    List<Concept> getAncestors();
-    void addAncestor(Concept concept);
+    default List<Concept> getAllAncestors()
+    {
+        final List<Concept> inheritedAncestors = getDirectAncestors().stream()
+                                                                     .flatMap(concept -> concept.getAllAncestors().stream())
+                                                                     .collect(toList());
+
+        return concat(inheritedAncestors.stream(), getDirectAncestors().stream())
+            .distinct()
+            .collect(toList());
+    }
+
+    List<Concept> getDirectAncestors();
+    void addDirectAncestor(Concept concept);
 
     @SuppressWarnings("unused")
     List<String> getMissingAncestors();
@@ -21,9 +32,9 @@ public interface Concept extends NamedElement, PropertyList
 
     default List<Property> getInheritedProperties()
     {
-        return getAncestors().stream()
-                             .flatMap(concept -> concept.getProperties().stream())
-                             .collect(toList());
+        return getAllAncestors().stream()
+                                .flatMap(concept -> concept.getProperties().stream())
+                                .collect(toList());
     }
 
     @SuppressWarnings("unused")
@@ -43,7 +54,7 @@ class ConceptImpl implements Concept
     private final ModelElement modelElement;
     private final NamedElement namedElement;
     private final Scope scope;
-    private final List<Concept> ancestors = new ArrayList<>();
+    private final List<Concept> directAncestors = new ArrayList<>();
     private final List<String> missingAncestors = new ArrayList<>();
 
     ConceptImpl(String name)
@@ -78,17 +89,17 @@ class ConceptImpl implements Concept
     }
 
     @Override
-    public List<Concept> getAncestors()
+    public List<Concept> getDirectAncestors()
     {
-        return unmodifiableList(ancestors);
+        return unmodifiableList(directAncestors);
     }
 
     @Override
-    public void addAncestor(Concept concept)
+    public void addDirectAncestor(Concept concept)
     {
-        assert !ancestors.contains(concept);
+        assert !directAncestors.contains(concept);
 
-        ancestors.add(concept);
+        directAncestors.add(concept);
     }
 
     @Override

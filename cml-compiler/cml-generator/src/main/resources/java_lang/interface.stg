@@ -2,7 +2,7 @@ import "/generic/generic.stg"
 import "/java_lang/common.stg"
 
 interface(concept, classNameSuffix) ::= <<
-interface <typeName(concept)><ancestorList(concept.ancestors)>
+interface <typeName(concept)><ancestorList(concept.directAncestors)>
 {
     <concept.properties:getterDecl();separator="\n">
     <createMethod(concept, classNameSuffix)>
@@ -16,9 +16,9 @@ ancestorList(ancestors) ::= <<
 createMethod(concept, classNameSuffix) ::= <<
 <if(classNameSuffix)>
 <newLineIf(concept.properties)><\\>
-static <typeName(concept)> create(<createParamList(concept.ancestors, concept.properties)>)
+static <typeName(concept)> create(<createParamList(concept.allAncestors, concept.properties)>)
 {
-    return new <typeName(concept)><classNameSuffix>(<createArgList(concept.ancestors, concept.properties)>);
+    return new <typeName(concept)><classNameSuffix>(<createArgList(concept.allAncestors, concept.properties)>);
 }<\\>
 <endif>
 >>

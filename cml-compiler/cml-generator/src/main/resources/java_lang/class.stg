@@ -5,7 +5,7 @@ class(concept) ::= <<
 <class9(
     concept=concept,
     classNameSuffix="",
-    ancestors=concept.ancestors,
+    ancestors=concept.directAncestors,
     interfaces=[],
     fieldAncestors=[],
     fieldProperties=concept.properties,
@@ -21,7 +21,7 @@ class2(concept, classNameSuffix) ::= <<
     classNameSuffix=classNameSuffix,
     ancestors=[],
     interfaces=[concept],
-    fieldAncestors=concept.ancestors,
+    fieldAncestors=concept.allAncestors,
     fieldProperties=concept.properties,
     delegatedProperties=concept.inheritedProperties,
     superProperties=[],

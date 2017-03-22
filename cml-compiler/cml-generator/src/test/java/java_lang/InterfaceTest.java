@@ -76,7 +76,7 @@ public class InterfaceTest extends TemplateTest
         final Concept concept = Concept.create("Book");
 
         concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addAncestor(Concept.create("Product"));
+        concept.addDirectAncestor(Concept.create("Product"));
 
         testInterfaceTemplateWithCreateMethod(concept, "conceptWithAncestor.txt");
     }
@@ -84,11 +84,19 @@ public class InterfaceTest extends TemplateTest
     @Test
     public void interface_conceptWithMultipleAncestors() throws IOException
     {
-        final Concept concept = Concept.create("Book");
+        final Concept baseConcept = Concept.create("Base");
+        baseConcept.addElement(Property.create("baseProperty", null, Type.create("String", null)));
 
+        final Concept productConcept = Concept.create("Product");
+        productConcept.addDirectAncestor(baseConcept);
+
+        final Concept stockItemConcept = Concept.create("StockItem");
+        stockItemConcept.addDirectAncestor(baseConcept);
+
+        final Concept concept = Concept.create("Book");
         concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addAncestor(Concept.create("Product"));
-        concept.addAncestor(Concept.create("StockItem"));
+        concept.addDirectAncestor(productConcept);
+        concept.addDirectAncestor(stockItemConcept);
 
         testInterfaceTemplateWithCreateMethod(concept, "conceptWithMultipleAncestors.txt");
     }

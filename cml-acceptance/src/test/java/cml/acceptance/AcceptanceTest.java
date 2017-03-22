@@ -20,6 +20,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static junit.framework.TestCase.assertEquals;
 import static org.codehaus.plexus.util.FileUtils.*;
 import static org.codehaus.plexus.util.cli.CommandLineUtils.executeCommandLine;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -201,7 +202,7 @@ public class AcceptanceTest
         final String actualOutput) throws IOException
     {
         final String expectedOutput = Files.toString(new File(expectedOutputPath), OUTPUT_FILE_ENCODING);
-        assertThat(reason, actualOutput, is(expectedOutput));
+        assertEquals(reason, expectedOutput, actualOutput);
     }
 
     private static void buildModule(final String baseDir) throws MavenInvocationException

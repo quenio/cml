@@ -2,8 +2,8 @@ interface Book extends Product, StockItem
 {
     String getTitle();
 
-    static Book create(Product product, StockItem stockItem, String title)
+    static Book create(Base base, Product product, StockItem stockItem, String title)
     {
-        return new BookImpl(product, stockItem, title);
+        return new BookImpl(base, product, stockItem, title);
     }
 }

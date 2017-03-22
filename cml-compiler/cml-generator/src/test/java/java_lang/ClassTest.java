@@ -68,7 +68,7 @@ public class ClassTest extends TemplateTest
 
         final Concept bookConcept = Concept.create("Book");
         bookConcept.addElement(Property.create("title", null, Type.create("String", null)));
-        bookConcept.addAncestor(productConcept);
+        bookConcept.addDirectAncestor(productConcept);
 
         testClassTemplateWithConcept(bookConcept, "conceptWithAncestor.txt");
     }
@@ -76,16 +76,21 @@ public class ClassTest extends TemplateTest
     @Test
     public void class2_conceptWithClassNameSuffixAndMultipleAncestors() throws IOException
     {
+        final Concept baseConcept = Concept.create("Base");
+        baseConcept.addElement(Property.create("baseProperty", null, Type.create("String", null)));
+
         final Concept productConcept = Concept.create("Product");
         productConcept.addElement(Property.create("description", null, Type.create("String", null)));
+        productConcept.addDirectAncestor(baseConcept);
 
         final Concept stockItemConcept = Concept.create("StockItem");
         stockItemConcept.addElement(Property.create("quantity", null, Type.create("Integer", null)));
+        stockItemConcept.addDirectAncestor(baseConcept);
 
         final Concept concept = Concept.create("Book");
         concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addAncestor(productConcept);
-        concept.addAncestor(stockItemConcept);
+        concept.addDirectAncestor(productConcept);
+        concept.addDirectAncestor(stockItemConcept);
 
         testClassTemplateWithSuffix(concept, "conceptWithClassNameSuffixAndMultipleAncestors.txt");
     }

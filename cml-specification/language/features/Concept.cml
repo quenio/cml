@@ -3,7 +3,8 @@
 
 concept Concept: NamedElement, PropertyList
 {
-    ancestors: list of Concept*;
+    allAncestors: list of Concept* = directAncestors.allAncestors + directAncestors;
+    directAncestors: list of Concept*;
     missingAncestors: String*;
 
     /inheritedProperties: list of Property* = ancestors.properties;
