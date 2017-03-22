@@ -3,5 +3,5 @@ Mini-CML Compiler
 Classes:
 - mcml.language.ModelElement
 - mcml.language.Scope
+- mcml.language.PropertyList
 
-Scope extends ModelElement? true

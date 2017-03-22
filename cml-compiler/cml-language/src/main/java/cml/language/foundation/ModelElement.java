@@ -6,18 +6,25 @@ public interface ModelElement
 {
     Optional<Scope> getParentScope();
 
-    static ModelElement create()
+    static ModelElement create(ModelElement self)
     {
-        return new ModelElementImpl();
+        return new ModelElementImpl(self);
     }
 }
 
 class ModelElementImpl implements ModelElement
 {
+    private final ModelElement self;
+
+    ModelElementImpl(ModelElement self)
+    {
+        this.self = self;
+    }
+
     @Override
     public Optional<Scope> getParentScope()
     {
-        return scopeElement.getParentScope(this);
+        return scopeElement.getParentScope(self);
     }
 
     private static ScopeElement scopeElement;

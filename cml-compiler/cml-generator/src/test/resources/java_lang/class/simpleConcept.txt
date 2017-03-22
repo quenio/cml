@@ -1,0 +1,23 @@
+class Book
+{
+    private final String title;
+
+    public Book(String title)
+    {
+        this.title = title;
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public String toString()
+    {
+        return new StringBuilder(Book.class.getSimpleName())
+            .append('(')
+            .append("title=").append(String.format("\"%s\"", getTitle()))
+            .append(')')
+            .toString();
+    }
+}

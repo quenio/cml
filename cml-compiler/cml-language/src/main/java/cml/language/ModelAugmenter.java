@@ -46,7 +46,7 @@ public class ModelAugmenter extends CMLBaseListener
                                                                    .filter(name -> !foundAncestorNames.contains(name))
                                                                    .collect(Collectors.toList());
 
-            foundAncestors.forEach(ancestor -> ctx.concept.addAncestor(ancestor));
+            foundAncestors.forEach(ancestor -> ctx.concept.addDirectAncestor(ancestor));
             missingAncestorNames.forEach(name -> ctx.concept.addMissingAncestor(name));
         }
     }

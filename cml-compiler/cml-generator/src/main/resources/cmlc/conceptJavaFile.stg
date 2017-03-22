@@ -1,0 +1,13 @@
+import "/java_lang/interface.stg"
+import "/java_lang/class.stg"
+
+conceptJavaFile(target, concept) ::= <<
+package <target.packageName>;
+
+import java.util.*;
+import org.jetbrains.annotations.*;
+
+public <interface(concept, "Impl")>
+
+<class2(concept, "Impl")>
+>>

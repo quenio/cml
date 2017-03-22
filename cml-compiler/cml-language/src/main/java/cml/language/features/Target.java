@@ -12,12 +12,7 @@ public interface Target extends NamedElement, PropertyList
 {
     static Target create(String name)
     {
-        final ModelElement modelElement = ModelElement.create();
-        final NamedElement namedElement = NamedElement.create(modelElement, name);
-        final Scope scope = Scope.create(modelElement);
-        final PropertyList propertyList = PropertyList.create(scope);
-
-        return new TargetImpl(modelElement, namedElement, propertyList);
+        return new TargetImpl(name);
     }
 }
 
@@ -25,13 +20,13 @@ class TargetImpl implements Target
 {
     private final ModelElement modelElement;
     private final NamedElement namedElement;
-    private final PropertyList propertyList;
+    private final Scope scope;
 
-    TargetImpl(ModelElement modelElement, NamedElement namedElement, PropertyList propertyList)
+    TargetImpl(String name)
     {
-        this.modelElement = modelElement;
-        this.namedElement = namedElement;
-        this.propertyList = propertyList;
+        this.modelElement = ModelElement.create(this);
+        this.namedElement = NamedElement.create(modelElement, name);
+        this.scope = Scope.create(this, modelElement);
     }
 
     @Override
@@ -49,13 +44,13 @@ class TargetImpl implements Target
     @Override
     public List<ModelElement> getElements()
     {
-        return propertyList.getElements();
+        return scope.getElements();
     }
 
     @Override
     public void addElement(ModelElement element)
     {
-        propertyList.addElement(element);
+        scope.addElement(element);
     }
 }
 

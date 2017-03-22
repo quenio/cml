@@ -9,6 +9,10 @@ concept Scope: ModelElement
     elements: ModelElement*;
 }
 
+concept PropertyList: Scope
+{
+}
+
 target cmlc
 {
     groupId = "mcml";

@@ -10,10 +10,7 @@ public interface Property extends TypedElement
 
     static Property create(String name, @Nullable String value, @Nullable Type type)
     {
-        final ModelElement modelElement = ModelElement.create();
-        final NamedElement namedElement = NamedElement.create(modelElement, name);
-        final TypedElement typedElement = TypedElement.create(namedElement, type);
-        return new PropertyImpl(typedElement, value);
+        return new PropertyImpl(name, value, type);
     }
 }
 
@@ -22,9 +19,12 @@ class PropertyImpl implements Property
     private final TypedElement typedElement;
     private final @Nullable String value;
 
-    PropertyImpl(TypedElement typedElement, @Nullable String value)
+    PropertyImpl(String name, @Nullable String value, @Nullable Type type)
     {
-        this.typedElement = typedElement;
+        final ModelElement modelElement = ModelElement.create(this);
+        final NamedElement namedElement = NamedElement.create(modelElement, name);
+
+        this.typedElement = TypedElement.create(namedElement, type);
         this.value = value;
     }
 

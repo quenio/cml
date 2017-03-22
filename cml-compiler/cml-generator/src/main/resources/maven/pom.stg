@@ -9,6 +9,10 @@ pom(target, model) ::= <<
         \<project.build.sourceEncoding>UTF-8\</project.build.sourceEncoding>
     \</properties>
 
+    \<dependencies>
+        <dependencies()>
+    \</dependencies>
+
     \<build>
         <plugins()>
     \</build>
@@ -44,6 +48,14 @@ module_def(target) ::= <<
 \<artifactId><target.artifactId>\</artifactId>
 \<version><target.version>\</version>
 \<packaging>jar\</packaging>
+>>
+
+dependencies() ::= <<
+\<dependency>
+    \<groupId>org.jetbrains\</groupId>
+    \<artifactId>annotations\</artifactId>
+    \<version>15.0\</version>
+\</dependency>
 >>
 
 plugins() ::= <<

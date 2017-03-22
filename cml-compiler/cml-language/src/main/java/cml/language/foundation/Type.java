@@ -33,29 +33,25 @@ public interface Type extends NamedElement
 
     static Type create(String name, @Nullable String cardinality)
     {
-        final ModelElement modelElement = ModelElement.create();
-        final NamedElement namedElement = NamedElement.create(modelElement, name);
-        return new TypeImpl(modelElement, namedElement, cardinality);
+        return new TypeImpl(name, cardinality);
     }
 }
 
 class TypeImpl implements Type
 {
-    private final ModelElement modelElement;
     private final NamedElement namedElement;
     private final @Nullable String cardinality;
 
-    TypeImpl(ModelElement modelElement, NamedElement namedElement, @Nullable String cardinality)
+    TypeImpl(String name, @Nullable String cardinality)
     {
-        this.modelElement = modelElement;
-        this.namedElement = namedElement;
+        this.namedElement = NamedElement.create(this, name);
         this.cardinality = cardinality;
     }
 
     @Override
     public Optional<Scope> getParentScope()
     {
-        return modelElement.getParentScope();
+        return namedElement.getParentScope();
     }
 
     @Override

@@ -1,0 +1,52 @@
+import "/generic/generic.stg"
+import "/java_lang/common.stg"
+
+interface(concept, classNameSuffix) ::= <<
+interface <typeName(concept)><ancestorList(concept.directAncestors)>
+{
+    <concept.properties:getterDecl();separator="\n">
+    <createMethod(concept, classNameSuffix)>
+}
+>>
+
+ancestorList(ancestors) ::= <<
+<if(ancestors)> extends <ancestors:typeName();separator=", "><endif>
+>>
+
+createMethod(concept, classNameSuffix) ::= <<
+<if(classNameSuffix)>
+<newLineIf(concept.properties)><\\>
+static <typeName(concept)> create(<createParamList(concept.allAncestors, concept.properties)>)
+{
+    return new <typeName(concept)><classNameSuffix>(<createArgList(concept.allAncestors, concept.properties)>);
+}<\\>
+<endif>
+>>
+
+createParamList(ancestors, properties) ::= <<
+<ancestors:createAncestorParam();separator=", "><\\>
+<commaIf2(ancestors, properties)><\\>
+<properties:createPropertyParam();separator=", ">
+>>
+
+createAncestorParam(concept) ::= <<
+<typeName(concept)> <fieldName(concept)>
+>>
+
+createPropertyParam(property) ::= <<
+<fieldTypeDecl(property.type)> <fieldName(property)>
+>>
+
+createArgList(ancestors, properties) ::= <<
+<ancestors:createAncestorArg();separator=", "><\\>
+<commaIf2(ancestors, properties)><\\>
+<properties:createPropertyArg();separator=", ">
+>>
+
+createAncestorArg(concept) ::= <<
+<fieldName(concept)>
+>>
+
+createPropertyArg(property) ::= <<
+<fieldName(property)>
+>>

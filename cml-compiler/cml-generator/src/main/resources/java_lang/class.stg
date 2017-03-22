@@ -1,0 +1,135 @@
+import "/generic/generic.stg"
+import "/java_lang/common.stg"
+
+class(concept) ::= <<
+<class9(
+    concept=concept,
+    classNameSuffix="",
+    ancestors=concept.directAncestors,
+    interfaces=[],
+    fieldAncestors=[],
+    fieldProperties=concept.properties,
+    delegatedProperties=[],
+    superProperties=concept.inheritedProperties,
+    constructorParamProperties=concept.properties
+)>
+>>
+
+class2(concept, classNameSuffix) ::= <<
+<class9(
+    concept=concept,
+    classNameSuffix=classNameSuffix,
+    ancestors=[],
+    interfaces=[concept],
+    fieldAncestors=concept.allAncestors,
+    fieldProperties=concept.properties,
+    delegatedProperties=concept.inheritedProperties,
+    superProperties=[],
+    constructorParamProperties=concept.properties
+)>
+>>
+
+class9(
+    concept, classNameSuffix,
+    ancestors, interfaces,
+    fieldAncestors, fieldProperties,
+    delegatedProperties, superProperties, constructorParamProperties
+) ::= <<
+class <typeName(concept)><classNameSuffix><ancestorList(ancestors)><interfaceList(interfaces)>
+{
+    <ancestorFields(fieldAncestors)>
+    <propertyFields(fieldAncestors, fieldProperties)>
+    <constructor(concept, classNameSuffix, superProperties, fieldAncestors, constructorParamProperties)>
+    <fieldGetters(concept)>
+    <delegatedGetters(concept, delegatedProperties)>
+    <class_toString(concept)>
+}
+>>
+
+ancestorFieldDecl(concept) ::= <<
+private final <typeName(concept)> <fieldName(concept)>;
+>>
+
+propertyFieldDecl(property) ::= <<
+private final <fieldTypeDecl(property.type)> <fieldName(property)>;
+>>
+
+ancestorList(ancestors) ::= <<
+<if(ancestors)> extends <ancestors:typeName();separator=", "><endif>
+>>
+
+interfaceList(interfaces) ::= <<
+<if(interfaces)> implements <interfaces:typeName();separator=", "><endif>
+>>
+
+ancestorFields(fieldAncestors) ::= <<
+<fieldAncestors:ancestorFieldDecl();separator="\n">
+>>
+
+propertyFields(fieldAncestors, fieldProperties) ::= <<
+<newLineIf2(fieldAncestors, fieldProperties)><\\>
+<fieldProperties:propertyFieldDecl();separator="\n">
+>>
+
+fieldGetters(concept) ::= <<
+<concept.properties:getterImpl();separator="\n\n">
+>>
+
+delegatedGetters(concept, delegatedProperties) ::= <<
+<newLineIf2(concept.properties, delegatedProperties)><\\>
+<delegatedProperties:delegateGetter();separator="\n\n">
+>>
+
+constructor(concept, classNameSuffix, superProperties, paramAncestors, paramProperties) ::= <<
+<if(paramAncestors || paramProperties)>
+<newLineIf(fieldProperties)><\\>
+public <typeName(concept)><classNameSuffix>(<constructorParamList(paramAncestors, [superProperties, paramProperties])>)
+{
+    <superConstructor(superProperties)>
+    <if(superProperties)>
+    <[paramProperties]:fieldInit();separator="\n">
+    <else>
+    <[paramAncestors, paramProperties]:fieldInit();separator="\n">
+    <endif>
+}
+<endif>
+>>
+
+constructorParamList(paramAncestors, paramProperties) ::= <<
+<paramAncestors:constructorAncestorParam();separator=", "><\\>
+<commaIf2(paramAncestors, paramProperties)><\\>
+<paramProperties:constructorPropertyParam();separator=", ">
+>>
+
+constructorAncestorParam(concept) ::= <<
+<typeName(concept)> <fieldName(concept)>
+>>
+
+constructorPropertyParam(property) ::= <<
+<fieldTypeDecl(property.type)> <fieldName(property)>
+>>
+
+fieldInit(namedElement) ::= <<
+this.<fieldName(namedElement)> = <fieldName(namedElement)>;
+>>
+
+superConstructor(inheritedProperties) ::= <<
+<if(inheritedProperties)>super(<inheritedProperties:superArgs();separator=", ">);<endif>
+>>
+
+superArgs(property) ::= <<
+<fieldName(property)>
+>>
+
+delegateGetter(property) ::= <<
+public <getterHeader(property)>
+{
+    return <fieldName(property.parentScope)>.get<typeName(property)>();
+}
+>>
+
+class_toString(concept) ::= <<
+<newLineIf(concept.allProperties)><\\>
+<toString(concept)>
+>>
+

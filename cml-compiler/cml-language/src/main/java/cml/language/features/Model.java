@@ -38,10 +38,7 @@ public interface Model extends Scope
 
     static Model create()
     {
-        final ModelElement modelElement = ModelElement.create();
-        final Scope scope = Scope.create(modelElement);
-        
-        return new ModelImpl(modelElement, scope);
+        return new ModelImpl();
     }
 }
 
@@ -50,10 +47,10 @@ class ModelImpl implements Model
     private final ModelElement modelElement;
     private final Scope scope;
 
-    ModelImpl(ModelElement modelElement, Scope scope)
+    ModelImpl()
     {
-        this.modelElement = modelElement;
-        this.scope = scope;
+        this.modelElement = ModelElement.create(this);
+        this.scope = Scope.create(this, modelElement);
     }
 
     @Override
