@@ -8,14 +8,24 @@
 
 ## Iterations
 
-- Nine one-week iterations.
+- Eight one-week iterations.
 - Starting on April 2st.
-- Ending on July 3rd.
+- Ending on May 26th.
 
-## July 2017
+## June/July 2017
 
-- July 1st: send disseration to reviewers.
-- Incorporate feedback from reviewers.
-- Final touches on dissertation, specification and compiler.
-- Prepare the presentation.
-- Present the work.
+- May 29th - June 1st:
+    - Prepare disseration for review.
+    - Send disseration to reviewers.
+- June 2nd - June 6th:
+    - Incorporate feedback from reviewers.
+    - Professor to approve disseration for presentation.
+- June 7th - June 11th:
+    - Prepare the presentation.
+- June 13th - June 30th:
+    - Review presentation with Professor.
+    - Present the work.
+    - Write article.
+- July 1st - July 10th:
+    - Final touches on dissertation and article.
+    - Submit disseration + article.
