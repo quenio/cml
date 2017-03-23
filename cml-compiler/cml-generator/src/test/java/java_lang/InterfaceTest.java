@@ -18,36 +18,18 @@ public class InterfaceTest extends TemplateTest
     }
 
     @Test
-    public void interface_emptyConcept() throws IOException
+    public void concept_abstract_ancestor() throws IOException
     {
-        final Concept concept = Concept.create("EmptyBook");
-
-        testInterfaceTemplateWithConcept(concept, "emptyConcept.txt");
-    }
-
-    @Test
-    public void interface_simpleConcept() throws IOException
-    {
-        final Concept concept = Concept.create("StringTitledBook");
+        final Concept concept = Concept.create("Book", true);
 
         concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addDirectAncestor(Concept.create("Product"));
 
-        testInterfaceTemplateWithConcept(concept, "simpleConcept.txt");
+        testInterfaceTemplateWithCreateMethod(concept, "concept_abstract_ancestor.txt");
     }
 
     @Test
-    public void interface_conceptWithOptionalProperty() throws IOException
-    {
-        final Concept concept = Concept.create("Book");
-
-        concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
-
-        testInterfaceTemplateWithConcept(concept, "conceptWithOptionalProperty.txt");
-    }
-
-    @Test
-    public void interface_conceptWithSetProperty() throws IOException
+    public void concept_concrete() throws IOException
     {
         final Concept concept = Concept.create("Book");
 
@@ -55,34 +37,22 @@ public class InterfaceTest extends TemplateTest
         concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
         concept.addElement(Property.create("categories", null, Type.create("Category", "*")));
 
-        testInterfaceTemplateWithConcept(concept, "conceptWithSetProperty.txt");
+        testInterfaceTemplateWithCreateMethod(concept, "concept_concrete.txt");
     }
 
     @Test
-    public void interface_conceptWithCreateMethod() throws IOException
-    {
-        final Concept concept = Concept.create("Book");
-
-        concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
-        concept.addElement(Property.create("categories", null, Type.create("Category", "*")));
-
-        testInterfaceTemplateWithCreateMethod(concept, "conceptWithCreateMethod.txt");
-    }
-
-    @Test
-    public void interface_conceptWithAncestor() throws IOException
+    public void concept_concrete_ancestor() throws IOException
     {
         final Concept concept = Concept.create("Book");
 
         concept.addElement(Property.create("title", null, Type.create("String", null)));
         concept.addDirectAncestor(Concept.create("Product"));
 
-        testInterfaceTemplateWithCreateMethod(concept, "conceptWithAncestor.txt");
+        testInterfaceTemplateWithCreateMethod(concept, "concept_concrete_ancestor.txt");
     }
 
     @Test
-    public void interface_conceptWithMultipleAncestors() throws IOException
+    public void concept_concrete_ancestor_multiple() throws IOException
     {
         final Concept baseConcept = Concept.create("Base");
         baseConcept.addElement(Property.create("baseProperty", null, Type.create("String", null)));
@@ -98,7 +68,48 @@ public class InterfaceTest extends TemplateTest
         concept.addDirectAncestor(productConcept);
         concept.addDirectAncestor(stockItemConcept);
 
-        testInterfaceTemplateWithCreateMethod(concept, "conceptWithMultipleAncestors.txt");
+        testInterfaceTemplateWithCreateMethod(concept, "concept_concrete_ancestor_multiple.txt");
+    }
+
+    @Test
+    public void concept_empty() throws IOException
+    {
+        final Concept concept = Concept.create("EmptyBook");
+
+        testInterfaceTemplateWithConcept(concept, "concept_empty.txt");
+    }
+
+    @Test
+    public void concept_property_optional() throws IOException
+    {
+        final Concept concept = Concept.create("Book");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
+
+        testInterfaceTemplateWithConcept(concept, "concept_property_optional.txt");
+    }
+
+    @Test
+    public void concept_property_required() throws IOException
+    {
+        final Concept concept = Concept.create("StringTitledBook");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+
+        testInterfaceTemplateWithConcept(concept, "concept_property_required.txt");
+    }
+
+    @Test
+    public void concept_property_set() throws IOException
+    {
+        final Concept concept = Concept.create("Book");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
+        concept.addElement(Property.create("categories", null, Type.create("Category", "*")));
+
+        testInterfaceTemplateWithConcept(concept, "concept_property_set.txt");
     }
 
     private void testInterfaceTemplateWithConcept(Concept concept, String expectedOutputFileName) throws IOException

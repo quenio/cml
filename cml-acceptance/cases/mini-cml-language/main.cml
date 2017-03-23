@@ -1,15 +1,15 @@
 
-concept ModelElement
+abstract concept ModelElement
 {
     parentScope: Scope?;
 }
 
-concept Scope: ModelElement
+abstract concept Scope: ModelElement
 {
     elements: ModelElement*;
 }
 
-concept PropertyList: Scope
+abstract concept PropertyList: Scope
 {
 }
 
