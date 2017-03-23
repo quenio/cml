@@ -20,48 +20,36 @@ public class ClassTest extends TemplateTest
     }
 
     @Test
-    public void class_emptyConcept() throws IOException
+    public void class2__concept_abstract_ancestor_multiple() throws IOException
     {
-        final Concept concept = Concept.create("Book");
+        final Concept concept = createConceptWithMultipleAncestors(true);
 
-        testClassTemplateWithConcept(concept, "emptyConcept.txt");
+        testClassTemplateWithSuffix(concept, "class2__concept_abstract_ancestor_multiple.txt");
     }
 
     @Test
-    public void class_simpleConcept() throws IOException
+    public void class2__concept_concrete_ancestor_multiple() throws IOException
     {
-        final Concept concept = Concept.create("Book");
+        final Concept concept = createConceptWithMultipleAncestors(false);
 
-        concept.addElement(Property.create("title", null, Type.create("String", null)));
-
-        testClassTemplateWithConcept(concept, "simpleConcept.txt");
+        testClassTemplateWithSuffix(concept, "class2__concept_concrete_ancestor_multiple.txt");
     }
 
     @Test
-    public void class_conceptWithOptionalProperty() throws IOException
+    public void class__concept_abstract_ancestor() throws IOException
     {
-        final Concept concept = Concept.create("Book");
+        final Concept productConcept = Concept.create("Product");
+        productConcept.addElement(Property.create("description", null, Type.create("String", null)));
 
-        concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
+        final Concept bookConcept = Concept.create("Book", true);
+        bookConcept.addElement(Property.create("title", null, Type.create("String", null)));
+        bookConcept.addDirectAncestor(productConcept);
 
-        testClassTemplateWithConcept(concept, "conceptWithOptionalProperty.txt");
+        testClassTemplateWithConcept(bookConcept, "class__concept_abstract_ancestor.txt");
     }
 
     @Test
-    public void class_conceptWithSetProperty() throws IOException
-    {
-        final Concept concept = Concept.create("Book");
-
-        concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
-        concept.addElement(Property.create("categories", null, Type.create("Category", "*")));
-
-        testClassTemplateWithConcept(concept, "conceptWithSetProperty.txt");
-    }
-
-    @Test
-    public void class_conceptWithAncestor() throws IOException
+    public void class__concept_concrete_ancestor() throws IOException
     {
         final Concept productConcept = Concept.create("Product");
         productConcept.addElement(Property.create("description", null, Type.create("String", null)));
@@ -70,29 +58,48 @@ public class ClassTest extends TemplateTest
         bookConcept.addElement(Property.create("title", null, Type.create("String", null)));
         bookConcept.addDirectAncestor(productConcept);
 
-        testClassTemplateWithConcept(bookConcept, "conceptWithAncestor.txt");
+        testClassTemplateWithConcept(bookConcept, "class__concept_concrete_ancestor.txt");
     }
 
     @Test
-    public void class2_conceptWithClassNameSuffixAndMultipleAncestors() throws IOException
+    public void class__concept_empty() throws IOException
     {
-        final Concept baseConcept = Concept.create("Base");
-        baseConcept.addElement(Property.create("baseProperty", null, Type.create("String", null)));
-
-        final Concept productConcept = Concept.create("Product");
-        productConcept.addElement(Property.create("description", null, Type.create("String", null)));
-        productConcept.addDirectAncestor(baseConcept);
-
-        final Concept stockItemConcept = Concept.create("StockItem");
-        stockItemConcept.addElement(Property.create("quantity", null, Type.create("Integer", null)));
-        stockItemConcept.addDirectAncestor(baseConcept);
-
         final Concept concept = Concept.create("Book");
-        concept.addElement(Property.create("title", null, Type.create("String", null)));
-        concept.addDirectAncestor(productConcept);
-        concept.addDirectAncestor(stockItemConcept);
 
-        testClassTemplateWithSuffix(concept, "conceptWithClassNameSuffixAndMultipleAncestors.txt");
+        testClassTemplateWithConcept(concept, "class__concept_empty.txt");
+    }
+
+    @Test
+    public void class__concept_property_optional() throws IOException
+    {
+        final Concept concept = Concept.create("Book");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
+
+        testClassTemplateWithConcept(concept, "class__concept_property_optional.txt");
+    }
+
+    @Test
+    public void class__concept_property_required() throws IOException
+    {
+        final Concept concept = Concept.create("Book");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+
+        testClassTemplateWithConcept(concept, "class__concept_property_required.txt");
+    }
+
+    @Test
+    public void class__concept_property_set() throws IOException
+    {
+        final Concept concept = Concept.create("Book");
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addElement(Property.create("sequel", null, Type.create("Book", "?")));
+        concept.addElement(Property.create("categories", null, Type.create("Category", "*")));
+
+        testClassTemplateWithConcept(concept, "class__concept_property_set.txt");
     }
 
     private void testClassTemplateWithConcept(Concept concept, String expectedOutputFileName) throws IOException
@@ -116,4 +123,26 @@ public class ClassTest extends TemplateTest
         final String result = template.render();
         assertThatOutputMatches("/java_lang/class/" + expectedOutputFileName, result);
     }
+
+    private static Concept createConceptWithMultipleAncestors(boolean _abstract)
+    {
+        final Concept baseConcept = Concept.create("Base");
+        baseConcept.addElement(Property.create("baseProperty", null, Type.create("String", null)));
+
+        final Concept productConcept = Concept.create("Product");
+        productConcept.addElement(Property.create("description", null, Type.create("String", null)));
+        productConcept.addDirectAncestor(baseConcept);
+
+        final Concept stockItemConcept = Concept.create("StockItem");
+        stockItemConcept.addElement(Property.create("quantity", null, Type.create("Integer", null)));
+        stockItemConcept.addDirectAncestor(baseConcept);
+
+        final Concept concept = Concept.create("Book", _abstract);
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+        concept.addDirectAncestor(productConcept);
+        concept.addDirectAncestor(stockItemConcept);
+
+        return concept;
+    }
+
 }

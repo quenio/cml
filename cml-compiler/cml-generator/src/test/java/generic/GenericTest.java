@@ -39,6 +39,21 @@ public class GenericTest extends TemplateTest
     }
 
     @Theory
+    public void newLineIfEither_true(
+        @FromDataPoints("trueConditions") Object trueCond,
+        @FromDataPoints("falseConditions") Object falseCond)
+    {
+        testTemplateWithCond2("newLineIfEither", trueCond, falseCond, "\n");
+        testTemplateWithCond2("newLineIfEither", falseCond, trueCond, "\n");
+    }
+
+    @Theory
+    public void newLineIfEither_false(@FromDataPoints("falseConditions") Object cond)
+    {
+        testTemplateWithCond2("newLineIfEither", cond, cond, "");
+    }
+
+    @Theory
     public void newLineIf2_true(@FromDataPoints("trueConditions") Object cond)
     {
         testTemplateWithCond2("newLineIf2", cond, cond, "\n");

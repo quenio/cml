@@ -2,48 +2,49 @@ import "/generic/generic.stg"
 import "/java_lang/common.stg"
 
 class(concept) ::= <<
-<class9(
+<class7(
     concept=concept,
     classNameSuffix="",
     ancestors=concept.directAncestors,
     interfaces=[],
     fieldAncestors=[],
-    fieldProperties=concept.properties,
     delegatedProperties=[],
-    superProperties=concept.inheritedProperties,
-    constructorParamProperties=concept.properties
+    superProperties=concept.inheritedProperties
 )>
 >>
 
 class2(concept, classNameSuffix) ::= <<
-<class9(
+<class7(
     concept=concept,
     classNameSuffix=classNameSuffix,
     ancestors=[],
     interfaces=[concept],
     fieldAncestors=concept.allAncestors,
-    fieldProperties=concept.properties,
     delegatedProperties=concept.inheritedProperties,
-    superProperties=[],
-    constructorParamProperties=concept.properties
+    superProperties=[]
 )>
 >>
 
-class9(
+class7(
     concept, classNameSuffix,
     ancestors, interfaces,
-    fieldAncestors, fieldProperties,
-    delegatedProperties, superProperties, constructorParamProperties
+    fieldAncestors, 
+    delegatedProperties, superProperties
 ) ::= <<
-class <typeName(concept)><classNameSuffix><ancestorList(ancestors)><interfaceList(interfaces)>
+<abstract(concept, superProperties)>class <typeName(concept)><classNameSuffix><ancestorList(ancestors)><interfaceList(interfaces)>
 {
     <ancestorFields(fieldAncestors)>
-    <propertyFields(fieldAncestors, fieldProperties)>
-    <constructor(concept, classNameSuffix, superProperties, fieldAncestors, constructorParamProperties)>
+    <propertyFields(fieldAncestors, concept.properties)>
+    <constructorForClients(concept, classNameSuffix, superProperties)>
+    <primaryConstructor(concept, classNameSuffix, superProperties, fieldAncestors)>
     <fieldGetters(concept)>
     <delegatedGetters(concept, delegatedProperties)>
     <class_toString(concept)>
 }
+>>
+
+abstract(concept, superProperties) ::= <<
+<if(concept.abstract && superProperties)>abstract <endif>
 >>
 
 ancestorFieldDecl(concept) ::= <<
@@ -80,16 +81,34 @@ delegatedGetters(concept, delegatedProperties) ::= <<
 <delegatedProperties:delegateGetter();separator="\n\n">
 >>
 
-constructor(concept, classNameSuffix, superProperties, paramAncestors, paramProperties) ::= <<
-<if(paramAncestors || paramProperties)>
-<newLineIf(fieldProperties)><\\>
-public <typeName(concept)><classNameSuffix>(<constructorParamList(paramAncestors, [superProperties, paramProperties])>)
+constructorForClients(concept, classNameSuffix, superProperties) ::= <<
+<if(!concept.abstract && concept.allAncestors && !superProperties)>
+<newLineIf(concept.properties)><\\>
+public <typeName(concept)><classNameSuffix>(<constructorParamList([], [concept.allProperties])>)
+{
+    this(
+        <constructorArgsForClients(concept)>
+    );
+}<\\>
+<endif>
+>>
+
+constructorArgsForClients(concept) ::= <<
+<concept.allAncestors:createInvocation();separator=",\n"><\\>
+<if(concept.allAncestors)>,<endif>
+<concept.properties:fieldName();separator=",\n">
+>>
+
+primaryConstructor(concept, classNameSuffix, superProperties, paramAncestors) ::= <<
+<if(paramAncestors || concept.properties)>
+<newLineIfEither(paramAncestors, concept.properties)><\\>
+public <typeName(concept)><classNameSuffix>(<constructorParamList(paramAncestors, [superProperties, concept.properties])>)
 {
     <superConstructor(superProperties)>
     <if(superProperties)>
-    <[paramProperties]:fieldInit();separator="\n">
+    <[concept.properties]:fieldInit();separator="\n">
     <else>
-    <[paramAncestors, paramProperties]:fieldInit();separator="\n">
+    <[paramAncestors, concept.properties]:fieldInit();separator="\n">
     <endif>
 }
 <endif>
@@ -111,6 +130,14 @@ constructorPropertyParam(property) ::= <<
 
 fieldInit(namedElement) ::= <<
 this.<fieldName(namedElement)> = <fieldName(namedElement)>;
+>>
+
+createInvocation(concept) ::= <<
+<typeName(concept)>.create(<\\>
+<concept.allAncestors:fieldName();separator=", "><\\>
+<commaIf(concept.allAncestors)><\\>
+<concept.properties:fieldName();separator=", "><\\>
+)
 >>
 
 superConstructor(inheritedProperties) ::= <<
