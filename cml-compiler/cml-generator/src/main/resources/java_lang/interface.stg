@@ -5,7 +5,8 @@ interface(concept, classNameSuffix) ::= <<
 interface <typeName(concept)><ancestorList(concept.directAncestors)>
 {
     <concept.properties:getterDecl();separator="\n">
-    <createMethod(concept, classNameSuffix)>
+    <createMethodForClients(concept, classNameSuffix)>
+    <createMethodForDescendants(concept, classNameSuffix)>
 }
 >>
 
@@ -13,8 +14,18 @@ ancestorList(ancestors) ::= <<
 <if(ancestors)> extends <ancestors:typeName();separator=", "><endif>
 >>
 
-createMethod(concept, classNameSuffix) ::= <<
-<if(classNameSuffix)>
+createMethodForClients(concept, classNameSuffix) ::= <<
+<if(!concept.abstract && classNameSuffix)>
+<newLineIf(concept.properties)><\\>
+static <typeName(concept)> create(<createParamList([], concept.allProperties)>)
+{
+    return new <typeName(concept)><classNameSuffix>(<createArgList([], concept.allProperties)>);
+}<\\>
+<endif>
+>>
+
+createMethodForDescendants(concept, classNameSuffix) ::= <<
+<if((concept.abstract || concept.directAncestors) && classNameSuffix)>
 <newLineIf(concept.properties)><\\>
 static <typeName(concept)> create(<createParamList(concept.allAncestors, concept.properties)>)
 {

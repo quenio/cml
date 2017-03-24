@@ -1,0 +1,14 @@
+interface Book extends Product
+{
+    String getTitle();
+
+    static Book create(String title)
+    {
+        return new BookImpl(title);
+    }
+
+    static Book create(Product product, String title)
+    {
+        return new BookImpl(product, title);
+    }
+}

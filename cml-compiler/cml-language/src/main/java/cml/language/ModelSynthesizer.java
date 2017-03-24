@@ -35,8 +35,9 @@ public class ModelSynthesizer extends CMLBaseListener
     public void exitConceptNode(ConceptNodeContext ctx)
     {
         final String name = ctx.NAME().getText();
+        final boolean _abstract = ctx.ABSTRACT() != null;
 
-        ctx.concept = Concept.create(name);
+        ctx.concept = Concept.create(name, _abstract);
 
         if (ctx.propertyListNode() != null)
         {

@@ -12,6 +12,8 @@ import static java.util.stream.Stream.concat;
 
 public interface Concept extends NamedElement, PropertyList
 {
+    boolean isAbstract();
+
     default List<Concept> getAllAncestors()
     {
         final List<Concept> inheritedAncestors = getDirectAncestors().stream()
@@ -45,7 +47,12 @@ public interface Concept extends NamedElement, PropertyList
 
     static Concept create(String name)
     {
-        return new ConceptImpl(name);
+        return create(name, false);
+    }
+
+    static Concept create(String name, boolean _abstract)
+    {
+        return new ConceptImpl(name, _abstract);
     }
 }
 
@@ -56,12 +63,20 @@ class ConceptImpl implements Concept
     private final Scope scope;
     private final List<Concept> directAncestors = new ArrayList<>();
     private final List<String> missingAncestors = new ArrayList<>();
+    private final boolean _abstract;
 
-    ConceptImpl(String name)
+    ConceptImpl(String name, boolean _abstract)
     {
         this.modelElement = ModelElement.create(this);
         this.namedElement = NamedElement.create(modelElement, name);
         this.scope = Scope.create(this, modelElement);
+        this._abstract = _abstract;
+    }
+
+    @Override
+    public boolean isAbstract()
+    {
+        return _abstract;
     }
 
     @Override

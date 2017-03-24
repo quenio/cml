@@ -5,9 +5,10 @@ root Model: ModelItem*
 
 node ModelItem: Concept | Target;
 
-node Concept: 'concept' NAME (':' AncestorList)? (';' | PropertyList)
+node Concept: 'abstract'? 'concept' NAME (':' AncestorList)? (';' | PropertyList)
 {
     name = NAME;
+    abstract = 'abstract'?;
 
     properties = Property*;
     properties.typeRequired = false;

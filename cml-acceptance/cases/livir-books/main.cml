@@ -1,4 +1,9 @@
-concept Book
+concept Product
+{
+    quantity: Integer;
+}
+
+concept Book: Product
 {
     isbn: String;
     title: String;

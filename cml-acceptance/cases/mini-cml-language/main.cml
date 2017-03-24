@@ -1,15 +1,29 @@
 
-concept ModelElement
+abstract concept ModelElement
 {
     parentScope: Scope?;
 }
 
-concept Scope: ModelElement
+abstract concept NamedElement: ModelElement
+{
+    name: String;
+}
+
+abstract concept Scope: ModelElement
 {
     elements: ModelElement*;
 }
 
-concept PropertyList: Scope
+abstract concept PropertyList: Scope
+{
+}
+
+concept Concept: NamedElement, PropertyList
+{
+    abstracted: Boolean;
+}
+
+concept Model: Scope
 {
 }
 

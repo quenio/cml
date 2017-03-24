@@ -7,6 +7,14 @@ newLineIf2(cond1, cond2) ::= <<
 <if(cond1 && cond2)><\n><endif>
 >>
 
+emptyLineIf2(cond1, cond2) ::= <<
+<if(cond1 && cond2)><\n><\n><endif>
+>>
+
+newLineIfEither(cond1, cond2) ::= <<
+<if(cond1 || cond2)><\n><endif>
+>>
+
 commaIf(cond) ::= <<
 <if(cond)>, <endif>
 >>
