@@ -6,6 +6,8 @@ import java.util.Optional;
 
 class TargetFile
 {
+    private static final char EXTENSION_SEPARATOR = '.';
+
     TargetFile(final String path, final String templateName)
     {
         this.path = path;
@@ -19,6 +21,11 @@ class TargetFile
     String getPath()
     {
         return path;
+    }
+
+    String getExtension()
+    {
+        return path.substring(path.lastIndexOf(EXTENSION_SEPARATOR) + 1);
     }
 
     //---

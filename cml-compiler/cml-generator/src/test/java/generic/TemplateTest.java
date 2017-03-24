@@ -35,6 +35,7 @@ public abstract class TemplateTest
         groupFile = new TemplateGroupFile(getTemplateFileName());
 
         groupFile.registerRenderer(String.class, new NameRenderer());
+        groupFile.importTemplates(new TemplateGroupFile("/lang/java.stg"));
     }
 
     protected ST getTemplate(String templateName)

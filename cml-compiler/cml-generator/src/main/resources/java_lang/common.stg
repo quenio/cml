@@ -31,14 +31,15 @@ getterHeader(property) ::= <<
 >>
 
 toString(concept) ::= <<
-public String toString()
-{
-    return new StringBuilder(<typeName(concept)>.class.getSimpleName())
-        .append('(')
-        <concept.allProperties:toString_field();separator=".append(\", \")\n">
-        .append(')')
-        .toString();
-}
+public <operationImpl(name="toString", params=[], resultType="String", block={<toString_code(concept)>})>
+>>
+
+toString_code(concept) ::= <<
+return new StringBuilder(<typeName(concept)>.class.getSimpleName())
+    .append('(')
+    <concept.allProperties:toString_field();separator=".append(\", \")\n">
+    .append(')')
+    .toString();
 >>
 
 toString_field(property) ::= <<

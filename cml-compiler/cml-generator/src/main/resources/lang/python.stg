@@ -1,0 +1,6 @@
+operationImpl(name, params, resultType, block) ::= <<
+def <name>(<params:paramDecl(); separator=", ">):
+    <block>
+>>
+
+paramDecl(param) ::= "<fieldName(param)>"

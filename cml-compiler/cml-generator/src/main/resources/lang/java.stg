@@ -1,0 +1,10 @@
+operationImpl(name, params, resultType, block) ::= <<
+<resultType> <name>(<params:paramDecl(); separator=", ">)
+{
+    <block>
+}
+>>
+
+paramDecl(param) ::= <<
+<fieldTypeDecl(param)> <fieldName(param)>
+>>
