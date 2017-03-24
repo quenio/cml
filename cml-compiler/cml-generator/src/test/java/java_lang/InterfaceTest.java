@@ -18,6 +18,16 @@ public class InterfaceTest extends TemplateTest
     }
 
     @Test
+    public void concept_abstract() throws IOException
+    {
+        final Concept concept = Concept.create("Book", true);
+
+        concept.addElement(Property.create("title", null, Type.create("String", null)));
+
+        testInterfaceTemplateWithCreateMethod(concept, "concept_abstract.txt");
+    }
+
+    @Test
     public void concept_abstract_ancestor() throws IOException
     {
         final Concept concept = Concept.create("Book", true);

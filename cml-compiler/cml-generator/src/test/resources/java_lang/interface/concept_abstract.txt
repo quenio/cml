@@ -1,0 +1,9 @@
+interface Book
+{
+    String getTitle();
+
+    static Book create(String title)
+    {
+        return new BookImpl(title);
+    }
+}

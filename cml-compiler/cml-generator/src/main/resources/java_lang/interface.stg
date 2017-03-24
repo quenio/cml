@@ -25,7 +25,7 @@ static <typeName(concept)> create(<createParamList([], concept.allProperties)>)
 >>
 
 createMethodForDescendants(concept, classNameSuffix) ::= <<
-<if(concept.directAncestors && classNameSuffix)>
+<if((concept.abstract || concept.directAncestors) && classNameSuffix)>
 <newLineIf(concept.properties)><\\>
 static <typeName(concept)> create(<createParamList(concept.allAncestors, concept.properties)>)
 {

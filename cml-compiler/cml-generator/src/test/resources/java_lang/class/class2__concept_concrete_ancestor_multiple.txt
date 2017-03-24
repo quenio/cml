@@ -8,12 +8,11 @@ class BookImpl implements Book
 
     public BookImpl(String baseProperty, String description, Integer quantity, String title)
     {
-        this(
-            Base.create(baseProperty),
-            Product.create(base, description),
-            StockItem.create(base, quantity),
-            title
-        );
+        base = Base.create(baseProperty);
+        product = Product.create(base, description);
+        stockItem = StockItem.create(base, quantity);
+
+        this.title = title;
     }
 
     public BookImpl(Base base, Product product, StockItem stockItem, String title)

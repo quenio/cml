@@ -1,19 +1,20 @@
 package mcml.compiler;
 
-import mcml.language.ModelElement;
-import mcml.language.PropertyList;
-import mcml.language.Scope;
+import mcml.language.Concept;
+import mcml.language.Model;
+
+import static java.util.Collections.emptySet;
 
 public class Launcher
 {
     public static void main(final String[] args)
     {
+        final Model model = Model.create(null, emptySet());
+        final Concept concept = Concept.create(null, emptySet(), "SomeConcept", true);
+
         System.out.println("Mini-CML Compiler");
         System.out.println();
-        System.out.println("Classes:");
-        System.out.println("- " + ModelElement.class.getName());
-        System.out.println("- " + Scope.class.getName());
-        System.out.println("- " + PropertyList.class.getName());
-        System.out.println();
+        System.out.println(model);
+        System.out.println(concept);
     }
 }

@@ -40,7 +40,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>mcml.compiler.Launcher</mainClass>
+                            <mainClass>livir.console.Launcher</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

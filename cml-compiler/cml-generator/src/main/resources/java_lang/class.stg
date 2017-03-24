@@ -83,20 +83,18 @@ delegatedGetters(concept, delegatedProperties) ::= <<
 
 constructorForClients(concept, classNameSuffix, superProperties) ::= <<
 <if(!concept.abstract && concept.allAncestors && !superProperties)>
-<newLineIf(concept.properties)><\\>
+<newLineIfEither(concept.allAncestors, concept.properties)><\\>
 public <typeName(concept)><classNameSuffix>(<constructorParamList([], [concept.allProperties])>)
 {
-    this(
-        <constructorArgsForClients(concept)>
-    );
+    <constructorArgsForClients(concept)>
 }<\\>
 <endif>
 >>
 
 constructorArgsForClients(concept) ::= <<
-<concept.allAncestors:createInvocation();separator=",\n"><\\>
-<if(concept.allAncestors)>,<endif>
-<concept.properties:fieldName();separator=",\n">
+<concept.allAncestors:createInvocation();separator="\n"><\\>
+<emptyLineIf2(concept.allAncestors, concept.properties)><\\>
+<concept.properties:fieldInit();separator="\n">
 >>
 
 primaryConstructor(concept, classNameSuffix, superProperties, paramAncestors) ::= <<
@@ -133,11 +131,12 @@ this.<fieldName(namedElement)> = <fieldName(namedElement)>;
 >>
 
 createInvocation(concept) ::= <<
+<fieldName(concept)> = <\\>
 <typeName(concept)>.create(<\\>
 <concept.allAncestors:fieldName();separator=", "><\\>
-<commaIf(concept.allAncestors)><\\>
+<commaIf2(concept.allAncestors, concept.properties)><\\>
 <concept.properties:fieldName();separator=", "><\\>
-)
+);
 >>
 
 superConstructor(inheritedProperties) ::= <<
