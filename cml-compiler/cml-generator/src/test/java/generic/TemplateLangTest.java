@@ -15,7 +15,6 @@ import java.util.Collection;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableCollection;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
@@ -26,13 +25,10 @@ public abstract class TemplateLangTest extends TemplateTest
     private static final String EXPECTED_OUTPUT_PATH = "/%s/%s/%s";
     private static final String LANG_GROUP_PATH = "lang/%s";
 
-    protected static final Collection<String> commonNames = unmodifiableCollection(asList("SomeConcept", "someVar"));
-
-    @SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
     @Parameters
     public static Collection<String> targetLanguages()
     {
-        return asList("java");
+        return asList("java", "python");
     }
 
     private final String targetLanguage;

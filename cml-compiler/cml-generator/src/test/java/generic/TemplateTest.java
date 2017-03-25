@@ -13,15 +13,20 @@ import org.junit.runner.RunWith;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
+import java.util.Collection;
 import java.util.Locale;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableCollection;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(Theories.class)
 public abstract class TemplateTest
 {
+    protected static final Collection<String> commonNames = unmodifiableCollection(asList("SomeConcept", "someVar"));
+
     private static final String TEMPLATE_GROUP_PATH = "/%s.stg";
 
     STGroupFile groupFile;

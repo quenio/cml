@@ -1,16 +1,11 @@
 package patterns;
 
 import cml.language.foundation.Type;
-import generic.TemplateLangTest;
+import generic.TemplateTest;
 import org.junit.Test;
 
-public class TypeTest extends TemplateLangTest
+public class TypeTest extends TemplateTest
 {
-    public TypeTest(String targetLanguage)
-    {
-        super(targetLanguage);
-    }
-
     @Override
     protected String getTemplatePath()
     {
