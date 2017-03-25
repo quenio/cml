@@ -1,5 +1,5 @@
-import "/java_lang/interface.stg"
-import "/java_lang/class.stg"
+import "/patterns/interface.stg"
+import "/patterns/class.stg"
 
 conceptFile(target, concept) ::= <<
 package <target.packageName>;
