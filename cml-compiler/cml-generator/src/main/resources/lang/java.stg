@@ -1,4 +1,4 @@
-operationImpl(name, params, resultType, block) ::= <<
+operationDecl(name, params, resultType, block) ::= <<
 <resultType> <name>(<params:paramDecl(); separator=", ">)
 {
     <block>

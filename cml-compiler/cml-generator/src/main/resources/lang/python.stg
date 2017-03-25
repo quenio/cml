@@ -1,4 +1,4 @@
-operationImpl(name, params, resultType, block) ::= <<
+operationDecl(name, params, resultType, block) ::= <<
 def <name>(<params:paramDecl(); separator=", ">):
     <block>
 >>

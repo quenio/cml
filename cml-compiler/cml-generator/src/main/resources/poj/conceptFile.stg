@@ -1,6 +1,6 @@
 import "/java_lang/class.stg"
 
-dto(target, concept) ::= <<
+conceptFile(target, concept) ::= <<
 package <target.packageName>;
 
 import java.util.*;

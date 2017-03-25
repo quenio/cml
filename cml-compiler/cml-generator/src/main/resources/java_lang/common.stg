@@ -31,7 +31,7 @@ getterHeader(property) ::= <<
 >>
 
 toString(concept) ::= <<
-public <operationImpl(name="toString", params=[], resultType="String", block={<toString_code(concept)>})>
+public <operationDecl(name="toString", params=[], resultType="String", block={<toString_code(concept)>})>
 >>
 
 toString_code(concept) ::= <<
