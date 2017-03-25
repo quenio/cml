@@ -100,9 +100,9 @@ public class GetterTest extends TemplateLangTest
 
     private void testGetterTypeDecl(String cardinality, String expectedFormat)
     {
-        for (String name: commonNames)
+        for (String name : commonNameFormats)
         {
-            testTemplateWithType("getterTypeDecl", name, cardinality, expectedFormat);
+            testTemplateWithTypeAndExpectedFormat("getterTypeDecl", name, cardinality, expectedFormat);
         }
     }
 
@@ -113,9 +113,6 @@ public class GetterTest extends TemplateLangTest
 
     private void testGetterClassDeclWithProperty(Property property, String expectedOutputFileName) throws IOException
     {
-        testTemplateWithProperty(
-            "getterClassDecl",
-            property,
-            "getterClassDecl/" + expectedOutputFileName);
+        testTemplateWithProperty("getterClassDecl", property, expectedOutputFileName);
     }
 }

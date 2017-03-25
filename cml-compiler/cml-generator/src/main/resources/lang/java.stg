@@ -8,3 +8,11 @@ operationDecl(name, params, resultType, block) ::= <<
 paramDecl(param) ::= <<
 <fieldTypeDecl(param)> <fieldName(param)>
 >>
+
+fieldTypeDecl_optional(type) ::= <<
+@Nullable <typeName(type)>
+>>
+
+fieldTypeDecl_set(type) ::= <<
+Set\<<typeName(type)>\>
+>>

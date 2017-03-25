@@ -15,7 +15,7 @@ public class TypeTest extends TemplateTest
     @Test
     public void typeName()
     {
-        for (String name: commonNames)
+        for (String name : commonNameFormats)
         {
             testTypeName(name);
         }

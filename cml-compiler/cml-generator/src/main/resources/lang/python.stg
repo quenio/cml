@@ -4,3 +4,11 @@ def <name>(<params:paramDecl(); separator=", ">):
 >>
 
 paramDecl(param) ::= "<fieldName(param)>"
+
+fieldTypeDecl_optional(type) ::= <<
+<typeName(type)>
+>>
+
+fieldTypeDecl_set(type) ::= <<
+Set[<typeName(type)>]
+>>

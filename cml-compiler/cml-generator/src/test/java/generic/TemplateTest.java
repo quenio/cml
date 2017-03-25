@@ -7,7 +7,6 @@ import cml.language.foundation.Type;
 import cml.templates.NameRenderer;
 import cml.templates.TemplateGroupFile;
 import org.junit.Before;
-import org.junit.experimental.theories.FromDataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.runner.RunWith;
 import org.stringtemplate.v4.ST;
@@ -25,7 +24,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(Theories.class)
 public abstract class TemplateTest
 {
-    protected static final Collection<String> commonNames = unmodifiableCollection(asList("SomeConcept", "someVar"));
+    protected static final Collection<String> commonNameFormats = unmodifiableCollection(asList(
+        "SomeName",
+        "someName",
+        "some_name",
+        "some-name"
+    ));
 
     private static final String TEMPLATE_GROUP_PATH = "/%s.stg";
 
@@ -73,7 +77,9 @@ public abstract class TemplateTest
         assertThat(result, is(expectedResult));
     }
 
-    protected void testTemplateWithType(String templateName, String typeName, String cardinality, String expectedFormat)
+    protected void testTemplateWithTypeAndExpectedFormat(
+        String templateName, String typeName,
+        String cardinality, String expectedFormat)
     {
         final ST template = getTemplate(templateName);
 
@@ -84,14 +90,19 @@ public abstract class TemplateTest
         assertThat(result, is(format(expectedFormat, pascalCase(typeName))));
     }
 
-    protected static String camelCase(@FromDataPoints("names") String name)
+    protected static String pascalCase(String name)
     {
-        return name.substring(0, 1).toLowerCase(Locale.getDefault()) + name.substring(1);
+        return NameRenderer.pascalCase(Locale.getDefault(), name);
     }
 
-    protected static String pascalCase(@FromDataPoints("names") String name)
+    protected static String camelCase(String name)
     {
-        return name.substring(0, 1).toUpperCase(Locale.getDefault()) + name.substring(1);
+        return NameRenderer.camelCase(Locale.getDefault(), name);
+    }
+
+    protected static String underscoreCase(String name)
+    {
+        return NameRenderer.underscoreCase(Locale.getDefault(), name);
     }
 
     static TemplateGroupFile createTemplateGroupFile(String templatePath)

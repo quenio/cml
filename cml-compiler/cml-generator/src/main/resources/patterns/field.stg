@@ -13,10 +13,3 @@ fieldTypeDecl_required(type) ::= <<
 <typeName(type)>
 >>
 
-fieldTypeDecl_optional(type) ::= <<
-@Nullable <typeName(type)>
->>
-
-fieldTypeDecl_set(type) ::= <<
-Set\<<typeName(type)>\>
->>

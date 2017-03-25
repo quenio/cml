@@ -2,12 +2,14 @@ package generic;
 
 import cml.language.features.Concept;
 import cml.language.foundation.Property;
+import cml.language.foundation.Type;
 import com.google.common.io.Resources;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.stringtemplate.v4.ST;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -49,25 +51,18 @@ public abstract class TemplateLangTest extends TemplateTest
     protected void testTemplateWithConcept(String templateName, Concept concept, String expectedOutputPath)
         throws IOException
     {
-        final ST template = getTemplate(templateName);
-        assertNotNull("Expected template: " + templateName, template);
-
-        template.add("concept", concept);
-
-        final String result = template.render();
-        assertThatOutputMatches(expectedOutputPath, result);
+        testTemplate(templateName, "concept", concept, expectedOutputPath);
     }
 
     protected void testTemplateWithProperty(String templateName, Property property, String expectedOutputPath)
         throws IOException
     {
-        final ST template = getTemplate(templateName);
+        testTemplate(templateName, "property", property, expectedOutputPath);
+    }
 
-        template.add("property", property);
-
-        final String result = template.render();
-
-        assertThatOutputMatches(expectedOutputPath, result);
+    protected void testTemplateWithType(String templateName, Type type, String expectedOutputPath) throws IOException
+    {
+        testTemplate(templateName, "type", type, expectedOutputPath);
     }
 
     protected void assertThatOutputMatches(String expectedOutputPath, String actualOutput) throws IOException
@@ -79,5 +74,23 @@ public abstract class TemplateLangTest extends TemplateTest
 
         final String expectedOutput = Resources.toString(expectedOutputResource, OUTPUT_FILE_ENCODING);
         assertEquals(expectedOutputPath, expectedOutput, actualOutput);
+    }
+
+    private void testTemplate(String templateName, String paramName, Object paramValue, String expectedOutputPath)
+        throws IOException
+    {
+        if (!getTemplatePath().endsWith(templateName))
+        {
+            expectedOutputPath = templateName + File.separator + expectedOutputPath;
+        }
+
+        final ST template = getTemplate(templateName);
+        assertNotNull("Expected template: " + templateName, template);
+
+        template.add(paramName, paramValue);
+
+        final String result = template.render();
+
+        assertThatOutputMatches(expectedOutputPath, result);
     }
 }
