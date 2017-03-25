@@ -1,0 +1,4 @@
+
+typeName(namedElement) ::= <<
+<namedElement.name; format="pascal-case">
+>>

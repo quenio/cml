@@ -1,9 +1,9 @@
-package java_lang;
+package patterns;
 
 import cml.language.features.Concept;
 import cml.language.foundation.Property;
 import cml.language.foundation.Type;
-import generic.TemplateTest;
+import generic.TemplateLangTest;
 import org.junit.Test;
 import org.stringtemplate.v4.ST;
 
@@ -11,12 +11,17 @@ import java.io.IOException;
 
 import static junit.framework.TestCase.assertNotNull;
 
-public class ClassTest extends TemplateTest
+public class ClassTest extends TemplateLangTest
 {
-    @Override
-    protected String getTemplateFileName()
+    public ClassTest(String targetLanguage)
     {
-        return "/java_lang/class.stg";
+        super(targetLanguage);
+    }
+
+    @Override
+    protected String getTemplatePath()
+    {
+        return "patterns/class";
     }
 
     @Test
@@ -119,10 +124,7 @@ public class ClassTest extends TemplateTest
 
     private void testClassTemplateWithConcept(Concept concept, String expectedOutputFileName) throws IOException
     {
-        testTemplateWithConcept(
-            "class",
-            concept,
-            "/java_lang/class/" + expectedOutputFileName);
+        testTemplateWithConcept("class", concept, expectedOutputFileName);
     }
 
     private void testClassTemplateWithSuffix(Concept concept, String expectedOutputFileName) throws IOException
@@ -136,7 +138,7 @@ public class ClassTest extends TemplateTest
         template.add("classNameSuffix", "Impl");
 
         final String result = template.render();
-        assertThatOutputMatches("/java_lang/class/" + expectedOutputFileName, result);
+        assertThatOutputMatches(expectedOutputFileName, result);
     }
 
     private static Concept createConceptWithMultipleAncestors(boolean _abstract)

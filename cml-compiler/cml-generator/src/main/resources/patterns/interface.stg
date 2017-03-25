@@ -1,10 +1,11 @@
+
 import "/generic/generic.stg"
-import "/java_lang/common.stg"
+import "/patterns/getter.stg"
 
 interface(concept, classNameSuffix) ::= <<
 interface <typeName(concept)><ancestorList(concept.directAncestors)>
 {
-    <concept.properties:getterDecl();separator="\n">
+    <concept.properties:getterInterfaceDecl();separator="\n">
     <createMethodForClients(concept, classNameSuffix)>
     <createMethodForDescendants(concept, classNameSuffix)>
 }

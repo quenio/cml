@@ -1,0 +1,34 @@
+
+import "/patterns/getter.stg"
+
+to_string(concept) ::= <<
+public <operationDecl(name="toString", params=[], resultType="String", block={<to_string_code(concept)>})>
+>>
+
+to_string_code(concept) ::= <<
+return new StringBuilder(<typeName(concept)>.class.getSimpleName())
+    .append('(')
+    <concept.allProperties:to_string_field();separator=".append(\", \")\n">
+    .append(')')
+    .toString();
+>>
+
+to_string_field(property) ::= <<
+.append("<fieldName(property)>=")<to_string_fieldValue(property)>
+>>
+
+to_string_fieldValue(property) ::= <<
+<({to_string_fieldValue_<property.type.kind>})(property)>
+>>
+
+to_string_fieldValue_required(property) ::= <<
+.append(String.format("\"%s\"", <getterCall(property)>))
+>>
+
+to_string_fieldValue_optional(property) ::= <<
+.append(<getterCall(property)>.isPresent() ? String.format("\"%s\"", <getterCall(property)>) : "not present")
+>>
+
+to_string_fieldValue_set(property) ::= <<
+.append(<getterCall(property)>)
+>>

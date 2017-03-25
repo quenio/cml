@@ -1,41 +1,37 @@
 package generic;
 
 
-import cml.language.features.Concept;
 import cml.language.foundation.NamedElement;
 import cml.language.foundation.Property;
+import cml.language.foundation.Type;
 import cml.templates.NameRenderer;
 import cml.templates.TemplateGroupFile;
-import com.google.common.io.Resources;
 import org.junit.Before;
+import org.junit.experimental.theories.FromDataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.runner.RunWith;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroupFile;
 
-import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.Charset;
+import java.util.Locale;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(Theories.class)
 public abstract class TemplateTest
 {
-    private static final Charset OUTPUT_FILE_ENCODING = Charset.forName("UTF-8");
+    private static final String TEMPLATE_GROUP_PATH = "/%s.stg";
 
-    private STGroupFile groupFile;
+    STGroupFile groupFile;
 
     @Before
     public void setUp()
     {
-        groupFile = new TemplateGroupFile(getTemplateFileName());
+        groupFile = createTemplateGroupFile(getTemplatePath());
 
         groupFile.registerRenderer(String.class, new NameRenderer());
-        groupFile.importTemplates(new TemplateGroupFile("/lang/java.stg"));
     }
 
     protected ST getTemplate(String templateName)
@@ -43,7 +39,12 @@ public abstract class TemplateTest
         return groupFile.getInstanceOf(templateName);
     }
 
-    protected abstract String getTemplateFileName();
+    /**
+     * The path to the template file without the file extension.
+     * <p>
+     * Used to load the template file and to load the expected output files.
+     **/
+    protected abstract String getTemplatePath();
 
     protected void testTemplateWithNamedElement(String templateName, NamedElement namedElement, String expectedResult)
     {
@@ -54,18 +55,6 @@ public abstract class TemplateTest
         final String result = template.render();
 
         assertThat(result, is(expectedResult));
-    }
-
-    protected void testTemplateWithConcept(String templateName, Concept concept, String expectedOutputPath)
-        throws IOException
-    {
-        final ST template = getTemplate(templateName);
-        assertNotNull("Expected template: " + templateName, template);
-
-        template.add("concept", concept);
-
-        final String result = template.render();
-        assertThatOutputMatches(expectedOutputPath, result);
     }
 
     protected void testTemplateWithPropertyAndExpectedResult(String templateName, Property property, String expectedResult)
@@ -79,24 +68,29 @@ public abstract class TemplateTest
         assertThat(result, is(expectedResult));
     }
 
-    protected void testTemplateWithPropertyAndExpectedOutput(String templateName, Property property, String expectedOutputPath)
-        throws IOException
+    protected void testTemplateWithType(String templateName, String typeName, String cardinality, String expectedFormat)
     {
         final ST template = getTemplate(templateName);
 
-        template.add("property", property);
+        template.add("type", Type.create(typeName, cardinality));
 
         final String result = template.render();
 
-        assertThatOutputMatches(expectedOutputPath, result);
+        assertThat(result, is(format(expectedFormat, pascalCase(typeName))));
     }
 
-    protected void assertThatOutputMatches(String expectedOutputPath, String actualOutput) throws IOException
+    protected static String camelCase(@FromDataPoints("names") String name)
     {
-        final URL expectedOutputResource = getClass().getResource(expectedOutputPath);
-        assertNotNull("Expected output resource must exist: " + expectedOutputPath, expectedOutputResource);
+        return name.substring(0, 1).toLowerCase(Locale.getDefault()) + name.substring(1);
+    }
 
-        final String expectedOutput = Resources.toString(expectedOutputResource, OUTPUT_FILE_ENCODING);
-        assertEquals(expectedOutputPath, expectedOutput, actualOutput);
+    protected static String pascalCase(@FromDataPoints("names") String name)
+    {
+        return name.substring(0, 1).toUpperCase(Locale.getDefault()) + name.substring(1);
+    }
+
+    static TemplateGroupFile createTemplateGroupFile(String templatePath)
+    {
+        return new TemplateGroupFile(format(TEMPLATE_GROUP_PATH, templatePath));
     }
 }

@@ -1,0 +1,22 @@
+
+import "/patterns/type.stg"
+
+fieldName(namedElement) ::= <<
+<namedElement.name; format="camel-case">
+>>
+
+fieldTypeDecl(type) ::= <<
+<({fieldTypeDecl_<type.kind>})(type)>
+>>
+
+fieldTypeDecl_required(type) ::= <<
+<typeName(type)>
+>>
+
+fieldTypeDecl_optional(type) ::= <<
+@Nullable <typeName(type)>
+>>
+
+fieldTypeDecl_set(type) ::= <<
+Set\<<typeName(type)>\>
+>>

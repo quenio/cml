@@ -1,5 +1,7 @@
+
 import "/generic/generic.stg"
-import "/java_lang/common.stg"
+import "/patterns/getter.stg"
+import "/patterns/to_string.stg"
 
 class(concept) ::= <<
 <class7(
@@ -39,7 +41,7 @@ class7(
     <primaryConstructor(concept, classNameSuffix, superProperties, fieldAncestors)>
     <fieldGetters(concept)>
     <delegatedGetters(concept, delegatedProperties)>
-    <class_toString(concept)>
+    <class_to_string(concept)>
 }
 >>
 
@@ -73,7 +75,7 @@ propertyFields(fieldAncestors, fieldProperties) ::= <<
 >>
 
 fieldGetters(concept) ::= <<
-<concept.properties:getterImpl();separator="\n\n">
+<concept.properties:getterClassDecl();separator="\n\n">
 >>
 
 delegatedGetters(concept, delegatedProperties) ::= <<
@@ -154,8 +156,8 @@ public <getterHeader(property)>
 }
 >>
 
-class_toString(concept) ::= <<
+class_to_string(concept) ::= <<
 <newLineIf(concept.allProperties)><\\>
-<toString(concept)>
+<to_string(concept)>
 >>
 

@@ -1,0 +1,54 @@
+
+import "/patterns/field.stg"
+
+getterInterfaceDecl(property) ::= <<
+<getterHeader(property)>;
+>>
+
+getterClassDecl(property) ::= <<
+public <getterHeader(property)>
+{
+    return <getterImpl_fieldValue(property)>;
+}
+>>
+
+getterHeader(property) ::= <<
+<getterTypeDecl(property.type)> get<property.name; format="pascal-case">()
+>>
+
+getterTypeDecl(type) ::= <<
+<({getterTypeDecl_<type.kind>})(type)>
+>>
+
+getterTypeDecl_required(type) ::= <<
+<typeName(type)>
+>>
+
+getterTypeDecl_optional(type) ::= <<
+Optional\<<typeName(type)>\>
+>>
+
+getterTypeDecl_set(type) ::= <<
+Set\<<typeName(type)>\>
+>>
+
+getterImpl_fieldValue(property) ::= <<
+<({getterImpl_fieldValue_<property.type.kind>})(property)>
+>>
+
+getterImpl_fieldValue_required(property) ::= <<
+<fieldName(property)>
+>>
+
+getterImpl_fieldValue_optional(property) ::= <<
+Optional.ofNullable(<fieldName(property)>)
+>>
+
+getterImpl_fieldValue_set(property) ::= <<
+Collections.unmodifiableSet(<fieldName(property)>)
+>>
+
+getterCall(namedElement) ::= <<
+get<namedElement.name; format="pascal-case">()
+>>
+
