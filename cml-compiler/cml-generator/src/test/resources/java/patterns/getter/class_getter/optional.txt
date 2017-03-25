@@ -1,4 +1,4 @@
-public Optional<SomeType> getSomeProperty()
+Optional<SomeType> getSomeProperty()
 {
     return Optional.ofNullable(someProperty);
 }

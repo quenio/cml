@@ -21,98 +21,97 @@ public class GetterTest extends TemplateLangTest
     }
 
     @Test
-    public void getterTypeDecl_required()
+    public void getter_type__required() throws IOException
     {
         final String cardinality = null; // required
 
-        testGetterTypeDecl(cardinality, "%s");
+        getter_type(cardinality, "required.txt");
     }
 
     @Test
-    public void getterTypeDecl_optional()
+    public void getter_type__optional() throws IOException
     {
         final String cardinality = "?"; // optional
 
-        testGetterTypeDecl(cardinality, "Optional<%s>");
+        getter_type(cardinality, "optional.txt");
     }
 
     @Test
-    public void getterTypeDecl_set()
+    public void getter_type__set() throws IOException
     {
         final String cardinality = "*"; // set
 
-        testGetterTypeDecl(cardinality, "Set<%s>");
+        getter_type(cardinality, "set.txt");
     }
 
     @Test
-    public void getterInterfaceDecl_requiredProperty() throws IOException
+    public void interface_getter__required() throws IOException
     {
         final String cardinality = null; // required
-        final Property property = Property.create("SomeProperty", null, Type.create("someType", cardinality));
 
-        testGetterInterfaceDeclWithProperty(property, "SomeType getSomeProperty();");
+        interface_getter(cardinality, "required.txt");
     }
 
     @Test
-    public void getterInterfaceDecl_optionalProperty() throws IOException
+    public void interface_getter__optional() throws IOException
     {
         final String cardinality = "?"; // optional
-        final Property property = Property.create("SomeProperty", null, Type.create("someType", cardinality));
 
-        testGetterInterfaceDeclWithProperty(property, "Optional<SomeType> getSomeProperty();");
+        interface_getter(cardinality, "optional.txt");
     }
 
     @Test
-    public void getterInterfaceDecl_setProperty() throws IOException
+    public void interface_getter__set() throws IOException
     {
         final String cardinality = "*"; // set
-        final Property property = Property.create("SomeProperty", null, Type.create("someType", cardinality));
 
-        testGetterInterfaceDeclWithProperty(property, "Set<SomeType> getSomeProperty();");
+        interface_getter(cardinality, "set.txt");
     }
 
     @Test
-    public void getterClassDecl_requiredProperty() throws IOException
+    public void class_getter__required() throws IOException
     {
         final String cardinality = null; // required
-        final Property property = Property.create("SomeProperty", null, Type.create("someType", cardinality));
 
-        testGetterClassDeclWithProperty(property, "requiredProperty.txt");
+        class_getter(cardinality, "required.txt");
     }
 
     @Test
-    public void getterClassDecl_optionalProperty() throws IOException
+    public void class_getter__optional() throws IOException
     {
         final String cardinality = "?"; // optional
-        final Property property = Property.create("SomeProperty", null, Type.create("someType", cardinality));
 
-        testGetterClassDeclWithProperty(property, "optionalProperty.txt");
+        class_getter(cardinality, "optional.txt");
     }
 
     @Test
-    public void getterClassDecl_setProperty() throws IOException
+    public void class_getter__set() throws IOException
     {
         final String cardinality = "*"; // set
-        final Property property = Property.create("SomeProperty", null, Type.create("someType", cardinality));
 
-        testGetterClassDeclWithProperty(property, "setProperty.txt");
+        class_getter(cardinality, "set.txt");
     }
 
-    private void testGetterTypeDecl(String cardinality, String expectedFormat)
+    private void getter_type(String cardinality, String expectedOutput) throws IOException
     {
         for (String name : commonNameFormats)
         {
-            testTemplateWithTypeAndExpectedFormat("getterTypeDecl", name, cardinality, expectedFormat);
+            testTemplateWithType("getter_type", Type.create(name, cardinality), expectedOutput);
         }
     }
 
-    private void testGetterInterfaceDeclWithProperty(Property property, String expectedOutput)
+    private void interface_getter(String cardinality, String expectedOutput) throws IOException
     {
-        testTemplateWithPropertyAndExpectedResult("getterInterfaceDecl", property, expectedOutput);
+        testTemplateWithProperty("interface_getter", createProperty(cardinality), expectedOutput);
     }
 
-    private void testGetterClassDeclWithProperty(Property property, String expectedOutputFileName) throws IOException
+    private void class_getter(String cardinality, String expectedOutputFileName) throws IOException
     {
-        testTemplateWithProperty("getterClassDecl", property, expectedOutputFileName);
+        testTemplateWithProperty("class_getter", createProperty(cardinality), expectedOutputFileName);
+    }
+
+    private static Property createProperty(String cardinality)
+    {
+        return Property.create("SomeProperty", null, Type.create("someType", cardinality));
     }
 }

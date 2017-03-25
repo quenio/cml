@@ -21,50 +21,50 @@ public class FieldTest extends TemplateLangTest
     }
 
     @Test
-    public void fieldName()
+    public void field_name() throws IOException
     {
         for (String name : commonNameFormats)
         {
-            testFieldName(name);
+            field_name(name);
         }
     }
 
     @Test
-    public void fieldTypeDecl_optional() throws IOException
+    public void field_type__optional() throws IOException
     {
         final String cardinality = "?"; // optional
 
-        testFieldTypeDecl(cardinality, "type_optional.txt");
+        field_type(cardinality, "optional.txt");
     }
 
     @Test
-    public void fieldTypeDecl_required() throws IOException
+    public void field_type__required() throws IOException
     {
         final String cardinality = null; // required
 
-        testFieldTypeDecl(cardinality, "type_required.txt");
+        field_type(cardinality, "required.txt");
     }
 
     @Test
-    public void fieldTypeDecl_set() throws IOException
+    public void field_type__set() throws IOException
     {
         final String cardinality = "*"; // set
 
-        testFieldTypeDecl(cardinality, "type_set.txt");
+        field_type(cardinality, "set.txt");
     }
 
-    private void testFieldName(String name)
+    private void field_name(String name) throws IOException
     {
-        testTemplateWithNamedElement("fieldName", Concept.create(name), camelCase(name));
+        testTemplateWithNamedElement("field_name", Concept.create(name), "expected.txt");
     }
 
-    private void testFieldTypeDecl(String cardinality, String expectedOutputPath) throws IOException
+    private void field_type(String cardinality, String expectedOutputPath) throws IOException
     {
         for (String name : commonNameFormats)
         {
             final Type type = Type.create(name, cardinality);
 
-            testTemplateWithType("fieldTypeDecl", type, expectedOutputPath);
+            testTemplateWithType("field_type", type, expectedOutputPath);
         }
     }
 }

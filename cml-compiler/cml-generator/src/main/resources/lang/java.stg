@@ -1,18 +1,77 @@
-operationDecl(name, params, resultType, block) ::= <<
-<resultType> <name>(<params:paramDecl(); separator=", ">)
+
+// Statement Termination
+
+st() ::= ";"
+
+// Operations
+
+class_operation(name, params, resultType, block) ::= <<
+<operation_header(name, params, resultType)>
 {
     <block>
 }
 >>
 
-paramDecl(param) ::= <<
-<fieldTypeDecl(param)> <fieldName(param)>
+interface_operation(name, params, resultType) ::= <<
+<operation_header(name, params, resultType)>;
 >>
 
-fieldTypeDecl_optional(type) ::= <<
-@Nullable <typeName(type)>
+operation_header(name, params, resultType) ::= <<
+<resultType> <name>(<params:param_decl(); separator=", ">)
 >>
 
-fieldTypeDecl_set(type) ::= <<
-Set\<<typeName(type)>\>
+param_decl(param) ::= <<
+<fieldTypeDecl(param)> <field_name(param)>
 >>
+
+return(expression) ::= <<
+return <expression>;
+>>
+
+// Fields
+
+field_name(namedElement) ::= <<
+<namedElement.name; format="camel-case">
+>>
+
+field_type_optional(type) ::= <<
+@Nullable <type_name(type)>
+>>
+
+field_type_set(type) ::= <<
+Set\<<type_name(type)>\>
+>>
+
+// Getters
+
+getter_name(property) ::= <<
+get<property.name; format="pascal-case">
+>>
+
+getter_annotations(property) ::= ""
+
+getter_type_required(type) ::= <<
+<type_name(type)>
+>>
+
+getter_type_optional(type) ::= <<
+Optional\<<type_name(type)>\>
+>>
+
+getter_type_set(type) ::= <<
+Set\<<type_name(type)>\>
+>>
+
+getter_field_value_required(property) ::= <<
+<field_name(property)>
+>>
+
+getter_field_value_optional(property) ::= <<
+Optional.ofNullable(<field_name(property)>)
+>>
+
+getter_field_value_set(property) ::= <<
+Collections.unmodifiableSet(<field_name(property)>)
+>>
+
+

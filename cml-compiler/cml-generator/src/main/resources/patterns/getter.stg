@@ -1,51 +1,31 @@
 
 import "/patterns/field.stg"
 
-getterInterfaceDecl(property) ::= <<
-<getterHeader(property)>;
+interface_getter(property) ::= <<
+<getter_annotations(property)><\\>
+<interface_operation(
+    name={<getter_name(property)>},
+    params=[],
+    resultType={<getter_type(property.type)>}
+)>
 >>
 
-getterClassDecl(property) ::= <<
-public <getterHeader(property)>
-{
-    return <getterImpl_fieldValue(property)>;
-}
+class_getter(property) ::= <<
+<getter_annotations(property)><\\>
+<class_operation(
+    name={<getter_name(property)>},
+    params=[],
+    resultType={<getter_type(property.type)>},
+    block={<return({<getter_field_value(property)>})>}
+)>
 >>
 
-getterHeader(property) ::= <<
-<getterTypeDecl(property.type)> get<property.name; format="pascal-case">()
+getter_type(type) ::= <<
+<({getter_type_<type.kind>})(type)>
 >>
 
-getterTypeDecl(type) ::= <<
-<({getterTypeDecl_<type.kind>})(type)>
->>
-
-getterTypeDecl_required(type) ::= <<
-<typeName(type)>
->>
-
-getterTypeDecl_optional(type) ::= <<
-Optional\<<typeName(type)>\>
->>
-
-getterTypeDecl_set(type) ::= <<
-Set\<<typeName(type)>\>
->>
-
-getterImpl_fieldValue(property) ::= <<
-<({getterImpl_fieldValue_<property.type.kind>})(property)>
->>
-
-getterImpl_fieldValue_required(property) ::= <<
-<fieldName(property)>
->>
-
-getterImpl_fieldValue_optional(property) ::= <<
-Optional.ofNullable(<fieldName(property)>)
->>
-
-getterImpl_fieldValue_set(property) ::= <<
-Collections.unmodifiableSet(<fieldName(property)>)
+getter_field_value(property) ::= <<
+<({getter_field_value_<property.type.kind>})(property)>
 >>
 
 getterCall(namedElement) ::= <<

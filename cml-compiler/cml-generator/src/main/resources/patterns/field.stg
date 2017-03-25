@@ -1,15 +1,11 @@
 
 import "/patterns/type.stg"
 
-fieldName(namedElement) ::= <<
-<namedElement.name; format="camel-case">
+field_type(type) ::= <<
+<({field_type_<type.kind>})(type)>
 >>
 
-fieldTypeDecl(type) ::= <<
-<({fieldTypeDecl_<type.kind>})(type)>
->>
-
-fieldTypeDecl_required(type) ::= <<
-<typeName(type)>
+field_type_required(type) ::= <<
+<type_name(type)>
 >>
 

@@ -1,0 +1,4 @@
+SomeType getSomeProperty()
+{
+    return someProperty;
+}

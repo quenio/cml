@@ -1,6 +1,7 @@
 package generic;
 
 import cml.language.features.Concept;
+import cml.language.foundation.NamedElement;
 import cml.language.foundation.Property;
 import cml.language.foundation.Type;
 import com.google.common.io.Resources;
@@ -63,6 +64,12 @@ public abstract class TemplateLangTest extends TemplateTest
     protected void testTemplateWithType(String templateName, Type type, String expectedOutputPath) throws IOException
     {
         testTemplate(templateName, "type", type, expectedOutputPath);
+    }
+
+    protected void testTemplateWithNamedElement(String templateName, NamedElement namedElement, String expectedOutputPath)
+        throws IOException
+    {
+        testTemplate(templateName, "namedElement", namedElement, expectedOutputPath);
     }
 
     protected void assertThatOutputMatches(String expectedOutputPath, String actualOutput) throws IOException

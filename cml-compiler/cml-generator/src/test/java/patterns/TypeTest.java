@@ -3,6 +3,10 @@ package patterns;
 import cml.language.foundation.Type;
 import generic.TemplateTest;
 import org.junit.Test;
+import org.stringtemplate.v4.ST;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TypeTest extends TemplateTest
 {
@@ -13,16 +17,22 @@ public class TypeTest extends TemplateTest
     }
 
     @Test
-    public void typeName()
+    public void type_name()
     {
         for (String name : commonNameFormats)
         {
-            testTypeName(name);
+            type_name(name);
         }
     }
 
-    private void testTypeName(String name)
+    private void type_name(String name)
     {
-        testTemplateWithNamedElement("typeName", Type.create(name, null), pascalCase(name));
+        final ST template = getTemplate("type_name");
+
+        template.add("namedElement", Type.create(name, null));
+
+        final String result = template.render();
+
+        assertThat(result, is(pascalCase(name)));
     }
 }
