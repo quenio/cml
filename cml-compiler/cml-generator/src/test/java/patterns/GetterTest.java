@@ -21,6 +21,30 @@ public class GetterTest extends TemplateLangTest
     }
 
     @Test
+    public void getter_call__optional() throws IOException
+    {
+        final String cardinality = "?"; // optional
+
+        getter_call(cardinality, "expected.txt");
+    }
+
+    @Test
+    public void getter_call__required() throws IOException
+    {
+        final String cardinality = null; // required
+
+        getter_call(cardinality, "expected.txt");
+    }
+
+    @Test
+    public void getter_call__set() throws IOException
+    {
+        final String cardinality = "*"; // set
+
+        getter_call(cardinality, "expected.txt");
+    }
+
+    @Test
     public void getter_type__required() throws IOException
     {
         final String cardinality = null; // required
@@ -98,6 +122,11 @@ public class GetterTest extends TemplateLangTest
         {
             testTemplateWithType("getter_type", Type.create(name, cardinality), expectedOutput);
         }
+    }
+
+    public void getter_call(String cardinality, String expectedOutput) throws IOException
+    {
+        testTemplateWithProperty("getter_call", createProperty(cardinality), expectedOutput);
     }
 
     private void interface_getter(String cardinality, String expectedOutput) throws IOException

@@ -22,36 +22,36 @@ public class ToStringTest  extends TemplateLangTest
     }
 
     @Test
-    public void toString_noProperties() throws IOException
+    public void to_string__empty() throws IOException
     {
         final Concept concept = Concept.create("SomeConcept");
 
-        testToStringWithConcept(concept, "noProperties.txt");
+        to_string(concept, "empty.txt");
     }
 
     @Test
-    public void toString_requiredProperty() throws IOException
+    public void to_string__required() throws IOException
     {
         final Concept concept = Concept.create("SomeConcept");
 
         concept.addElement(Property.create("someProperty", null, Type.create("SomeType", null)));
 
-        testToStringWithConcept(concept, "requiredProperty.txt");
+        to_string(concept, "required.txt");
     }
 
     @Test
-    public void toString_optionalProperty() throws IOException
+    public void to_string__optional() throws IOException
     {
         final Concept concept = Concept.create("SomeConcept");
 
         concept.addElement(Property.create("someProperty", null, Type.create("SomeType", null)));
         concept.addElement(Property.create("optionalProperty", null, Type.create("AnotherType", "?")));
 
-        testToStringWithConcept(concept, "optionalProperty.txt");
+        to_string(concept, "optional.txt");
     }
 
     @Test
-    public void toString_setProperty() throws IOException
+    public void to_string__set() throws IOException
     {
         final Concept concept = Concept.create("SomeConcept");
 
@@ -59,10 +59,10 @@ public class ToStringTest  extends TemplateLangTest
         concept.addElement(Property.create("optionalProperty", null, Type.create("AnotherType", "?")));
         concept.addElement(Property.create("setProperty", null, Type.create("YetAnotherType", "*")));
 
-        testToStringWithConcept(concept, "setProperty.txt");
+        to_string(concept, "set.txt");
     }
 
-    private void testToStringWithConcept(Concept concept, String expectedOutputFileName) throws IOException
+    private void to_string(Concept concept, String expectedOutputFileName) throws IOException
     {
         testTemplateWithConcept("to_string", concept, expectedOutputFileName);
     }

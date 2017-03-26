@@ -28,7 +28,3 @@ getter_field_value(property) ::= <<
 <({getter_field_value_<property.type.kind>})(property)>
 >>
 
-getterCall(namedElement) ::= <<
-get<namedElement.name; format="pascal-case">()
->>
-

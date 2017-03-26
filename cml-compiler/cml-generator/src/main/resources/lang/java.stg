@@ -1,7 +1,46 @@
 
-// Statement Termination
+import "/lang/common.stg"
+import "/patterns/getter.stg"
 
-st() ::= ";"
+// Modifiers
+
+modifier(m) ::= <<
+<m><\ >
+>>
+// Strings
+
+type_string() ::= "String"
+
+to_string_name() ::= "toString"
+
+to_string_expr(concept) ::= <<
+new StringBuilder(<type_name(concept)>.class.getSimpleName())
+    <to_string_appends(concept.allProperties)>
+>>
+
+to_string_appends(properties) ::= <<
+.append('(')
+<to_string_fields(properties, ".append(\", \")\n")><\\>
+<newLineIf(properties)><\\>
+.append(')')
+.toString()
+>>
+
+to_string_field(property) ::= <<
+.append("<field_name(property)>=")<to_string_field_value(property)>
+>>
+
+to_string_field_value_required(property) ::= <<
+.append(String.format("\"%s\"", <getter_call(property)>))
+>>
+
+to_string_field_value_optional(property) ::= <<
+.append(<getter_call(property)>.isPresent() ? String.format("\"%s\"", <getter_call(property)>) : "not present")
+>>
+
+to_string_field_value_set(property) ::= <<
+.append(<getter_call(property)>)
+>>
 
 // Operations
 
@@ -74,4 +113,7 @@ getter_field_value_set(property) ::= <<
 Collections.unmodifiableSet(<field_name(property)>)
 >>
 
+getter_call(property) ::= <<
+get<property.name; format="pascal-case">()
+>>
 

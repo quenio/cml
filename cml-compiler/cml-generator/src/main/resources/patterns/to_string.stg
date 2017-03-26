@@ -1,34 +1,18 @@
 
-import "/patterns/getter.stg"
-
 to_string(concept) ::= <<
-public <operationDecl(name="toString", params=[], resultType="String", block={<to_string_code(concept)>})>
+<modifier("public")><\\>
+<class_operation(
+    name={<to_string_name()>},
+    params=[],
+    resultType={<type_string()>},
+    block={<return({<to_string_expr(concept)>})>}
+)>
 >>
 
-to_string_code(concept) ::= <<
-return new StringBuilder(<typeName(concept)>.class.getSimpleName())
-    .append('(')
-    <concept.allProperties:to_string_field();separator=".append(\", \")\n">
-    .append(')')
-    .toString();
+to_string_fields(properties, sep) ::= <<
+<properties:to_string_field();separator={<sep>}>
 >>
 
-to_string_field(property) ::= <<
-.append("<fieldName(property)>=")<to_string_fieldValue(property)>
->>
-
-to_string_fieldValue(property) ::= <<
-<({to_string_fieldValue_<property.type.kind>})(property)>
->>
-
-to_string_fieldValue_required(property) ::= <<
-.append(String.format("\"%s\"", <getterCall(property)>))
->>
-
-to_string_fieldValue_optional(property) ::= <<
-.append(<getterCall(property)>.isPresent() ? String.format("\"%s\"", <getterCall(property)>) : "not present")
->>
-
-to_string_fieldValue_set(property) ::= <<
-.append(<getterCall(property)>)
+to_string_field_value(property) ::= <<
+<({to_string_field_value_<property.type.kind>})(property)>
 >>

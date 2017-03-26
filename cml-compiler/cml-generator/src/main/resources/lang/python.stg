@@ -1,5 +1,32 @@
 
-import "/generic/generic.stg"
+import "/lang/common.stg"
+import "/patterns/getter.stg"
+
+// Modifiers
+
+modifier(m) ::= ""
+
+// Strings
+
+type_string() ::= "str"
+
+to_string_name() ::= "__str__"
+
+to_string_expr(concept) ::= <<
+"%s(<\\>
+<if(concept.allProperties)><\\>
+<concept.allProperties:{p|<getter_call(p)>=%s}; separator=", ">)" % (
+    type(self).__name__,
+    <to_string_fields(concept.allProperties, ",\n")>
+)<\\>
+<else><\\>
+)" % type(self).__name__<\\>
+<endif>
+>>
+
+to_string_field(property) ::= <<
+self.<getter_call(property)>
+>>
 
 // Operations
 
@@ -73,6 +100,9 @@ getter_field_value_set(property) ::= <<
 <field_name(property)>
 >>
 
+getter_call(property) ::= <<
+<property.name; format="underscore-case">
+>>
 
 
 
