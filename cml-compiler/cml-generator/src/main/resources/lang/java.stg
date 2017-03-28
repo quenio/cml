@@ -7,6 +7,15 @@ import "/patterns/getter.stg"
 modifier(m) ::= <<
 <m><\ >
 >>
+
+// Blocks
+
+block(statements) ::= <<
+<\n>{
+    <statements>
+}
+>>
+
 // Strings
 
 type_string() ::= "String"
@@ -44,19 +53,12 @@ to_string_field_value_set(property) ::= <<
 
 // Operations
 
-class_operation(name, params, resultType, block) ::= <<
-<operation_header(name, params, resultType)>
-{
-    <block>
-}
->>
+operation_keyword() ::= ""
 
-interface_operation(name, params, resultType) ::= <<
-<operation_header(name, params, resultType)>;
->>
+interface_operation_body() ::= ";"
 
-operation_header(name, params, resultType) ::= <<
-<resultType> <name>(<params:param_decl(); separator=", ">)
+operation_header_content(name, params, result_type) ::= <<
+<result_type> <name>(<params:param_decl(); separator=", ">)
 >>
 
 param_decl(param) ::= <<
@@ -87,7 +89,9 @@ getter_name(property) ::= <<
 get<property.name; format="pascal-case">
 >>
 
-getter_annotations(property) ::= ""
+interface_getter_annotations(property) ::= ""
+
+class_getter_annotations(property) ::= ""
 
 getter_type_required(type) ::= <<
 <type_name(type)>
@@ -117,3 +121,10 @@ getter_call(property) ::= <<
 get<property.name; format="pascal-case">()
 >>
 
+// Interfaces
+
+interface_keyword() ::= "interface "
+
+interface_ancestor_header(ancestors, ancestor_list) ::= <<
+<if(ancestors)><\ >extends<\ ><ancestor_list><endif>
+>>

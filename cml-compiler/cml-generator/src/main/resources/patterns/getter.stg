@@ -2,21 +2,21 @@
 import "/patterns/field.stg"
 
 interface_getter(property) ::= <<
-<getter_annotations(property)><\\>
+<interface_getter_annotations(property)><\\>
 <interface_operation(
     name={<getter_name(property)>},
     params=[],
-    resultType={<getter_type(property.type)>}
+    result_type={<getter_type(property.type)>}
 )>
 >>
 
 class_getter(property) ::= <<
-<getter_annotations(property)><\\>
+<class_getter_annotations(property)><\\>
 <class_operation(
     name={<getter_name(property)>},
     params=[],
-    resultType={<getter_type(property.type)>},
-    block={<return({<getter_field_value(property)>})>}
+    result_type={<getter_type(property.type)>},
+    statements={<return({<getter_field_value(property)>})>}
 )>
 >>
 
@@ -27,4 +27,3 @@ getter_type(type) ::= <<
 getter_field_value(property) ::= <<
 <({getter_field_value_<property.type.kind>})(property)>
 >>
-

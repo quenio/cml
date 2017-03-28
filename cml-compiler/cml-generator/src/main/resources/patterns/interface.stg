@@ -3,24 +3,27 @@ import "/generic/generic.stg"
 import "/patterns/getter.stg"
 
 interface(concept, classNameSuffix) ::= <<
-interface <typeName(concept)><ancestorList(concept.directAncestors)>
-{
-    <concept.properties:getterInterfaceDecl();separator="\n">
-    <createMethodForClients(concept, classNameSuffix)>
-    <createMethodForDescendants(concept, classNameSuffix)>
-}
+<block_header("interface",{<type_name(concept)><ancestor_list(concept.directAncestors)>})><\\>
+<interface_preamble()><\\>
+<block({<interface_statements()>})>
 >>
 
-ancestorList(ancestors) ::= <<
-<if(ancestors)> extends <ancestors:typeName();separator=", "><endif>
+interface_statements() ::= <<
+<concept.properties:interface_getter();separator="\n">
+<createMethodForClients(concept, classNameSuffix)>
+<createMethodForDescendants(concept, classNameSuffix)>
+>>
+
+ancestor_list(ancestors) ::= <<
+<interface_ancestor_header(ancestors, {<ancestors:type_name();separator=", ">})>
 >>
 
 createMethodForClients(concept, classNameSuffix) ::= <<
 <if(!concept.abstract && classNameSuffix)>
 <newLineIf(concept.properties)><\\>
-static <typeName(concept)> create(<createParamList([], concept.allProperties)>)
+static <type_name(concept)> create(<createParamList([], concept.allProperties)>)
 {
-    return new <typeName(concept)><classNameSuffix>(<createArgList([], concept.allProperties)>);
+    return new <type_name(concept)><classNameSuffix>(<createArgList([], concept.allProperties)>);
 }<\\>
 <endif>
 >>
@@ -28,9 +31,9 @@ static <typeName(concept)> create(<createParamList([], concept.allProperties)>)
 createMethodForDescendants(concept, classNameSuffix) ::= <<
 <if((concept.abstract || concept.directAncestors) && classNameSuffix)>
 <newLineIf(concept.properties)><\\>
-static <typeName(concept)> create(<createParamList(concept.allAncestors, concept.properties)>)
+static <type_name(concept)> create(<createParamList(concept.allAncestors, concept.properties)>)
 {
-    return new <typeName(concept)><classNameSuffix>(<createArgList(concept.allAncestors, concept.properties)>);
+    return new <type_name(concept)><classNameSuffix>(<createArgList(concept.allAncestors, concept.properties)>);
 }<\\>
 <endif>
 >>
@@ -42,11 +45,11 @@ createParamList(ancestors, properties) ::= <<
 >>
 
 createAncestorParam(concept) ::= <<
-<typeName(concept)> <fieldName(concept)>
+<type_name(concept)> <field_name(concept)>
 >>
 
 createPropertyParam(property) ::= <<
-<fieldTypeDecl(property.type)> <fieldName(property)>
+<field_type(property.type)> <field_name(property)>
 >>
 
 createArgList(ancestors, properties) ::= <<
@@ -56,9 +59,9 @@ createArgList(ancestors, properties) ::= <<
 >>
 
 createAncestorArg(concept) ::= <<
-<fieldName(concept)>
+<field_name(concept)>
 >>
 
 createPropertyArg(property) ::= <<
-<fieldName(property)>
+<field_name(property)>
 >>

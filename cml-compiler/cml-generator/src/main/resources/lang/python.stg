@@ -2,9 +2,15 @@
 import "/lang/common.stg"
 import "/patterns/getter.stg"
 
-// Modifiers
+// Blocks
 
-modifier(m) ::= ""
+block(statements) ::= <<
+    <statements>
+>>
+
+block_header_terminator() ::= <<
+:<\n>
+>>
 
 // Strings
 
@@ -30,18 +36,12 @@ self.<getter_call(property)>
 
 // Operations
 
-class_operation(name, params, resultType, block) ::= <<
-def <operation_header(name, params, resultType)>:
-    <block>
->>
+operation_keyword() ::= "def "
 
-interface_operation(name, params, resultType) ::= <<
-def <operation_header(name, params, resultType)>:
-    pass
->>
+interface_operation_body() ::= "    pass"
 
-operation_header(name, params, resultType) ::= <<
-<name>(self<commaIf(params)><params:param_decl(); separator=", ">) -> <resultType>
+operation_header_content(name, params, result_type) ::= <<
+<name>(self<commaIf(params)><params:param_decl(); separator=", ">) -> <result_type>
 >>
 
 param_decl(param) ::= <<
@@ -72,7 +72,11 @@ getter_name(property) ::= <<
 <property.name; format="underscore-case">
 >>
 
-getter_annotations(property) ::= <<
+interface_getter_annotations(property) ::= <<
+@abstractproperty<\n>
+>>
+
+class_getter_annotations(property) ::= <<
 @property<\n>
 >>
 
@@ -104,5 +108,12 @@ getter_call(property) ::= <<
 <property.name; format="underscore-case">
 >>
 
+// Interfaces
 
+interface_preamble() ::= "<\n>"
 
+interface_keyword() ::= "class "
+
+interface_ancestor_header(ancestors, ancestor_list) ::= <<
+<\ >(ABC<if(ancestors)>, <ancestor_list><endif>)
+>>

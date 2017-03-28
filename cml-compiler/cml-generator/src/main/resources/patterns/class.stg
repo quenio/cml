@@ -75,7 +75,7 @@ propertyFields(fieldAncestors, fieldProperties) ::= <<
 >>
 
 fieldGetters(concept) ::= <<
-<concept.properties:getterClassDecl();separator="\n\n">
+<concept.properties:interface_getter();separator="\n\n">
 >>
 
 delegatedGetters(concept, delegatedProperties) ::= <<

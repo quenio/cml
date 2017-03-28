@@ -1,0 +1,14 @@
+interface Book extends Product, StockItem
+{
+    String getTitle();
+
+    static Book create(String baseProperty, String title)
+    {
+        return new BookImpl(baseProperty, title);
+    }
+
+    static Book create(Base base, Product product, StockItem stockItem, String title)
+    {
+        return new BookImpl(base, product, stockItem, title);
+    }
+}

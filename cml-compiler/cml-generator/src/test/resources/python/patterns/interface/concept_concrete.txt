@@ -1,0 +1,11 @@
+interface Book
+{
+    String getTitle();
+    Optional<Book> getSequel();
+    Set<Category> getCategories();
+
+    static Book create(String title, @Nullable Book sequel, Set<Category> categories)
+    {
+        return new BookImpl(title, sequel, categories);
+    }
+}

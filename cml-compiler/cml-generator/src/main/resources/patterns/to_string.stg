@@ -4,8 +4,8 @@ to_string(concept) ::= <<
 <class_operation(
     name={<to_string_name()>},
     params=[],
-    resultType={<type_string()>},
-    block={<return({<to_string_expr(concept)>})>}
+    result_type={<type_string()>},
+    statements={<return({<to_string_expr(concept)>})>}
 )>
 >>
 

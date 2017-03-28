@@ -1,3 +1,33 @@
 
 import "/generic/generic.stg"
 
+// Modifiers
+
+modifier(m) ::= ""
+
+// Blocks
+
+block_header(keyword, content) ::= <<
+<({<keyword>_keyword})()><content><block_header_terminator()>
+>>
+
+block_header_terminator() ::= ""
+
+// Operations
+
+class_operation(name, params, result_type, statements) ::= <<
+<operation_header(name, params, result_type)><block(statements)>
+>>
+
+interface_operation(name, params, result_type) ::= <<
+<operation_header(name, params, result_type)><interface_operation_body()>
+>>
+
+operation_header(name, params, result_type) ::= <<
+<block_header("operation", {<operation_header_content(name, params, result_type)>})>
+>>
+
+// Interfaces
+
+interface_preamble() ::= ""
+
