@@ -1,0 +1,69 @@
+\documentclass{svproc}
+
+% to typeset URLs, URIs, and DOIs
+\usepackage{url}
+\def\UrlFont{\rmfamily}
+
+\begin{document}
+\mainmatter  % start of a contribution
+\title{Recurring Return on Modeling Investment:\newline A Conceptual Modeling Language and Extensible Compiler}
+\titlerunning{Conceptual Modeling Extensible Compiler}  % abbreviated title (for running head)
+\toctitle{A Conceptual Modeling Language and Extensible Compiler} % used for the TOC 
+\author{Quenio Cesar Machado dos Santos\inst{1} \and Raul Sidnei Wazlawick\inst{2}}
+\authorrunning{Quenio C. M. dos Santos et al.} % abbreviated author list (for running head)
+\tocauthor{Quenio Cesar Machado dos Santos, Raul Sidnei Wazlawick} % list of authors for the TOC
+\institute{Computer Sciences,\\
+UFSC - Universidade Federal de Santa Catarina, Brazil,\\
+\email{queniodossantos@gmail.com},
+\and
+Associate Professor of Computer Sciences Department,\\
+UFSC - Universidade Federal de Santa Catarina, Brazil,\\
+ \email{raul@inf.ufsc.br}}
+
+\maketitle              % typeset the title of the contribution
+
+\begin{abstract}
+Proposes a textual programming language that enables conceptual modeling (similarly to UML classes/associations and OCL constraints) and a compiler that allows code generation (via extensible textual templates) to any target language or technology. Together, the language and the compiler make it feasible to specify, in a single high-level language, the information of ever-changing, increasingly distributed software systems. The automated code generation from this single source keeps the implementations - across the different platforms and technologies - consistent with the specification. Also, as the technology landscape evolves, these textual models allow the recurring use of the investment made on their specification. Unlike other approaches, such as MDA, the built-in tooling support, and the textual nature of this programming language, facilitates the integration to the workflow of software developers, which is expected to promote its adoption.
+% We would like to encourage you to list your keywords within
+% the abstract section using the \keywords{...} command.
+\keywords{conceptual modeling, UML, OCL, MDA, programming language, compiler, code generation, model-driven software development}
+\end{abstract}
+%
+%
+%
+% ---- Bibliography ----
+%
+\begin{thebibliography}{6}
+%
+
+\bibitem {smit:wat}
+Smith, T.F., Waterman, M.S.: Identification of common molecular subsequences.
+J. Mol. Biol. 147, 195?197 (1981). \url{doi:10.1016/0022-2836(81)90087-5}
+
+\bibitem {may:ehr:stein}
+May, P., Ehrlich, H.-C., Steinke, T.: ZIB structure prediction pipeline:
+composing a complex biological workflow through web services.
+In: Nagel, W.E., Walter, W.V., Lehner, W. (eds.) Euro-Par 2006.
+LNCS, vol. 4128, pp. 1148?1158. Springer, Heidelberg (2006).
+\url{doi:10.1007/11823285_121}
+
+\bibitem {fost:kes}
+Foster, I., Kesselman, C.: The Grid: Blueprint for a New Computing Infrastructure.
+Morgan Kaufmann, San Francisco (1999)
+
+\bibitem {czaj:fitz}
+Czajkowski, K., Fitzgerald, S., Foster, I., Kesselman, C.: Grid information services
+for distributed resource sharing. In: 10th IEEE International Symposium
+on High Performance Distributed Computing, pp. 181?184. IEEE Press, New York (2001).
+\url{doi: 10.1109/HPDC.2001.945188}
+
+\bibitem {fo:kes:nic:tue}
+Foster, I., Kesselman, C., Nick, J., Tuecke, S.: The physiology of the grid: an open grid services architecture for distributed systems integration. Technical report, Global Grid
+Forum (2002)
+
+\bibitem {onlyurl}
+National Center for Biotechnology Information. \url{http://www.ncbi.nlm.nih.gov}
+
+
+\end{thebibliography}
+\end{document}
