@@ -10,3 +10,10 @@ Even though MDA provides guidance and standards that can be used to realize its 
 The key role played by tools has been demonstrated by Voelter \cite{voelter} in his \emph{Generic Tools, Specific Languages} approach for model-driven software development. In his approach, Voelter \cite{voelter} has used domain-specific languages (DSL's) with the Metaprogramming System (MPS) in order to generate the software artifacts.
 Unlike MDA, which is based on UML/MOF models, MPS allows the specification of models using domain-specific editors.
 MPS itself is a generic tool, but it enables the definition of the abstract syntax, the editors and the code generators for DSL's.
+
+The conceptual modeling language and extensible compiler presented here are an alternative approach to MPS.
+While the latter is a fully integrated development environment based on domain-specific languages and their projectional editors, the former (hereby called CML) is a compiler that has:
+\begin{itemize}
+\item as \emph{input}, source files defined using its own conceptual language, which provides an abstract syntax similar to (but smaller than) a combination of UML \cite{uml} and OCL \cite{ocl}; 
+\item and, as \emph{output}, any target languages based on extensible templates, which may be provided by the compiler's base library, by third-parties, or even by the developers themselves.
+\end{itemize}
