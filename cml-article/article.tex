@@ -1,9 +1,12 @@
 \documentclass{svproc}
-
+%
 % to typeset URLs, URIs, and DOIs
 \usepackage{url}
 \def\UrlFont{\rmfamily}
-
+%
+% Footnotes:
+\usepackage[bottom]{footmisc}
+%
 \begin{document}
 \mainmatter  % start of a contribution
 \title{Recurring Return on Modeling Investment:\newline A Conceptual Modeling Language and Extensible Compiler}
@@ -22,11 +25,15 @@ UFSC - Universidade Federal de Santa Catarina, Brazil,\\
 
 \maketitle              % typeset the title of the contribution
 
- \input{abstract.tex}
+\input{abstract.tex}
+\input{introduction.tex}
+\input{language.tex}
+\input{compiler.tex}
+\input{workflow.tex}
+\input{cba.tex}
+\input{conclusion.tex}
 %
-% ---- Bibliography ----
+\bibliographystyle{spmpsci}
+\bibliography{references}
 %
-\begin{thebibliography}{6}
-%
-\end{thebibliography}
 \end{document}
