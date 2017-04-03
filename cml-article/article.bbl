@@ -7,24 +7,23 @@
   \urlstyle{rm}\Url}\fi
 
 \bibitem{mda}
-OMG: Object management group model driven architecture (mda) mda guide rev. 2.0
-  (2014).
+OMG: {Model Driven Architecture (MDA) MDA Guide rev. 2.0} (2014).
 \newblock \urlprefix\url{http://www.omg.org/cgi-bin/doc?ormsc/14-06-01}
 
 \bibitem{ocl}
-OMG: {OMG Object Constraint Language (OCL), Version 2.4} (2014).
+OMG: {Object Constraint Language (OCL), Version 2.4} (2014).
 \newblock \urlprefix\url{http://www.omg.org/spec/OCL/2.4}
 
 \bibitem{uml}
-OMG: Unified modeling language (uml), superstructure, version 2.5 (2015).
+OMG: {Unified Modeling Language (UML), Superstructure, Version 2.5} (2015).
 \newblock \urlprefix\url{http://www.omg.org/spec/UML/2.5}
 
 \bibitem{mof}
-OMG: Meta object facility (mof) core specification, version 2.5.1 (2016).
+OMG: {Meta Object Facility (MOF) Core Specification, Version 2.5.1} (2016).
 \newblock \urlprefix\url{http://www.omg.org/spec/MOF/2.5.1}
 
 \bibitem{voelter}
-Voelter, M.: Generic tools, specific languages.
+Voelter, M.: {Generic Tools, Specific Languages}.
 \newblock Ph.D. thesis, Delft University of Technology (2014).
 \newblock
   \urlprefix\url{http://repository.tudelft.nl/view/ir/uuid%3A53c8e1e0-7a4c-43ed-9426-934c0a5a6522}
