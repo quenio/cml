@@ -1,3 +1,4 @@
+\label{fig:store}
 \begin{figure}
 \begin{verbatim}
 concept BookStore
@@ -24,9 +25,8 @@ concept Customer
 
 concept Order
 {
-    items: Item+;
     customer: Customer;
-    /total: Number = items | collect result += item.amount;
+    total: Decimal;
 }
 
 association CustomerOrder
