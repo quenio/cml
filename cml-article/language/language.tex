@@ -1,17 +1,14 @@
 \section{The Language}\label{sec:lang}
 %
 This section presents an overview of the conceptual modeling language.
-The concrete syntax will be presented using an example in subsection \ref{subsec:example}.
-The abstract syntax will be presented in more detail in the next subsections; each one focusing on a key features of the language's metamodel. (The appendix \ref{sec:spec} provides a formal description of the concrete syntax, along with its mapping to the abstract syntax.)
+The \emph{concrete syntax} will be presented using an example in subsection \ref{subsec:example}. 
+In subsection \ref{subsec:ast},
+the example's model is shown as an \emph{abstract syntax tree} parsed by the CML compiler.
+The CML metamodel (the \emph{abstract syntax}'s structure) will be presented in subsection \ref{subsec:metamodel}. 
+(The appendix \ref{sec:spec} provides a formal description of the \emph{concrete syntax},
+along with its mapping to the \emph{abstract syntax}.)
 
 \input{language/example.tex}
+\input{language/ast.tex}
+\input{language/metamodel.tex}
 
-The model specified by the example above will be parsed and instantiated by the CML compiler into the following abstract syntax tree:
-
-\label{fig:ast}
-\begin{figure}
-\centering
-\includegraphics{language/main}
-\caption{This is the caption of the figure displaying a white eagle and
-a white horse on a snow field}
-\end{figure}
