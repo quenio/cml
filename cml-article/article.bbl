@@ -1,10 +1,21 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \providecommand{\url}[1]{{#1}}
 \providecommand{\urlprefix}{URL: }
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{DOI~\discretionary{}{}{}#1}\else
   \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
+
+\bibitem{clang}
+{ISO}: {ISO/IEC 9899:2011 Information technology --- Programming languages ---
+  C}.
+\newblock International Organization for Standardization (2011).
+\newblock
+  \urlprefix\url{http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=57853}
+
+\bibitem{pascal}
+Jensen, K., Wirth, N.: {PASCAL User Manual and Report}.
+\newblock Springer-Verlag New York, Inc. (1974)
 
 \bibitem{mda}
 OMG: {Model Driven Architecture (MDA) MDA Guide rev. 2.0} (2014).
@@ -27,6 +38,15 @@ Voelter, M.: {Generic Tools, Specific Languages}.
 \newblock Ph.D. thesis, Delft University of Technology (2014).
 \newblock
   \urlprefix\url{http://repository.tudelft.nl/view/ir/uuid%3A53c8e1e0-7a4c-43ed-9426-934c0a5a6522}
+
+\bibitem{owl2manchester}
+W3C: {OWL 2 Web Ontology Language. Manchester Syntax (Second Edition)} (2012).
+\newblock \urlprefix\url{http://www.w3.org/TR/owl2-manchester-syntax}
+
+\bibitem{owl2}
+W3C: {OWL 2 Web Ontology Language. Structural Specification and
+  Functional-Style Syntax (Second Edition)} (2012).
+\newblock \urlprefix\url{http://www.w3.org/TR/owl2-syntax}
 
 \bibitem{wazlawick}
 Wazlawick, R.S.: {Object-Oriented Analysis and Design for Information Systems:
