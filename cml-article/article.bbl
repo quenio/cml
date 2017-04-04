@@ -28,4 +28,11 @@ Voelter, M.: {Generic Tools, Specific Languages}.
 \newblock
   \urlprefix\url{http://repository.tudelft.nl/view/ir/uuid%3A53c8e1e0-7a4c-43ed-9426-934c0a5a6522}
 
+\bibitem{wazlawick}
+Wazlawick, R.S.: {Object-Oriented Analysis and Design for Information Systems:
+  Modeling with UML, OCL, and IFML}.
+\newblock Morgan Kaufmann (2014).
+\newblock
+  \urlprefix\url{http://www.sciencedirect.com/science/book/9780124186736}
+
 \end{thebibliography}
