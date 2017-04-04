@@ -1,0 +1,39 @@
+\begin{figure}
+\begin{verbatim}
+concept BookStore
+{
+    books: Book+;
+    customers: Customer*;
+    orders: Order*;
+    /goldCustomers = customers | select totalSales > 1000;
+    /orderedBooks = orders.items.book;
+}
+
+concept Book
+{
+    title: String;
+    price: Decimal;
+    quantity: Integer = 0;
+}
+
+concept Customer
+{
+    orders: Order*;
+    /totalSales = orders | collect result += total;
+}
+
+concept Order
+{
+    items: Item+;
+    customer: Customer;
+    /total: Number = items | collect result += item.amount;
+}
+
+association CustomerOrder
+{
+    Order.customer: Customer;
+    Customer.orders: Order*;
+}
+\end{verbatim}
+\caption{This example is borrowed from the fictional Livir bookstore, which is used as a case study in Wazlawick, and adapted here to CML.}
+\end{figure}
