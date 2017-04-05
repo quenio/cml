@@ -1,16 +1,31 @@
 \section{Why A New Language?}\label{sec:why}
 
-At this point, one could question: why define a new textual language for conceptual modeling from scratch? Instead of basing it on an standard, richer textual language, such as OWL 2 \cite{owl2}. There are two reasons:
-\begin{itemize}
-\item\emph{Developer experience}: CML is designed for software developers.
+At this point, one could question: why define a new textual language for conceptual modeling from scratch? Instead of basing it on an standard, richer textual language, such as OWL 2 \cite{owl2}. There are two primary reasons explained in the follow subsections:
+
+\subsection{Developer Experience}
+
+CML is designed for software developers.
 It is intended to enable developers to do \emph{conceptual modeling} much the same way they are used to doing \emph{programming}.
-Even the Manchester \cite{owl2manchester} syntax of OWL 2, which was intended to be more user-friendly, does not resemble the syntax of existing programming languages.
-Using CML, and its familiar syntax (as we shall demonstrate in the next sections), it is expected that developers will be able to raise the abstraction level of their programs, but still work with a syntax that is familiar to them.
-Thus, a new language is necessary to enable the \emph{modeling-as-programming} approach being presented by this work. 
-\item\emph{Language evolution}: CML is intended to evolve with the tooling around it.
+
+The Manchester \cite{owl2manchester} syntax of OWL 2 is intended to be user-friendly,
+but it still does not resemble the syntax of commonly used programming languages,
+such as C \cite{clang} and its syntax-alike descendants.
+
+Using CML,
+and its familiar syntax (as we shall demonstrate in the next sections),
+it is expected that developers will be able to raise the abstraction level of their programs,
+and still work with a syntax that is familiar to them.
+By providing its own syntax,
+CML then promotes the \emph{modeling-as-programming} approach being presented by this work. 
+
+\subsection{Language Evolution}
+
+CML is intended to evolve with its compiler, and the tooling around it.
 Unlike the expressive power seen on OWL 2 \cite{owl2} with its breadth of features,
 and its ambition to model complete ontologies for the Web,
 the CML language and its extensible compiler intentionally support a limited number of features and scenarios.
+
 This initial CML version is expected to be sufficient for the validation of the model-driven development approach taken by CML.
-As developers provide feedback, new language features may be added in order to support the extensible compiler and its development scenarios.
-\end{itemize}
+As developers provide feedback,
+new language features may be added in order to enable the extensible CML compiler to support new modeling/development scenarios.
+
