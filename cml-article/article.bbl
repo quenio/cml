@@ -1,17 +1,28 @@
 \begin{thebibliography}{10}
 \providecommand{\url}[1]{{#1}}
-\providecommand{\urlprefix}{URL: }
+\providecommand{\urlprefix}{\\}
 \expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{DOI~\discretionary{}{}{}#1}\else
-  \providecommand{\doi}{DOI~\discretionary{}{}{}\begingroup
+  \providecommand{\doi}[1]{\\ doi:~\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{\\ doi:~\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
+
+\bibitem{er}
+Chen, P.P.S.: The Entity-Relationship Model (Reprinted Historic Data), pp.
+  57--84.
+\newblock Springer Berlin Heidelberg, Berlin, Heidelberg (2011).
+\newblock \doi{10.1007/978-3-642-15865-0_3}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1007/978-3-642-15865-0_3}
 
 \bibitem{clang}
 {ISO}: {ISO/IEC 9899:2011 Information technology --- Programming languages ---
   C}.
 \newblock International Organization for Standardization (2011).
-\newblock
-  \urlprefix\url{http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=57853}
+\newblock \urlprefix\url{https://www.iso.org/standard/57853.html}
+
+\bibitem{sql}
+ISO: {IEC 9075-1: 2003 (E) Information technology --- Database languages ---
+  SQL --- Part 1: Framework (SQL/Framework)} (2016).
+\newblock \urlprefix\url{https://www.iso.org/standard/63555.html}
 
 \bibitem{pascal}
 Jensen, K., Wirth, N.: {PASCAL User Manual and Report}.
