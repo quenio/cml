@@ -7,11 +7,20 @@
   \urlstyle{rm}\Url}\fi
 
 \bibitem{er}
-Chen, P.P.S.: The Entity-Relationship Model (Reprinted Historic Data), pp.
-  57--84.
-\newblock Springer Berlin Heidelberg, Berlin, Heidelberg (2011).
+Chen, P.P.S.: {The Entity-Relationship Model (Reprinted Historic Data)}.
+\newblock In: D.W. Embley, B.~Thalheim (eds.) Handbook of Conceptual Modeling:
+  Theory, Practice, and Research Challenges, pp. 57--84. Springer Berlin
+  Heidelberg, Berlin, Heidelberg (2011).
 \newblock \doi{10.1007/978-3-642-15865-0_3}.
 \newblock \urlprefix\url{http://dx.doi.org/10.1007/978-3-642-15865-0_3}
+
+\bibitem{gogolla}
+Gogolla, M., Thalheim, B.: {UML and OCL in Conceptual Modeling}.
+\newblock In: D.W. Embley, B.~Thalheim (eds.) Handbook of Conceptual Modeling:
+  Theory, Practice, and Research Challenges, pp. 85--122. Springer Berlin
+  Heidelberg, Berlin, Heidelberg (2011).
+\newblock \doi{10.1007/978-3-642-15865-0_4}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1007/978-3-642-15865-0_4}
 
 \bibitem{clang}
 {ISO}: {ISO/IEC 9899:2011 Information technology --- Programming languages ---
