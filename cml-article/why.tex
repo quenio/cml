@@ -4,12 +4,12 @@ At this point, one could question: why define a new textual language for concept
 
 \subsection{Developer Experience}
 
-CML is designed for software developers.
-It is intended to enable developers to do \emph{conceptual modeling} much the same way they are used to doing \emph{programming}.
+CML is intended to enable software developers to do \emph{conceptual modeling} in the same workflow they are used to doing \emph{programming}.
 
 The Manchester \cite{owl2manchester} syntax of OWL 2 is intended to be user-friendly,
-but it still does not resemble the syntax of commonly used programming languages,
+but it still does not resemble the syntax of commonly used, block-based, imperative programming languages,
 such as C \cite{clang} and its syntax-alike descendants.
+Manchester's syntax is also unlike the syntax of declarative, query languages, such as SQL [?].
 
 Using CML,
 and its familiar syntax (as we shall demonstrate in the next sections),
@@ -20,12 +20,12 @@ CML then promotes the \emph{modeling-as-programming} approach being presented by
 
 \subsection{Language Evolution}
 
-CML is intended to evolve with its compiler, and the tooling around it.
+CML is expected to evolve with its compiler, and the tooling around it.
 Unlike the expressive power seen on OWL 2 \cite{owl2} with its breadth of features,
 and its ambition to model complete ontologies for the Web,
 the CML language and its extensible compiler intentionally support a limited number of features and scenarios.
 
-This initial CML version is expected to be sufficient for the validation of the model-driven development approach taken by CML.
+This first version has been designed for the initial validation of the model-driven development approach taken by CML.
 As developers provide feedback,
 new language features may be added in order to enable the extensible CML compiler to support new modeling/development scenarios.
 
