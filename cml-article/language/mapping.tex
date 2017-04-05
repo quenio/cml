@@ -1,10 +1,7 @@
 \subsection{Mapping CML to Other Modeling Notations}\label{subsec:mapping}
 
-The CML model in figure \ref{fig:store} can also be mapped to the following ER model \cite{er}:
-
-{ER model}
-
-Likewise, the example in figure \ref{fig:store} can also be mapped the following UML model \cite{uml}:
+Part of the CML metamodel (presented in section \ref{subsec:metamodel}) may be considered a small subset of the UML  \cite{uml} metamodel.
+Thus, the structural (static) elements of CML models can be transformed into UML class diagrams. The example CML model in the listing of figure \ref{fig:store} is mapped to the UML model in figure \ref{fig:uml}.
 
 \begin{figure}
 \centering
@@ -13,3 +10,21 @@ Likewise, the example in figure \ref{fig:store} can also be mapped the following
 \label{fig:uml}
 \end{figure}
 
+In the UML class diagram of figure \ref{fig:uml}:
+\begin{itemize}
+\item the CML concepts (\emph{BookStore}, \emph{Book}, \emph{Customer} and \emph{Order}) are mapped to corresponding UML classes;
+\item the CML properties that represent unidirectional associations
+(\emph{books}, \emph{customers}, and \emph{goldCustomers} of \emph{BookStore})
+are mapped to UML associations with corresponding roles
+(showing the navigability direction, and matching the property names);
+\item the CML bidirectional association \emph{CustomerOrder}
+(comprised by two CML properties: \emph{Customer.orders} and \emph{Order.customer})
+is mapped to a UML association with bidirectional navigability (no direction arrow).
+\end{itemize}
+
+As demonstrated by this example, CML's goal is to allow modeling at the same conceptual level possible with UML.
+The CML metamodel is limited when compared to the UML metamodel, but it supports a core set of elements from the UML metamodel (as shown in subsection \ref{subsec:metamodel}), which can be used to validate CML's goals.
+
+
+
+ 
