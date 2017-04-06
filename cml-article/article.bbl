@@ -46,6 +46,11 @@ ISO: {IEC 9075-1: 2003 (E) Information technology --- Database languages ---
 Jensen, K., Wirth, N.: {PASCAL User Manual and Report}.
 \newblock Springer-Verlag New York, Inc. (1974)
 
+\bibitem{torben}
+Mogensen, T.Æ.: {Introduction to Compiler Design.}
+\newblock {Undergraduate Topics in Computer Science}. Springer (2011).
+\newblock \urlprefix\url{http://dx.doi.org/10.1007/978-0-85729-829-4}
+
 \bibitem{mda}
 OMG: {Model Driven Architecture (MDA) MDA Guide rev. 2.0} (2014).
 \newblock \urlprefix\url{http://www.omg.org/cgi-bin/doc?ormsc/14-06-01}
