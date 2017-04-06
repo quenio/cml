@@ -1490,13 +1490,13 @@ FUNCTION {begin.bib}
   write$ newline$
   "\providecommand{\url}[1]{{#1}}"
   write$ newline$
-  "\providecommand{\urlprefix}{\\}"
+  "\providecommand{\urlprefix}{}"
   write$ newline$
   "\expandafter\ifx\csname urlstyle\endcsname\relax"
   write$ newline$
-  "  \providecommand{\doi}[1]{\\ doi:~\discretionary{}{}{}#1}\else"
+  "  \providecommand{\doi}[1]{doi:~\discretionary{}{}{}#1}\else"
   write$ newline$
-  "  \providecommand{\doi}{\\ doi:~\discretionary{}{}{}\begingroup \urlstyle{rm}\Url}\fi"
+  "  \providecommand{\doi}{doi:~\discretionary{}{}{}\begingroup \urlstyle{rm}\Url}\fi"
   write$ newline$
 }
 EXECUTE {begin.bib}
