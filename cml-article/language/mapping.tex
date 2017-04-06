@@ -35,8 +35,7 @@ Besides the structural elements of a conceptual model (as seen above),
 CML also permits the use of expressions to set initial values to attributes,
 and to define derived properties for both attributes and associations.
 These expressions are partially based on the OCL \cite{ocl} syntax,
-but they follow closely the OCL semantics,
-as described in section \ref{subsec:expr}.
+but they follow closely the OCL semantics.
 
 For example, the following CML expression (extracted from figure \ref{fig:store}) is a path-based navigation expression borrowed from OCL:
 
@@ -45,7 +44,7 @@ For example, the following CML expression (extracted from figure \ref{fig:store}
 /orderedBooks = orders.items.book;
 \end{verbatim}
 
-Using association properties, the expression above navigates from one instance of \emph{BookStore}, passing through all linked \emph{orders}, and then through all \emph{items} of all \emph{orders}, in order to return all books that have been ordered. (The semantics of path expressions will be given in section \ref{subsec:expr}.)
+Using association properties, the expression above navigates from one instance of \emph{BookStore}, passing through all linked \emph{orders}, and then through all \emph{items} of all \emph{orders}, in order to return all books that have been ordered. 
 
 As another example,
 the following CML expression (also extracted from figure \ref{fig:store}) does not follow the OCL syntax:
@@ -64,6 +63,4 @@ derive: customers->select(totalSales > 1000)
 
 Both the CML expression and the OCL excerpt above evaluate to a set of \emph{Customer} instances
 that have bought more than 1000 in the \emph{BookStore}. 
-
-As with path expressions, the semantics of all kinds of expressions will be shown in section \ref{subsec:expr}.
  
