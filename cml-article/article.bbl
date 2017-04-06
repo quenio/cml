@@ -67,6 +67,13 @@ OMG: {Unified Modeling Language (UML), Superstructure, Version 2.5} (2015).
 OMG: {Meta Object Facility (MOF) Core Specification, Version 2.5.1} (2016).
 \newblock \urlprefix\url{http://www.omg.org/spec/MOF/2.5.1}
 
+\bibitem{st}
+Parr, T.J.: {Enforcing Strict Model-view Separation in Template Engines}.
+\newblock In: {Proceedings of the 13th International Conference on World Wide
+  Web}, WWW '04, pp. 224--233. ACM, New York, NY, USA (2004).
+\newblock \doi{10.1145/988672.988703}.
+\newblock \urlprefix\url{http://doi.acm.org/10.1145/988672.988703}
+
 \bibitem{hutn}
 Rose, L.M., Paige, R.F., Kolovos, D.S., Polack, F.A.C.: {Constructing Models
   with the Human-Usable Textual Notation}.
