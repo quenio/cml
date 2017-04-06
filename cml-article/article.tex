@@ -10,6 +10,10 @@
 % Images:
  \usepackage{graphicx}
 %
+\makeatletter
+\newcommand{\verbatimfont}[1]{\renewcommand{\verbatim@font}{\ttfamily#1}}
+\makeatother
+%
 \begin{document}
 \mainmatter  % start of a contribution
 \title{Recurring Return on Modeling Investment:\newline A Conceptual Modeling Language and Extensible Compiler}

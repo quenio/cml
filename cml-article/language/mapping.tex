@@ -40,6 +40,7 @@ as described in section \ref{subsec:expr}.
 
 For example, the following CML expression (extracted from figure \ref{fig:store}) is a path-based navigation expression borrowed from OCL:
 
+\verbatimfont{\small}
 \begin{verbatim}
 /orderedBooks = orders.items.book;
 \end{verbatim}
@@ -49,12 +50,14 @@ Using association properties, the expression above navigates from one instance o
 As another example,
 the following CML expression (also extracted from figure \ref{fig:store}) does not follow the OCL syntax:
 
+\verbatimfont{\small}
 \begin{verbatim}
 /goldCustomers = customers | select totalSales > 1000;
 \end{verbatim}
 
 However, the expression above closely matches the semantics of the following OCL expression:
 
+\verbatimfont{\small}
 \begin{verbatim}
 derive: customers->select(totalSales > 1000)
 \end{verbatim}
