@@ -1,5 +1,9 @@
 \subsection{Modules and Libraries}\label{subsec:modlib}
 
+TODO: Check .NET assembly specification.
+
+TODO: Check Java module specification.
+
 When developing a single application with just a few targets, having a single directory to maintain all the source code is sufficient. But once one needs to develop more than one application (as part of a larger project) and share code among them, it is necessary to separate the common code. Also, some applications cover different domains, and it may be beneficial to separate the code into different CML models.
 
 In order to allow that, CML supports \emph{modules}. Grouping a set of elements of a CML model, a module in CML is conceptually similar to a UML \cite{uml} package. Physically, each module is a directory containing three sub-directories:
@@ -22,6 +26,8 @@ A CML library is just a packaged, read-only module with a version of the format:
 \begin{verbatim}
 revision[.accretion][.fix]
 \end{verbatim}
+
+TODO: check semantic versioning
 
 Where:
 \begin{itemize}
