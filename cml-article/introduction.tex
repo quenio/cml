@@ -3,6 +3,7 @@
 In order to address the challenges of the ever-changing, increasingly distributed technologies used on software systems, the Model-Driven Architecture (MDA \cite{mda}) initiative by the Object Management Group (OMG) has been promoting model-driven software development.
 In particular, MDA has guided the use of high-level models (created with OMG standards, such as UML \cite{uml}, OCL \cite{ocl} and MOF \cite{mof}) to derive software artifacts and implementations via automated transformations.
 As one of its value propositions, the MDA guide \cite{mda} advocates:
+
 \begin{quote}``Automation reduces the time and cost of realizing a design, reduces the time and cost for changes and maintenance and produces results that ensure consistency across all of the derived artifacts. For example, manually producing all of the web service artifacts required to implement a set of processes and services for an organization is difficult and error-prone. Producing execution artifacts from a model is more reliable and faster.''\end{quote} 
 
 MDA provides guidance and standards in order to realize this vision, but it leaves to software vendors the task of providing the tools that automate the process of generating the implementations from the models.
@@ -15,7 +16,7 @@ The conceptual modeling language and extensible compiler presented here are an a
 While the latter is a fully integrated development environment based on domain-specific languages and their projectional editors \footnote{As explained by Voelter \cite{voelter}, projectional editors in MPS do not rely on parsers. Instead, the abstract syntax tree (AST) of the DSL is modified directly. The projection engine renders the visual representation of the AST based on the DSL editor definition.}, the former (hereby called CML) is a compiler that has:
 \begin{itemize}
 \item as \emph{input}, source files defined using its own conceptual language, which provides an abstract syntax similar to (but less comprehensive than) a combination of UML \cite{uml} and OCL \cite{ocl}; 
-\item and, as \emph{output}, any target languages based on extensible templates, which may be provided by the compiler's base libraries, by third-party libraries, or even by the developers themselves.
+\item and, as \emph{output}, any target languages based on extensible templates, which may be provided by the compiler's base libraries, by third-party libraries, or even by developers.
 \end{itemize}
 
 The section \ref{sec:why} addresses the question of why providing yet another language for conceptual modeling. The next two sections present the conceptual model language (section \ref{sec:lang}) and the compiler with its extensible templates (section \ref{sec:compiler}). The section \ref{sec:workflow} discusses how CML can be integrated into the development workflow. The Section \ref{sec:cba} provides a cost-benefit analysis model that can be used by organizations in order to determine whether integrating CML into its development workflow would provide recurring return on their modeling investment. We conclude in section \ref{sec:conclusion}, reiterating the objectives achieved by CML and exploring future possibilities to expand CML's reach.

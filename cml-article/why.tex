@@ -1,22 +1,44 @@
 \section{Why A New Language?}\label{sec:why}
 
-At this point, one could question: why define a new textual language for conceptual modeling from scratch? Instead of basing it on an standard, richer textual language, such as OWL 2 \cite{owl2}. There are two primary reasons explained in the follow subsections:
+Instead of using standard, richer languages, such as OWL 2 \cite{owl2} and UML \cite{uml}, there are two primary reasons why a new programming language is proposed here, which are explained in the follow subsections.
 
 \subsection{Developer Experience}
 
-CML is intended to enable software developers to do \emph{conceptual modeling} in the same workflow they are used to doing \emph{programming}.
+CML follows the following principle laid out on the \emph{Conceptual-Model Programming} (CMP) manifesto \cite{cmp}:
 
-The Manchester \cite{owl2manchester} syntax of OWL 2 is intended to be user-friendly,
-but it still does not resemble the syntax of commonly used, block-based, imperative programming languages,
+\begin{quote}
+``Conceptual modeling is programming.
+The conceptual-model instance is the code,
+i.e., instead of `the code is the model,'
+the phrase now becomes `the model is the code.'
+A conceptual-model compiler assures that program execution corresponds to the conceptual specification,
+thus making the conceptual-model instance directly executable.''
+\end{quote}
+
+Furthermore,
+CML is also intended to enable software developers to do \emph{conceptual modeling} on the same workflow they are used to doing \emph{programming}.
+CML strives to \emph{not only be} the code (as advocated by CMP),
+but also \emph{look like} code (syntactically speaking),
+pursuing compatibility with developers' mindset, toolset and workflow.
+By providing its own syntax,
+CML then promotes the \emph{modeling-as-programming} approach. 
+
+The UML \cite{uml} notation, on the other hand,
+being graphical,
+is not suited for mainstream, textual programming.
+However, the \emph{Human Usable Textual Notation} (HUTN) \cite{hutn} is a textual syntax for MOF-based \cite{mof} metamodels,
+and as such, it can also be used for UML models.
+The syntax of the structural (static) elements of CML models is based on HUTN.
+
+The OWL 2 standard, as another example, provides the Manchester \cite{owl2manchester} syntax,
+which is intended to be user-friendly.
+However, it does not resemble the syntax of commonly used, block-based, imperative programming languages,
 such as C \cite{clang} and its syntax-alike descendants.
 Manchester's syntax is also unlike the syntax of declarative, query languages, such as SQL \cite{sql}.
 
 Using CML,
 and its familiar syntax (as we shall demonstrate in the next sections),
-it is expected that developers will be able to raise the abstraction level of their programs,
-and still work with a syntax that is familiar to them.
-By providing its own syntax,
-CML then promotes the \emph{modeling-as-programming} approach being presented by this work. 
+it is expected that developers can raise the abstraction level of their programs.
 
 \subsection{Language Evolution}
 

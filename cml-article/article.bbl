@@ -14,6 +14,15 @@ Chen, P.P.S.: {The Entity-Relationship Model (Reprinted Historic Data)}.
 \newblock \doi{10.1007/978-3-642-15865-0_3}.
 \newblock \urlprefix\url{http://dx.doi.org/10.1007/978-3-642-15865-0_3}
 
+\bibitem{cmp}
+Embley, D.W., Liddle, S.W., Pastor, O.: {Conceptual-Model Programming: A
+  Manifesto}.
+\newblock In: D.W. Embley, B.~Thalheim (eds.) {Handbook of Conceptual Modeling:
+  Theory, Practice, and Research Challenges}, pp. 3--16. Springer Berlin
+  Heidelberg, Berlin, Heidelberg (2011).
+\newblock \doi{10.1007/978-3-642-15865-0_1}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1007/978-3-642-15865-0_1}
+
 \bibitem{gogolla}
 Gogolla, M., Thalheim, B.: {UML and OCL in Conceptual Modeling}.
 \newblock In: D.W. Embley, B.~Thalheim (eds.) Handbook of Conceptual Modeling:
@@ -52,6 +61,17 @@ OMG: {Unified Modeling Language (UML), Superstructure, Version 2.5} (2015).
 \bibitem{mof}
 OMG: {Meta Object Facility (MOF) Core Specification, Version 2.5.1} (2016).
 \newblock \urlprefix\url{http://www.omg.org/spec/MOF/2.5.1}
+
+\bibitem{hutn}
+Rose, L.M., Paige, R.F., Kolovos, D.S., Polack, F.A.C.: {Constructing Models
+  with the Human-Usable Textual Notation}.
+\newblock In: K.~Czarnecki, I.~Ober, J.M. Bruel, A.~Uhl, M.~V{\"o}lter (eds.)
+  {Model Driven Engineering Languages and Systems: 11th International
+  Conference, MoDELS 2008, Toulouse, France, September 28 - October 3, 2008.
+  Proceedings}, pp. 249--263. Springer Berlin Heidelberg, Berlin, Heidelberg
+  (2008).
+\newblock \doi{10.1007/978-3-540-87875-9_18}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1007/978-3-540-87875-9_18}
 
 \bibitem{voelter}
 Voelter, M.: {Generic Tools, Specific Languages}.
