@@ -30,11 +30,29 @@ there must be an \emph{Association} instance that binds them.
 Unidirectional associations are only represented by the \emph{Property} instance (representing the association role)
 that enables the navigation from the source \emph{Concept} instance to the target one (which is represented by the property's \emph{Type}.)
 
-Next, there is a description for each metamodel element. \emph{Expression} will be covered in subsection \ref{subsec:expr}.
+Next, there is a description for the key metamodel elements. \emph{Expression} will be covered in subsection \ref{subsec:expr}.
 
 \subsubsection{Concept.}
-TODO: Define each element using Wazlawick; map it to ER and UML; show any differences.
+
+According to Waslawick \cite{wazlawick},
+a concept represents complex information that has a coherent meaning in the domain.
+They aggregate attributes and cannot be described as primitive values.
+They may also be associated with other concepts.
+On the ER metamodel are known as \emph{entity};
+on the UML metamodel, as \emph{class}.
 
 \subsubsection{Property.}
+
+May be an attribute holding values of primitive types,
+or references (or collections of references) linking concepts.
+On the ER metamodel,
+the set of all references is known as \emph{relationship};
+on the UML metamodel, unidirectional associations.
+Attributes have the same name on all metamodels.
+
 \subsubsection{Association.}
-\subsubsection{Type.}
+
+Unlike the ER and UML metamodels, in CML metamodel, only bidirectional associations are represented with the Association class. They bind the non-primitive properties (from the same or from different concepts.) 
+
+
+\subsubsection{Type.} They may be primitive types (such as Boolean, String, Decimal, and Regex), references to concept instances, or still collection of concepts. They may also be optional, meaning their value may or may not have been set.
