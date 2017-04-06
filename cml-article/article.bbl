@@ -74,6 +74,10 @@ Parr, T.J.: {Enforcing Strict Model-view Separation in Template Engines}.
 \newblock \doi{10.1145/988672.988703}.
 \newblock \urlprefix\url{http://doi.acm.org/10.1145/988672.988703}
 
+\bibitem{semver}
+Preston, T.: {Semantic Versioning 2.0.0}.
+\newblock \urlprefix\url{http://semver.org}
+
 \bibitem{hutn}
 Rose, L.M., Paige, R.F., Kolovos, D.S., Polack, F.A.C.: {Constructing Models
   with the Human-Usable Textual Notation}.

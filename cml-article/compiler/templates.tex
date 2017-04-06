@@ -11,8 +11,40 @@ which will contain the path of all files to be generated. The \emph{files templa
 each file listed under the \emph{files template} will have a corresponding \emph{content template} that specifies how the file's content must be generated. The \emph{content template} will receive as input one root-level element of the CML model, which will provide information to generate the file's content. The type of model element received as input by the \emph{content template} depends on which function of the \emph{files template} has defined the file to be generated. Figure Y shows a typical \emph{content template}. 
 \end{itemize}
 
-TODO: Add figures
+\begin{figure}
+\verbatimfont{\small}
+\begin{verbatim}
+moduleFiles(target, module) ::= <<
+maven:pom|pom.xml
+>>
 
-TODO: Describe the examples in the figures.
+conceptFiles(target, concept) ::= <<
+dto|src/main/java/<target.packagePath>/<concept.name>.java
+>>
+\end{verbatim}
+\caption{An example of the \emph{files template}.}
+\label{fig:template1}
+\end{figure}
 
-For example, ...
+\begin{figure}
+\verbatimfont{\small}
+\begin{verbatim}
+import "/lang/class.stg"
+
+dto(target, concept) ::= <<
+package <target.packageName>;
+
+import java.util.*;
+
+public <class(concept)>
+>>
+\end{verbatim}
+\caption{An example of the \emph{content template}.}
+\label{fig:template2}
+\end{figure}
+
+On the example of figure \ref{fig:template1},
+two types of files are created for this target:
+one file for the CML module (named ``pom.xml'', and based on the ``pom'' template); and one for each concept found in the CML model (with the file extension ``.java'', and based on the ``dto'' template.)
+
+On the example of figure \ref{fig:template2}, the ``dto'' content template is displayed, which can generate a DTO class in Java. The actual template that knows how to generate the class is imported from ``/lang/class.stg''.

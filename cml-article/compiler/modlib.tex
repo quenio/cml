@@ -1,9 +1,5 @@
 \subsection{Modules and Libraries}\label{subsec:modlib}
 
-TODO: Check .NET assembly specification.
-
-TODO: Check Java module specification.
-
 When developing a single application with just a few targets, having a single directory to maintain all the source code is sufficient. But once one needs to develop more than one application (as part of a larger project) and share code among them, it is necessary to separate the common code. Also, some applications cover different domains, and it may be beneficial to separate the code into different CML models.
 
 In order to allow that, CML supports \emph{modules}. Grouping a set of elements of a CML model, a module in CML is conceptually similar to a UML \cite{uml} package. Physically, each module is a directory containing three sub-directories:
@@ -27,13 +23,11 @@ A CML library is just a packaged, read-only module with a version of the format:
 revision[.accretion][.fix]
 \end{verbatim}
 
-TODO: check semantic versioning
-
-Where:
+Where semantic versioning \cite{semver} is followed:
 \begin{itemize}
 \item \emph{revision} is the number of a library release incompatible with any previous releases with a lower revision number.
 \item \emph{accretion} is the number of a library release compatible with any previous accretion number of the same revision.
 \item \emph{fix} is the number of a library release that fixes an issue in a previous accretion.
 \end{itemize}
 
-Compatible versions do not change or remove public elements of the library's CML model (or function/parameters from the library's templates) but only add new elements. Fixes cannot change the library's public elements; only internal elements. These rules may be enforced by the CML compiler when packaging and publishing new versions of a library.
+Compatible versions do not change or remove public elements of the library's CML model (or function/parameters from the library's templates); only add new elements. Fixes cannot change the library's public elements; only internal elements. These rules may be enforced by the CML compiler when packaging and publishing new versions of a library.

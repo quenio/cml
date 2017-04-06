@@ -10,12 +10,10 @@ The notation is based on BNF, but it also specifies the construction of the AST.
 
 \verbatimfont{\tiny}
 \begin{verbatim}
-root Model: ModelItem*
+root Module: (Concept | Target)*
 {
     elements = Concept* + Target*;
 }
-
-node ModelItem: Concept | Target;
 
 node Concept: 'abstract'? 'concept' NAME (':' AncestorList)? (';' | PropertyList)
 {
