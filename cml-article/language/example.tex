@@ -1,15 +1,13 @@
 \subsection{An Example}\label{subsec:example}
 
-Before exploring the abstract syntax, a concrete example is displayed in figure \ref{fig:store} and commented below.
-
-\input{language/bookstore.tex}
-
 On the example of figure \ref{fig:store}, some concepts, such as \emph{Book} and \emph{Customer}, are declared in CML. 
 The block-based syntax declaring each concept resembles the C \cite{clang} language's syntax. 
 Each concept declares a list of properties.
 The property declarations are based on the Pascal \cite{pascal} style for variable declarations,
 where the name is followed by a colon (``:'') and then the type declaration.
 Part of the CML syntax for expressions, such as the expression in \emph{BookStore}'s \emph{orderedBooks}, is based on OCL \cite{ocl} expressions; while the syntax of the expression in \emph{goldCustomers} is new, even though its semantics also match OCL \cite{ocl} query expressions.
+
+\input{language/bookstore.tex}
 
 Some examples of the key language features shown in the figure \ref{fig:store} are:
 \begin{itemize}
