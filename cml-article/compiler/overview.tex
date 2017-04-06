@@ -17,8 +17,8 @@ are presented below.
 Receives as input the \emph{CML source files}.
 It will parse the files and generate an internal representation of the \emph{CML model}.
 Syntactical and semantic validations will be executed at this point.
-Any errors are presented to the developer, interrupting the progress to the next stages.
-If the \emph{source files} are compiled successfully, then an internal representation (AST) of the \emph{CML model} is generated, as shown in section \ref{sec:lang}.
+Any errors are presented to the developer, interrupting the progress to the next phase.
+If the \emph{source files} are parsed and validated successfully, then an internal representation (AST) of the \emph{CML model} is generated, as shown in subsection \ref{subsec:ast}.
 The AST serves then as the input for the \emph{backend} component.
 
 \subsubsection{The Backend.}
