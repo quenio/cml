@@ -1,4 +1,5 @@
-article.aux
-article.log
-article.blg
-article.synctex.gz
+*.log
+*.aux
+*.blg
+*.synctex.gz
+*-eps-converted-to.pdf
