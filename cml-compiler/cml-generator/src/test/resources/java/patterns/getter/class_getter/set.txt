@@ -1,4 +1,4 @@
-Set<SomeType> getSomeProperty()
+public Set<SomeType> getSomeProperty()
 {
     return Collections.unmodifiableSet(someProperty);
 }

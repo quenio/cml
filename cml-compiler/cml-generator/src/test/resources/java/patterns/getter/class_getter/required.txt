@@ -1,4 +1,4 @@
-SomeType getSomeProperty()
+public SomeType getSomeProperty()
 {
     return someProperty;
 }
