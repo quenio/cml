@@ -1,0 +1,130 @@
+
+import "/lang/common.stg"
+import "/patterns/getter.stg"
+
+// Modifiers
+
+modifier(m) ::= <<
+<m><\ >
+>>
+
+// Blocks
+
+block(statements) ::= <<
+<\n>{
+    <statements>
+}
+>>
+
+// Strings
+
+type_string() ::= "String"
+
+to_string_name() ::= "toString"
+
+to_string_expr(concept) ::= <<
+new StringBuilder(<type_name(concept)>.class.getSimpleName())
+    <to_string_appends(concept.allProperties)>
+>>
+
+to_string_appends(properties) ::= <<
+.append('(')
+<to_string_fields(properties, ".append(\", \")\n")><\\>
+<newLineIf(properties)><\\>
+.append(')')
+.toString()
+>>
+
+to_string_field(property) ::= <<
+.append("<field_name(property)>=")<to_string_field_value(property)>
+>>
+
+to_string_field_value_required(property) ::= <<
+.append(String.format("\"%s\"", <getter_call(property)>))
+>>
+
+to_string_field_value_optional(property) ::= <<
+.append(<getter_call(property)>.isPresent() ? String.format("\"%s\"", <getter_call(property)>) : "not present")
+>>
+
+to_string_field_value_set(property) ::= <<
+.append(<getter_call(property)>)
+>>
+
+// Operations
+
+operation_keyword() ::= ""
+
+interface_operation_body() ::= ";"
+
+operation_header_content(name, params, result_type) ::= <<
+<result_type> <name>(<params:param_decl(); separator=", ">)
+>>
+
+param_decl(param) ::= <<
+<fieldTypeDecl(param)> <field_name(param)>
+>>
+
+return(expression) ::= <<
+return <expression>;
+>>
+
+// Fields
+
+field_name(namedElement) ::= <<
+<namedElement.name; format="camel-case">
+>>
+
+field_type_optional(type) ::= <<
+@Nullable <type_name(type)>
+>>
+
+field_type_set(type) ::= <<
+Set\<<type_name(type)>\>
+>>
+
+// Getters
+
+getter_name(property) ::= <<
+get<property.name; format="pascal-case">
+>>
+
+interface_getter_annotations(property) ::= ""
+
+class_getter_annotations(property) ::= ""
+
+getter_type_required(type) ::= <<
+<type_name(type)>
+>>
+
+getter_type_optional(type) ::= <<
+Optional\<<type_name(type)>\>
+>>
+
+getter_type_set(type) ::= <<
+Set\<<type_name(type)>\>
+>>
+
+getter_field_value_required(property) ::= <<
+<field_name(property)>
+>>
+
+getter_field_value_optional(property) ::= <<
+Optional.ofNullable(<field_name(property)>)
+>>
+
+getter_field_value_set(property) ::= <<
+Collections.unmodifiableSet(<field_name(property)>)
+>>
+
+getter_call(property) ::= <<
+get<property.name; format="pascal-case">()
+>>
+
+// Interfaces
+
+interface_keyword() ::= "interface "
+
+interface_ancestor_header(ancestors, ancestor_list) ::= <<
+<if(ancestors)><\ >extends<\ ><ancestor_list><endif>
+>>

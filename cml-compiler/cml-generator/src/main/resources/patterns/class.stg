@@ -1,0 +1,156 @@
+
+import "/generic/generic.stg"
+import "/patterns/getter.stg"
+import "/patterns/to_string.stg"
+
+class(concept) ::= <<
+<class7(
+    concept=concept,
+    classNameSuffix="",
+    ancestors=concept.directAncestors,
+    interfaces=[],
+    fieldAncestors=[],
+    delegatedProperties=[],
+    superProperties=concept.inheritedProperties
+)>
+>>
+
+class2(concept, classNameSuffix) ::= <<
+<class7(
+    concept=concept,
+    classNameSuffix=classNameSuffix,
+    ancestors=[],
+    interfaces=[concept],
+    fieldAncestors=concept.allAncestors,
+    delegatedProperties=concept.inheritedProperties,
+    superProperties=[]
+)>
+>>
+
+class7(
+    concept, classNameSuffix,
+    ancestors, interfaces,
+    fieldAncestors, 
+    delegatedProperties, superProperties
+) ::= <<
+<abstract(concept, superProperties)>class <type_name(concept)><classNameSuffix><ancestorList(ancestors)><interfaceList(interfaces)>
+{
+    <ancestorFields(fieldAncestors)>
+    <propertyFields(fieldAncestors, concept.properties)>
+    <constructorForClients(concept, classNameSuffix, superProperties)>
+    <primaryConstructor(concept, classNameSuffix, superProperties, fieldAncestors)>
+    <fieldGetters(concept)>
+    <delegatedGetters(concept, delegatedProperties)>
+    <class_to_string(concept)>
+}
+>>
+
+abstract(concept, superProperties) ::= <<
+<if(concept.abstract && superProperties)>abstract <endif>
+>>
+
+ancestorFieldDecl(concept) ::= <<
+private final <type_name(concept)> <field_name(concept)>;
+>>
+
+propertyFieldDecl(property) ::= <<
+private final <field_type(property.type)> <field_name(property)>;
+>>
+
+ancestorList(ancestors) ::= <<
+<if(ancestors)> extends <ancestors:type_name();separator=", "><endif>
+>>
+
+interfaceList(interfaces) ::= <<
+<if(interfaces)> implements <interfaces:type_name();separator=", "><endif>
+>>
+
+ancestorFields(fieldAncestors) ::= <<
+<fieldAncestors:ancestorFieldDecl();separator="\n">
+>>
+
+propertyFields(fieldAncestors, fieldProperties) ::= <<
+<newLineIf2(fieldAncestors, fieldProperties)><\\>
+<fieldProperties:propertyFieldDecl();separator="\n">
+>>
+
+fieldGetters(concept) ::= <<
+<concept.properties:class_getter();separator="\n\n">
+>>
+
+delegatedGetters(concept, delegatedProperties) ::= <<
+<newLineIf2(concept.properties, delegatedProperties)><\\>
+<delegatedProperties:delegate_getter();separator="\n\n">
+>>
+
+constructorForClients(concept, classNameSuffix, superProperties) ::= <<
+<if(!concept.abstract && concept.allAncestors && !superProperties)>
+<newLineIfEither(concept.allAncestors, concept.properties)><\\>
+public <type_name(concept)><classNameSuffix>(<constructorParamList([], [concept.allProperties])>)
+{
+    <constructorArgsForClients(concept)>
+}<\\>
+<endif>
+>>
+
+constructorArgsForClients(concept) ::= <<
+<concept.allAncestors:createInvocation();separator="\n"><\\>
+<emptyLineIf2(concept.allAncestors, concept.properties)><\\>
+<concept.properties:fieldInit();separator="\n">
+>>
+
+primaryConstructor(concept, classNameSuffix, superProperties, paramAncestors) ::= <<
+<if(paramAncestors || concept.properties)>
+<newLineIfEither(paramAncestors, concept.properties)><\\>
+public <type_name(concept)><classNameSuffix>(<constructorParamList(paramAncestors, [superProperties, concept.properties])>)
+{
+    <superConstructor(superProperties)>
+    <if(superProperties)>
+    <[concept.properties]:fieldInit();separator="\n">
+    <else>
+    <[paramAncestors, concept.properties]:fieldInit();separator="\n">
+    <endif>
+}
+<endif>
+>>
+
+constructorParamList(paramAncestors, paramProperties) ::= <<
+<paramAncestors:constructorAncestorParam();separator=", "><\\>
+<commaIf2(paramAncestors, paramProperties)><\\>
+<paramProperties:constructorPropertyParam();separator=", ">
+>>
+
+constructorAncestorParam(concept) ::= <<
+<type_name(concept)> <field_name(concept)>
+>>
+
+constructorPropertyParam(property) ::= <<
+<field_type(property.type)> <field_name(property)>
+>>
+
+fieldInit(namedElement) ::= <<
+this.<field_name(namedElement)> = <field_name(namedElement)>;
+>>
+
+createInvocation(concept) ::= <<
+<field_name(concept)> = <\\>
+<type_name(concept)>.create(<\\>
+<concept.allAncestors:field_name();separator=", "><\\>
+<commaIf2(concept.allAncestors, concept.properties)><\\>
+<concept.properties:field_name();separator=", "><\\>
+);
+>>
+
+superConstructor(inheritedProperties) ::= <<
+<if(inheritedProperties)>super(<inheritedProperties:superArgs();separator=", ">);<endif>
+>>
+
+superArgs(property) ::= <<
+<field_name(property)>
+>>
+
+class_to_string(concept) ::= <<
+<newLineIf(concept.allProperties)><\\>
+<to_string(concept)>
+>>
+

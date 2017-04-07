@@ -1,0 +1,119 @@
+
+import "/lang/common.stg"
+import "/patterns/getter.stg"
+
+// Blocks
+
+block(statements) ::= <<
+    <statements>
+>>
+
+block_header_terminator() ::= <<
+:<\n>
+>>
+
+// Strings
+
+type_string() ::= "str"
+
+to_string_name() ::= "__str__"
+
+to_string_expr(concept) ::= <<
+"%s(<\\>
+<if(concept.allProperties)><\\>
+<concept.allProperties:{p|<getter_call(p)>=%s}; separator=", ">)" % (
+    type(self).__name__,
+    <to_string_fields(concept.allProperties, ",\n")>
+)<\\>
+<else><\\>
+)" % type(self).__name__<\\>
+<endif>
+>>
+
+to_string_field(property) ::= <<
+self.<getter_call(property)>
+>>
+
+// Operations
+
+operation_keyword() ::= "def "
+
+interface_operation_body() ::= "    pass"
+
+operation_header_content(name, params, result_type) ::= <<
+<name>(self<commaIf(params)><params:param_decl(); separator=", ">) -> <result_type>
+>>
+
+param_decl(param) ::= <<
+<field_name(param)>: <fieldTypeDecl(param)>
+>>
+
+return(expression) ::= <<
+return <expression>
+>>
+
+// Fields
+
+field_name(namedElement) ::= <<
+self.__<namedElement.name; format="underscore-case">
+>>
+
+field_type_optional(type) ::= <<
+<type_name(type)>
+>>
+
+field_type_set(type) ::= <<
+Set[<type_name(type)>]
+>>
+
+// Getters
+
+getter_name(property) ::= <<
+<property.name; format="underscore-case">
+>>
+
+interface_getter_annotations(property) ::= <<
+@abstractproperty<\n>
+>>
+
+class_getter_annotations(property) ::= <<
+@property<\n>
+>>
+
+getter_type_required(type) ::= <<
+<type_name(type)>
+>>
+
+getter_type_optional(type) ::= <<
+<type_name(type)>
+>>
+
+getter_type_set(type) ::= <<
+Set[<type_name(type)>]
+>>
+
+getter_field_value_required(property) ::= <<
+<field_name(property)>
+>>
+
+getter_field_value_optional(property) ::= <<
+<field_name(property)>
+>>
+
+getter_field_value_set(property) ::= <<
+<field_name(property)>
+>>
+
+getter_call(property) ::= <<
+<property.name; format="underscore-case">
+>>
+
+// Interfaces
+
+interface_preamble() ::= "<\n>"
+
+interface_keyword() ::= "class "
+
+interface_ancestor_header(ancestors, ancestor_list) ::= <<
+<\ >(ABC<if(ancestors)>, <ancestor_list><endif>)
+>>

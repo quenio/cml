@@ -21,9 +21,9 @@ public class GenericTest extends TemplateTest
     public static final Object[] falseConditions = { Boolean.FALSE, null, emptyList(), new ArrayList() };
 
     @Override
-    protected String getTemplateFileName()
+    protected String getTemplatePath()
     {
-        return "/generic/generic.stg";
+        return "generic/generic";
     }
 
     @Theory

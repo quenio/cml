@@ -1,0 +1,11 @@
+
+import "/patterns/type.stg"
+
+field_type(type) ::= <<
+<({field_type_<type.kind>})(type)>
+>>
+
+field_type_required(type) ::= <<
+<type_name(type)>
+>>
+
