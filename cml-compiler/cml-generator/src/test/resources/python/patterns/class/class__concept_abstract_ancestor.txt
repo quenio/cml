@@ -1,0 +1,21 @@
+abstract class Book extends Product
+{
+    private final String self.__title;
+
+    public Book(String self.__description, String self.__title)
+    {
+        super(self.__description);
+        this.self.__title = self.__title;
+    }
+
+    @property
+    def title(self) -> String:
+        return self.__title
+
+    def __str__(self) -> str:
+        return "%s(description=%s, title=%s)" % (
+            type(self).__name__,
+            self.description,
+            self.title
+        )
+}

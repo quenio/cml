@@ -33,7 +33,7 @@ class7(
     fieldAncestors, 
     delegatedProperties, superProperties
 ) ::= <<
-<abstract(concept, superProperties)>class <typeName(concept)><classNameSuffix><ancestorList(ancestors)><interfaceList(interfaces)>
+<abstract(concept, superProperties)>class <type_name(concept)><classNameSuffix><ancestorList(ancestors)><interfaceList(interfaces)>
 {
     <ancestorFields(fieldAncestors)>
     <propertyFields(fieldAncestors, concept.properties)>
@@ -50,19 +50,19 @@ abstract(concept, superProperties) ::= <<
 >>
 
 ancestorFieldDecl(concept) ::= <<
-private final <typeName(concept)> <fieldName(concept)>;
+private final <type_name(concept)> <field_name(concept)>;
 >>
 
 propertyFieldDecl(property) ::= <<
-private final <fieldTypeDecl(property.type)> <fieldName(property)>;
+private final <field_type(property.type)> <field_name(property)>;
 >>
 
 ancestorList(ancestors) ::= <<
-<if(ancestors)> extends <ancestors:typeName();separator=", "><endif>
+<if(ancestors)> extends <ancestors:type_name();separator=", "><endif>
 >>
 
 interfaceList(interfaces) ::= <<
-<if(interfaces)> implements <interfaces:typeName();separator=", "><endif>
+<if(interfaces)> implements <interfaces:type_name();separator=", "><endif>
 >>
 
 ancestorFields(fieldAncestors) ::= <<
@@ -75,18 +75,18 @@ propertyFields(fieldAncestors, fieldProperties) ::= <<
 >>
 
 fieldGetters(concept) ::= <<
-<concept.properties:interface_getter();separator="\n\n">
+<concept.properties:class_getter();separator="\n\n">
 >>
 
 delegatedGetters(concept, delegatedProperties) ::= <<
 <newLineIf2(concept.properties, delegatedProperties)><\\>
-<delegatedProperties:delegateGetter();separator="\n\n">
+<delegatedProperties:delegate_getter();separator="\n\n">
 >>
 
 constructorForClients(concept, classNameSuffix, superProperties) ::= <<
 <if(!concept.abstract && concept.allAncestors && !superProperties)>
 <newLineIfEither(concept.allAncestors, concept.properties)><\\>
-public <typeName(concept)><classNameSuffix>(<constructorParamList([], [concept.allProperties])>)
+public <type_name(concept)><classNameSuffix>(<constructorParamList([], [concept.allProperties])>)
 {
     <constructorArgsForClients(concept)>
 }<\\>
@@ -102,7 +102,7 @@ constructorArgsForClients(concept) ::= <<
 primaryConstructor(concept, classNameSuffix, superProperties, paramAncestors) ::= <<
 <if(paramAncestors || concept.properties)>
 <newLineIfEither(paramAncestors, concept.properties)><\\>
-public <typeName(concept)><classNameSuffix>(<constructorParamList(paramAncestors, [superProperties, concept.properties])>)
+public <type_name(concept)><classNameSuffix>(<constructorParamList(paramAncestors, [superProperties, concept.properties])>)
 {
     <superConstructor(superProperties)>
     <if(superProperties)>
@@ -121,23 +121,23 @@ constructorParamList(paramAncestors, paramProperties) ::= <<
 >>
 
 constructorAncestorParam(concept) ::= <<
-<typeName(concept)> <fieldName(concept)>
+<type_name(concept)> <field_name(concept)>
 >>
 
 constructorPropertyParam(property) ::= <<
-<fieldTypeDecl(property.type)> <fieldName(property)>
+<field_type(property.type)> <field_name(property)>
 >>
 
 fieldInit(namedElement) ::= <<
-this.<fieldName(namedElement)> = <fieldName(namedElement)>;
+this.<field_name(namedElement)> = <field_name(namedElement)>;
 >>
 
 createInvocation(concept) ::= <<
-<fieldName(concept)> = <\\>
-<typeName(concept)>.create(<\\>
-<concept.allAncestors:fieldName();separator=", "><\\>
+<field_name(concept)> = <\\>
+<type_name(concept)>.create(<\\>
+<concept.allAncestors:field_name();separator=", "><\\>
 <commaIf2(concept.allAncestors, concept.properties)><\\>
-<concept.properties:fieldName();separator=", "><\\>
+<concept.properties:field_name();separator=", "><\\>
 );
 >>
 
@@ -146,14 +146,7 @@ superConstructor(inheritedProperties) ::= <<
 >>
 
 superArgs(property) ::= <<
-<fieldName(property)>
->>
-
-delegateGetter(property) ::= <<
-public <getterHeader(property)>
-{
-    return <fieldName(property.parentScope)>.get<typeName(property)>();
-}
+<field_name(property)>
 >>
 
 class_to_string(concept) ::= <<

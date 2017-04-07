@@ -1,0 +1,33 @@
+class Book
+{
+    private final String self.__title;
+    private final Book self.__sequel;
+    private final Set[Category] self.__categories;
+
+    public Book(String self.__title, Book self.__sequel, Set[Category] self.__categories)
+    {
+        this.self.__title = self.__title;
+        this.self.__sequel = self.__sequel;
+        this.self.__categories = self.__categories;
+    }
+
+    @property
+    def title(self) -> String:
+        return self.__title
+
+    @property
+    def sequel(self) -> Book:
+        return self.__sequel
+
+    @property
+    def categories(self) -> Set[Category]:
+        return self.__categories
+
+    def __str__(self) -> str:
+        return "%s(title=%s, sequel=%s, categories=%s)" % (
+            type(self).__name__,
+            self.title,
+            self.sequel,
+            self.categories
+        )
+}
