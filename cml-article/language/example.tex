@@ -5,7 +5,7 @@ The block-based syntax declaring each concept resembles the C \cite{clang} langu
 Each concept declares a list of properties.
 The property declarations are based on the Pascal \cite{pascal} style for variable declarations,
 where the name is followed by a colon (``:'') and then the type declaration.
-Part of the CML syntax for expressions, such as the expression in \emph{BookStore}'s \emph{orderedBooks}, is based on OCL \cite{ocl} expressions; while the syntax of the expression in \emph{goldCustomers} is new, even though its semantics also match OCL \cite{ocl} query expressions.
+Part of the CML syntax for expressions, such as the expression in \emph{BookStore}'s \emph{orderedBooks}, is based on OCL \cite{ocl} expressions; while the syntax of the expression in \emph{goldCustomers} is new, its semantics also match OCL \cite{ocl} query expressions.
 
 \input{language/bookstore.tex}
 
@@ -13,7 +13,7 @@ Some examples of the key language features shown in the figure \ref{fig:store} a
 \begin{itemize}
 \item concepts: \emph{Book} and \emph{Customer};
 \item attributes: \emph{title} and \emph{price} under the \emph{Book} concept;  
-\item derived Attributes: \emph{totalSales} under the \emph{Customer} concept;
+\item derived attributes: \emph{totalSales} under the \emph{Customer} concept;
 \item uni-directional associations: \emph{books} and \emph{customers} under the \emph{BookStore} concept;
 \item bi-directional associations: \emph{CustomerOrder},
 which binds two uni-directional associations (\emph{orders} under the \emph{Customer} concept and \emph{customer} under the \emph{Order} concept) into a single bi-directional association;
