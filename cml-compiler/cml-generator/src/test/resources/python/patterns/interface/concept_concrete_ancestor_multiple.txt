@@ -1,14 +1,15 @@
-interface Book extends Product, StockItem
-{
-    String getTitle();
+class Book (ABC, Product, StockItem):
 
-    static Book create(String baseProperty, String title)
+    @abstractproperty
+    def title(self) -> String:
+        pass
+
+    static Book create(String self.__base_property, String self.__title)
     {
-        return new BookImpl(baseProperty, title);
+        return new BookImpl(self.__base_property, self.__title);
     }
 
-    static Book create(Base base, Product product, StockItem stockItem, String title)
+    static Book create(Base self.__base, Product self.__product, StockItem self.__stock_item, String self.__title)
     {
-        return new BookImpl(base, product, stockItem, title);
+        return new BookImpl(self.__base, self.__product, self.__stock_item, self.__title);
     }
-}

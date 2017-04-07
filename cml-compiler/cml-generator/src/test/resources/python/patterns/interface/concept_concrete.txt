@@ -1,11 +1,16 @@
-interface Book
-{
-    String getTitle();
-    Optional<Book> getSequel();
-    Set<Category> getCategories();
+class Book (ABC):
 
-    static Book create(String title, @Nullable Book sequel, Set<Category> categories)
+    @abstractproperty
+    def title(self) -> String:
+        pass
+    @abstractproperty
+    def sequel(self) -> Book:
+        pass
+    @abstractproperty
+    def categories(self) -> Set[Category]:
+        pass
+
+    static Book create(String self.__title, Book self.__sequel, Set[Category] self.__categories)
     {
-        return new BookImpl(title, sequel, categories);
+        return new BookImpl(self.__title, self.__sequel, self.__categories);
     }
-}

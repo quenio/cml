@@ -1,5 +1,8 @@
-interface Book
-{
-    String getTitle();
-    Optional<Book> getSequel();
-}
+class Book (ABC):
+
+    @abstractproperty
+    def title(self) -> String:
+        pass
+    @abstractproperty
+    def sequel(self) -> Book:
+        pass

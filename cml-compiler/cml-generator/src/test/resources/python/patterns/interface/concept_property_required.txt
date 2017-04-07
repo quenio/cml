@@ -1,4 +1,5 @@
-interface StringTitledBook
-{
-    String getTitle();
-}
+class StringTitledBook (ABC):
+
+    @abstractproperty
+    def title(self) -> String:
+        pass

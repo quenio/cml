@@ -5,12 +5,12 @@ import "/patterns/getter.stg"
 interface(concept, classNameSuffix) ::= <<
 <block_header("interface",{<type_name(concept)><ancestor_list(concept.directAncestors)>})><\\>
 <interface_preamble()><\\>
-<block({<interface_statements()>})>
+<block({<interface_declarations()>})>
 >>
 
-interface_statements() ::= <<
-<concept.properties:interface_getter();separator="\n">
-<createMethodForClients(concept, classNameSuffix)>
+interface_declarations() ::= <<
+<concept.properties:interface_getter();separator="\n"><\\>
+<createMethodForClients(concept, classNameSuffix)><\\>
 <createMethodForDescendants(concept, classNameSuffix)>
 >>
 
